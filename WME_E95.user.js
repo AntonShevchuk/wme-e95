@@ -44,8 +44,9 @@
     //   attributes - native settings for object
     const buttons = {
         A: {
-            title: '20',
+            title: 'PR',
             keyCode: 49,
+            detectCity: true,
             attributes: {
                 fwdMaxSpeed: 20,
                 revMaxSpeed: 20,
@@ -55,6 +56,7 @@
         B: {
             title: '50',
             keyCode: 50,
+            detectCity: true,
             attributes: {
                 fwdMaxSpeed: 50,
                 revMaxSpeed: 50,
@@ -74,10 +76,6 @@
         }
     };
 
-    // City + Private + 20
-    // If > City + Street + 50
-    //    > None + Street + 90 + headlights
-
     // Update segment attributes
     function setupRoad(segment, settings) {
         let addr = segment.getAddress().attributes;
@@ -86,16 +84,24 @@
             countryID:   addr.country ? addr.country.id : WazeApi.model.countries.top.id,
             stateID:     addr.state ? addr.state.id : WazeApi.model.states.top.id,
             cityName:    addr.city ? addr.city.attributes.name : null,
-            emptyCity:   addr.city === null || addr.city.attributes.name === null || addr.city.attributes.name === '',
             streetName:  addr.street ? addr.street.name : null,
-            emptyStreet: addr.street === null || addr.street.name === null || addr.street.name === '',
         };
 
-        // Clear city from address
+        // Settings: Clear city
         if (settings.clearCity) {
             address.cityName = null;
-            address.emptyCity = true;
         }
+
+        // Settings: Detect city
+        if (settings.detectCity) {
+            address.cityName = getCity(segment);
+        }
+
+        // Check city
+        address.emptyCity = (address.cityName === null);
+
+        // Check street
+        address.emptyStreet = (address.streetName === null);
 
         // Update segment properties
         WazeApi.model.actionManager.add(
@@ -140,18 +146,19 @@
         // W.model.cities.getValidCities();
         // distance to city center
         // W.model.cities.getObjectById(644304).getAttributes().geometry.distanceTo(W.model.segments.getObjectById(374688209).getAttributes().geometry);
-        let cityName = '';
-        let connected = segment.getConnectedSegments();
-        connected.concat(segment.getConnectedSegmentsByDirection());
+        let cityName = null;
+        // TODO: replace follow magic with segment.getConnectedSegments() and segment.getConnectedSegmentsByDirection() when it will work
+        let connected = WazeApi.model.nodes.getObjectById(segment.getAttributes().fromNodeID).getSegmentIds(); // segments from point A
+        connected = connected.concat(WazeApi.model.nodes.getObjectById(segment.getAttributes().toNodeID).getSegmentIds()); // segments from point B
+        connected.filter(id => id !== segment.getID());
+
         for (let i = 0, total = connected.length; i < total; i++) {
-            console.log(connected[i].getID());
-            // skip himself
-            if (segment.getID() == connected[i].getID()) continue;
+            let city = WazeApi.model.segments.getObjectById(connected[i]).getAddress().getCity();
             // skip segments with empty cities
-            if (connected[i].getAddress().getCity().isEmpty()) continue;
-            // catch it
-            cityName = connected[i].getAddress().getCity().getName();
-            // break;
+            if (city && !city.isEmpty()) {
+                cityName = city.getName();
+                break;
+            }
         }
         console.log('E-95: detected city ' + cityName);
         return cityName;
@@ -166,7 +173,8 @@
         // create all buttons
         for (let btn in buttons) {
             let button = document.createElement('button');
-            button.className = 'road-e95 road-' + btn;
+            button.className = 'waze-btn waze-btn-small waze-btn-white road-e95 road-' + btn;
+            button.style.marginRight = '4px';
             button.innerHTML = buttons[btn].title;
             button.dataset.e95 = btn;
             controls.appendChild(button);
@@ -208,7 +216,6 @@
 
         // Handler for button shortcuts
         $(document).on('keyup', function(e) {
-            console.log(e);
             if (e.altKey && !e.ctrlKey && !e.shiftKey) {
                 for (let btn in buttons) {
                     if (buttons[btn].keyCode === e.which) {
