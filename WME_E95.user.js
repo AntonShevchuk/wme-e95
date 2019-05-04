@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.1.1
+// @version      0.2.0
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -23,10 +23,14 @@
     let WazeActionUpdateFeatureAddress = require("Waze/Action/UpdateFeatureAddress");
 
     // Road Types
+    //   I18n.translations.uk.segment.road_types
     const types = {
         street  : 1,
         primary : 2,
+        // ...
         private : 17,
+        // ...
+        parking : 20,
     };
 
     // Road Flags
@@ -49,7 +53,8 @@
     //   attributes - native settings for object
     const buttons = {
         A: {
-            title: 'PR',
+            title: 'Pr20',
+            color: '#ffa',
             keyCode: 49,
             detectCity: true,
             attributes: {
@@ -59,8 +64,20 @@
             }
         },
         B: {
-            title: '50',
+            title: 'Pr50',
+            color: '#ffa',
             keyCode: 50,
+            detectCity: true,
+            attributes: {
+                fwdMaxSpeed: 50,
+                revMaxSpeed: 50,
+                roadType: types.private,
+            }
+        },
+        C: {
+            title: 'St50',
+            color: '#fff',
+            keyCode: 51,
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 50,
@@ -68,15 +85,27 @@
                 roadType: types.street,
             }
         },
-        C: {
-            title: '90',
-            keyCode: 51,
+        D: {
+            title: 'St90',
+            color: '#fff',
+            keyCode: 52,
             clearCity: true,
             attributes: {
                 fwdMaxSpeed: 90,
                 revMaxSpeed: 90,
                 roadType: types.street,
                 flags: flags.headlights,
+            }
+        },
+        E: {
+            title: 'P5',
+            color: '#abc',
+            keyCode: 53,
+            detectCity: true,
+            attributes: {
+                fwdMaxSpeed: 5,
+                revMaxSpeed: 5,
+                roadType: types.parking,
             }
         }
     };
@@ -180,6 +209,8 @@
             let button = document.createElement('button');
             button.className = 'waze-btn waze-btn-small waze-btn-white road-e95 road-' + btn;
             button.style.marginRight = '4px';
+            button.style.marginBottom = '4px';
+            button.style.backgroundColor = buttons[btn].color;
             button.innerHTML = buttons[btn].title;
             button.dataset.e95 = btn;
             controls.appendChild(button);
