@@ -45,6 +45,7 @@
     const buttons = {
         A: {
             title: '20',
+            keyCode: 49,
             attributes: {
                 fwdMaxSpeed: 20,
                 revMaxSpeed: 20,
@@ -53,6 +54,7 @@
         },
         B: {
             title: '50',
+            keyCode: 50,
             attributes: {
                 fwdMaxSpeed: 50,
                 revMaxSpeed: 50,
@@ -61,6 +63,8 @@
         },
         C: {
             title: '90',
+            keyCode: 51,
+            clearCity: true,
             attributes: {
                 fwdMaxSpeed: 90,
                 revMaxSpeed: 90,
@@ -74,29 +78,37 @@
     // If > City + Street + 50
     //    > None + Street + 90 + headlights
 
-    // Update segment properties
-    function setupRoad(segment, properties) {
-        let address = segment.getAddress().attributes;
-        let attributes = {
-            countryID: address.country ? address.country.id : WazeApi.model.countries.top.id,
-            stateID: address.state ? address.state.id : WazeApi.model.states.top.id,
-            cityName: address.city ? address.city.attributes.name : null,
-            emptyCity: address.city === null || address.city.attributes.name === null || address.city.attributes.name === '',
-            streetName: address.street ? address.street.name : null,
-            emptyStreet: address.street === null || address.street.name === null || address.street.name === '',
+    // Update segment attributes
+    function setupRoad(segment, settings) {
+        let addr = segment.getAddress().attributes;
+        // Change address
+        let address = {
+            countryID:   addr.country ? addr.country.id : WazeApi.model.countries.top.id,
+            stateID:     addr.state ? addr.state.id : WazeApi.model.states.top.id,
+            cityName:    addr.city ? addr.city.attributes.name : null,
+            emptyCity:   addr.city === null || addr.city.attributes.name === null || addr.city.attributes.name === '',
+            streetName:  addr.street ? addr.street.name : null,
+            emptyStreet: addr.street === null || addr.street.name === null || addr.street.name === '',
         };
+
+        // Clear city from address
+        if (settings.clearCity) {
+            address.cityName = null;
+            address.emptyCity = true;
+        }
+
         // Update segment properties
         WazeApi.model.actionManager.add(
             new WazeActionUpdateObject(
                 segment,
-                properties
+                settings.attributes
             )
         );
         // Update segment address
         WazeApi.model.actionManager.add(
             new WazeActionUpdateFeatureAddress(
                 segment,
-                attributes,
+                address,
                 {
                     streetIDField: 'primaryStreetID'
                 }
@@ -105,7 +117,10 @@
     }
 
     // Update street handler
-    function buttonHandler() {
+    function processHandler() {
+        process(this.dataset.e95);
+    }
+    function process(index) {
         // Get all selected segments
         let selected = WazeApi.selectionManager.getSelectedFeatures();
         for (let i = 0, total = selected.length; i < total; i++) {
@@ -115,7 +130,7 @@
                 console.log('E95: you don\'t have permissions');
                 continue;
             }
-            setupRoad(segment, buttons[this.dataset.e95]);
+            setupRoad(segment, buttons[index]);
         }
     }
 
@@ -128,7 +143,6 @@
         let cityName = '';
         let connected = segment.getConnectedSegments();
         connected.concat(segment.getConnectedSegmentsByDirection());
-        console.log(connected);
         for (let i = 0, total = connected.length; i < total; i++) {
             console.log(connected[i].getID());
             // skip himself
@@ -189,8 +203,21 @@
         speedlimitsObserver.observe(document.getElementById('edit-panel'), { childList: true, subtree: true });
         console.log('E95: observer was run');
 
-        // One handler for all buttons
-        $('#edit-panel').on('click', 'button.road-e95', buttonHandler);
+        // Handler for all buttons
+        $('#edit-panel').on('click', 'button.road-e95', processHandler);
+
+        // Handler for button shortcuts
+        $(document).on('keyup', function(e) {
+            console.log(e);
+            if (e.altKey && !e.ctrlKey && !e.shiftKey) {
+                for (let btn in buttons) {
+                    if (buttons[btn].keyCode === e.which) {
+                        process(btn);
+                        break;
+                    }
+                }
+            }
+        });
         console.log('E95: handler was initialized');
     }
 
