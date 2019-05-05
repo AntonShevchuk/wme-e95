@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.1
+// @version      0.4.2
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
