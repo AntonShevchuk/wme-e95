@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.2
+// @version      0.4.3
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -258,7 +258,7 @@
     //   W.model.cities.getObjectById(644304).getAttributes().geometry.distanceTo(W.model.segments.getObjectById(374688209).getAttributes().geometry);
     function detectCity(segment) {
         // Check cityName of the segment
-        if (segment.getAddress().getCity()) {
+        if (segment.getAddress().getCity() && !segment.getAddress().getCity().isEmpty()) {
             return segment.getAddress().getCity().getName();
         }
         let cityName = null;
