@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.3.0
+// @version      0.4.0
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -28,6 +28,8 @@
         street  : 1,
         primary : 2,
         // ...
+        offroad : 8,
+        // ...
         private : 17,
         // ...
         parking : 20,
@@ -36,6 +38,8 @@
     const colors = {
         '1'  : '#ffffeb',
         '2'  : '#f0ea58',
+        // ...
+        '8'  : '#867342',
         // ...
         '17' : '#beba6c',
         // ...
@@ -62,38 +66,86 @@
     //   attributes - native settings for object
     const buttons = {
         A: {
-            title: 'Pr20',
+            title: 'P5',
             keyCode: 49,
+            detectCity: true,
+            attributes: {
+                fwdMaxSpeed: 5,
+                revMaxSpeed: 5,
+                roadType: types.parking,
+                flags: 0,
+            }
+        },
+        B: {
+            title: 'Pr20',
+            keyCode: 50,
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 20,
                 revMaxSpeed: 20,
                 roadType: types.private,
-            }
-        },
-        B: {
-            title: 'Pr50',
-            keyCode: 50,
-            detectCity: true,
-            attributes: {
-                fwdMaxSpeed: 50,
-                revMaxSpeed: 50,
-                roadType: types.private,
+                flags: 0,
             }
         },
         C: {
-            title: 'St50',
+            title: 'Pr50',
             keyCode: 51,
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 50,
                 revMaxSpeed: 50,
-                roadType: types.street,
+                roadType: types.private,
+                flags: 0,
             }
         },
         D: {
-            title: 'St90',
+            title: 'St50',
             keyCode: 52,
+            detectCity: true,
+            attributes: {
+                fwdMaxSpeed: 50,
+                revMaxSpeed: 50,
+                roadType: types.street,
+                flags: 0,
+            }
+        },
+        E: {
+            title: 'PR50',
+            keyCode: 53,
+            detectCity: true,
+            attributes: {
+                fwdMaxSpeed: 50,
+                revMaxSpeed: 50,
+                roadType: types.primary,
+                flags: 0,
+                lockRank: 1,
+            }
+        },
+        F: {
+            title: 'OR',
+            keyCode: 54,
+            clearCity: true,
+            attributes: {
+                fwdMaxSpeed: 90,
+                revMaxSpeed: 90,
+                roadType: types.offroad,
+                flags: flags.headlights,
+            }
+        },
+        G: {
+            title: 'Pr90',
+            keyCode: 55,
+            clearCity: true,
+            attributes: {
+                fwdMaxSpeed: 90,
+                revMaxSpeed: 90,
+                roadType: types.private,
+                flags: flags.headlights,
+            }
+        },
+        H: {
+            title: 'St90',
+            keyCode: 56,
             clearCity: true,
             attributes: {
                 fwdMaxSpeed: 90,
@@ -102,16 +154,18 @@
                 flags: flags.headlights,
             }
         },
-        E: {
-            title: 'P5',
-            keyCode: 53,
-            detectCity: true,
+        I: {
+            title: 'PR90',
+            keyCode: 57,
+            clearCity: true,
             attributes: {
-                fwdMaxSpeed: 5,
-                revMaxSpeed: 5,
-                roadType: types.parking,
+                fwdMaxSpeed: 90,
+                revMaxSpeed: 90,
+                roadType: types.primary,
+                flags: flags.headlights,
+                lockRank: 1,
             }
-        }
+        },
     };
 
     // Update segment attributes
@@ -231,9 +285,7 @@
         // create all buttons
         for (let btn in buttons) {
             let button = document.createElement('button');
-            button.className = 'waze-btn waze-btn-small waze-btn-white road-e95 road-' + btn;
-            button.style.marginRight = '4px';
-            button.style.marginBottom = '4px';
+            button.className = 'waze-btn waze-btn-small waze-btn-white road-e95 road-e95-' + btn;
             button.style.backgroundColor = colors[buttons[btn].attributes.roadType];
             button.innerHTML = buttons[btn].title;
             button.dataset.e95 = btn;
@@ -287,6 +339,15 @@
             }
         });
         console.log('E95: handler was initialized');
+
+        // Apply styles
+        let style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML =
+            'button.road-e95 { margin: 0 4px 4px 0; } ' +
+            'button.road-e95-F { margin-right: 62px; }'
+        ;
+        document.getElementsByTagName('head')[0].appendChild(style);
     }
 
     // Bootstrap plugin
