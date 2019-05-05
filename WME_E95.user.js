@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.0
+// @version      0.4.1
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -64,6 +64,8 @@
     //   detectCity - try to detect city name by closures segments
     //   clearCity - clear city name
     //   attributes - native settings for object
+    // TODO:
+    //   – check permissions for user level lower than 2
     const buttons = {
         A: {
             title: 'P5',
@@ -285,7 +287,7 @@
         // create all buttons
         for (let btn in buttons) {
             let button = document.createElement('button');
-            button.className = 'waze-btn waze-btn-small waze-btn-white road-e95 road-e95-' + btn;
+            button.className = 'waze-btn waze-btn-small road-e95 road-e95-' + btn;
             button.style.backgroundColor = colors[buttons[btn].attributes.roadType];
             button.innerHTML = buttons[btn].title;
             button.dataset.e95 = btn;
@@ -344,8 +346,9 @@
         let style = document.createElement('style');
         style.type = 'text/css';
         style.innerHTML =
-            'button.road-e95 { margin: 0 4px 4px 0; } ' +
-            'button.road-e95-F { margin-right: 62px; }'
+            'button.waze-btn.road-e95 { margin: 0 4px 4px 0; padding: 2px 8px; min-width: 36px;} ' +
+            'button.waze-btn.road-e95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
+            'button.waze-btn.road-e95-F { margin-right: 51px; }'
         ;
         document.getElementsByTagName('head')[0].appendChild(style);
     }
