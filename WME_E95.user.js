@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.2.0
+// @version      0.3.0
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -32,6 +32,15 @@
         // ...
         parking : 20,
     };
+    // Road colors by type
+    const colors = {
+        '1'  : '#ffffeb',
+        '2'  : '#f0ea58',
+        // ...
+        '17' : '#beba6c',
+        // ...
+        '20' : '#ababab'
+    };
 
     // Road Flags
     //   for setup flags use binary operators
@@ -54,7 +63,6 @@
     const buttons = {
         A: {
             title: 'Pr20',
-            color: '#ffa',
             keyCode: 49,
             detectCity: true,
             attributes: {
@@ -65,7 +73,6 @@
         },
         B: {
             title: 'Pr50',
-            color: '#ffa',
             keyCode: 50,
             detectCity: true,
             attributes: {
@@ -76,7 +83,6 @@
         },
         C: {
             title: 'St50',
-            color: '#fff',
             keyCode: 51,
             detectCity: true,
             attributes: {
@@ -87,7 +93,6 @@
         },
         D: {
             title: 'St90',
-            color: '#fff',
             keyCode: 52,
             clearCity: true,
             attributes: {
@@ -99,7 +104,6 @@
         },
         E: {
             title: 'P5',
-            color: '#abc',
             keyCode: 53,
             detectCity: true,
             attributes: {
@@ -111,7 +115,7 @@
     };
 
     // Update segment attributes
-    function setupRoad(segment, settings) {
+    function setupRoad(segment, settings, options = []) {
         let addr = segment.getAddress().attributes;
         // Change address
         let address = {
@@ -127,8 +131,8 @@
         }
 
         // Settings: Detect city
-        if (settings.detectCity) {
-            address.cityName = getCity(segment);
+        if (settings.detectCity && options.cityName) {
+            address.cityName = options.cityName;
         }
 
         // Check city
@@ -163,23 +167,44 @@
     function process(index) {
         // Get all selected segments
         let selected = WazeApi.selectionManager.getSelectedFeatures();
+        let segments = [];
+        let options = {};
+        // Fill segments array
         for (let i = 0, total = selected.length; i < total; i++) {
-            let segment = WazeApi.model.segments.getObjectById(selected[i].model.attributes.id);
-            if (!segment) continue;
-            if (!segment.getPermissions()) {
-                console.log('E95: you don\'t have permissions');
-                continue;
+            segments.push(WazeApi.model.segments.getObjectById(selected[i].model.attributes.id))
+        }
+        // Filter segments array
+        segments.filter(segment => segment && segment.getPermissions());
+        // Try to detect city
+        if (buttons[index].detectCity) {
+            console.log('E-95: city detection');
+            let cityName = null;
+            for (let i = 0, total = segments.length; i < total; i++) {
+                console.log('E95: attempt ' + (i+1));
+                cityName = detectCity(segments[i]);
+                if (cityName) {
+                    options.cityName = cityName;
+                    break;
+                }
             }
-            setupRoad(segment, buttons[index]);
+            console.log('E-95: detected city ' + cityName);
+        }
+
+        for (let i = 0, total = segments.length; i < total; i++) {
+            setupRoad(segments[i], buttons[index], options);
         }
     }
 
     // Detect city name by connected segments
-    function getCity(segment) {
-        // get cities
-        // W.model.cities.getValidCities();
-        // distance to city center
-        // W.model.cities.getObjectById(644304).getAttributes().geometry.distanceTo(W.model.segments.getObjectById(374688209).getAttributes().geometry);
+    // Get cities
+    //   W.model.cities.getValidCities();
+    // Calculate distance to city center
+    //   W.model.cities.getObjectById(644304).getAttributes().geometry.distanceTo(W.model.segments.getObjectById(374688209).getAttributes().geometry);
+    function detectCity(segment) {
+        // Check cityName of the segment
+        if (segment.getAddress().getCity()) {
+            return segment.getAddress().getCity().getName();
+        }
         let cityName = null;
         // TODO: replace follow magic with segment.getConnectedSegments() and segment.getConnectedSegmentsByDirection() when it will work
         let connected = WazeApi.model.nodes.getObjectById(segment.getAttributes().fromNodeID).getSegmentIds(); // segments from point A
@@ -194,11 +219,10 @@
                 break;
             }
         }
-        console.log('E-95: detected city ' + cityName);
         return cityName;
     }
 
-    // Create UI controls everytime
+    // Create UI controls everytime when updated DOM of sidebar
     // Uses native JS function for better performance
     function createUI() {
         // container for buttons
@@ -210,7 +234,7 @@
             button.className = 'waze-btn waze-btn-small waze-btn-white road-e95 road-' + btn;
             button.style.marginRight = '4px';
             button.style.marginBottom = '4px';
-            button.style.backgroundColor = buttons[btn].color;
+            button.style.backgroundColor = colors[buttons[btn].attributes.roadType];
             button.innerHTML = buttons[btn].title;
             button.dataset.e95 = btn;
             controls.appendChild(button);
@@ -230,6 +254,7 @@
 
     function init() {
         // Check for changes in the edit-panel
+        // TODO: try to find solutions to handle native event
         var speedlimitsObserver = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
                 for (let i = 0, total = mutation.addedNodes.length; i < total; i++) {
