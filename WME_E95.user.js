@@ -348,6 +348,7 @@
         style.innerHTML =
             'button.waze-btn.road-e95 { margin: 0 4px 4px 0; padding: 2px 8px; min-width: 36px;} ' +
             'button.waze-btn.road-e95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
+            'button.waze-btn.road-e95-E { margin-right: 51px; }' +
             'button.waze-btn.road-e95-F { margin-right: 51px; }'
         ;
         document.getElementsByTagName('head')[0].appendChild(style);
