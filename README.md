@@ -12,4 +12,9 @@ Create additional panel with buttons for setup road properties in one click.
 * **St90** |`Alt`+`8`| – street, limit 90, clear city info, set highlight requirements flag
 * **PR90** |`Alt`+`9`| – primary street, limit 90, clear city info, set highlight requirements flag, lock to 2 level
 
-Homepage https://github.com/AntonShevchuk/wme-e95/
+Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
+
+## Links
+Author homepage: http://anton.shevchuk.name/  
+Script homepage: https://github.com/AntonShevchuk/wme-e95/  
+GreasyFork: https://greasyfork.org/uk/scripts/382614-wme-e95  
