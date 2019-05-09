@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.3
+// @version      0.4.4
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -68,7 +68,7 @@
     //   – check permissions for user level lower than 2
     const buttons = {
         A: {
-            title: 'P5',
+            title: 'PLR',
             keyCode: 49,
             detectCity: true,
             attributes: {
@@ -112,7 +112,7 @@
             }
         },
         E: {
-            title: 'PR50',
+            title: 'PS50',
             keyCode: 53,
             detectCity: true,
             attributes: {
@@ -157,7 +157,7 @@
             }
         },
         I: {
-            title: 'PR90',
+            title: 'PS90',
             keyCode: 57,
             clearCity: true,
             attributes: {
@@ -346,10 +346,10 @@
         let style = document.createElement('style');
         style.type = 'text/css';
         style.innerHTML =
-            'button.waze-btn.road-e95 { margin: 0 4px 4px 0; padding: 2px 8px; min-width: 36px;} ' +
+            'button.waze-btn.road-e95 { margin: 0 4px 4px 0; padding: 2px 8px; min-width: 36px; } ' +
             'button.waze-btn.road-e95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
             'button.waze-btn.road-e95-E { margin-right: 51px; }' +
-            'button.waze-btn.road-e95-F { margin-right: 51px; }'
+            'button.waze-btn.road-e95-F { margin-right: 51px; padding: 2px 11px; }'
         ;
         document.getElementsByTagName('head')[0].appendChild(style);
     }
