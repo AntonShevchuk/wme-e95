@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.5
+// @version      0.4.6
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -76,6 +76,7 @@
                 revMaxSpeed: 5,
                 roadType: types.parking,
                 flags: 0,
+                lockRank: 0,
             }
         },
         B: {
@@ -87,6 +88,7 @@
                 revMaxSpeed: 20,
                 roadType: types.private,
                 flags: 0,
+                lockRank: 0,
             }
         },
         C: {
@@ -98,6 +100,7 @@
                 revMaxSpeed: 50,
                 roadType: types.private,
                 flags: 0,
+                lockRank: 0,
             }
         },
         D: {
@@ -109,6 +112,7 @@
                 revMaxSpeed: 50,
                 roadType: types.street,
                 flags: 0,
+                lockRank: 0,
             }
         },
         E: {
@@ -132,6 +136,7 @@
                 revMaxSpeed: 90,
                 roadType: types.offroad,
                 flags: flags.headlights,
+                lockRank: 0,
             }
         },
         G: {
@@ -143,6 +148,7 @@
                 revMaxSpeed: 90,
                 roadType: types.private,
                 flags: flags.headlights,
+                lockRank: 0,
             }
         },
         H: {
@@ -154,6 +160,7 @@
                 revMaxSpeed: 90,
                 roadType: types.street,
                 flags: flags.headlights,
+                lockRank: 0,
             }
         },
         I: {
