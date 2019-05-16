@@ -339,13 +339,6 @@
     // Handler for all buttons
     $('#edit-panel').on('click', 'button.road-e95', processHandler);
 
-    // Shortcuts with WazeWrap
-    /* @require https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
-    for (let btn in buttons) {
-        new WazeWrap.Interface.Shortcut('CreateBtnShortcut' + btn, buttons[btn].title, 'wme-e95', 'E-95', buttons[btn].shortcut, () => process(btn), null).add();
-    }
-    */
-
     // Handler for button shortcuts
     $(document).on('keyup', function (e) {
       if (e.altKey && !e.ctrlKey && !e.shiftKey) {
