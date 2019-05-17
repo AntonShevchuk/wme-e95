@@ -215,7 +215,6 @@
     } else {
       btn = buttons[index];
     }
-    console.log(WazeApi.model.countries.top.abbr, btn);
     return btn;
   }
 
@@ -280,7 +279,7 @@
       segments.push(WazeApi.model.segments.getObjectById(selected[i].model.attributes.id))
     }
     // Filter segments array
-    segments.filter(segment => segment && segment.getPermissions());
+    segments = segments.filter(segment => segment && segment.getPermissions());
     // Try to detect city
     if (getButtonConfig(index).detectCity) {
       console.log('E-95: city detection');
