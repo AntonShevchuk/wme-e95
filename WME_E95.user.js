@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.8
+// @version      0.4.9
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -62,10 +62,10 @@
 
   // Buttons:
   //   title - for buttons
-  //   keyCode - key for shortcuts (Alt+...)
+  //   keyCode - key for shortcuts (Alt + 1..9)
   //   detectCity - try to detect city name by closures segments
   //   clearCity - clear city name
-  //   attributes - native settings for object
+  //   attributes - native settings for model object
   // TODO:
   //   – check permissions for user level lower than 2
   const buttons = {
@@ -137,7 +137,6 @@
         fwdMaxSpeed: 90,
         revMaxSpeed: 90,
         roadType: types.offroad,
-        flags: flags.headlights,
         lockRank: 0,
       }
     },
@@ -149,7 +148,6 @@
         fwdMaxSpeed: 90,
         revMaxSpeed: 90,
         roadType: types.private,
-        flags: flags.headlights,
         lockRank: 0,
       }
     },
@@ -161,7 +159,6 @@
         fwdMaxSpeed: 90,
         revMaxSpeed: 90,
         roadType: types.street,
-        flags: flags.headlights,
         lockRank: 0,
       }
     },
@@ -173,36 +170,71 @@
         fwdMaxSpeed: 90,
         revMaxSpeed: 90,
         roadType: types.primary,
-        flags: flags.headlights,
         lockRank: 1,
       }
     },
   };
 
   // Regions settings, will be merged with default values
+  // Default values is actual for Ukraine
+  const speed = {
+    '20': {
+      fwdMaxSpeed: 20,
+      revMaxSpeed: 20,
+    },
+    '60': {
+      fwdMaxSpeed: 60,
+      revMaxSpeed: 60,
+    }
+  };
+  const preset = {
+    headlights: {
+      attributes: {
+        flags: flags.headlights
+      }
+    },
+    pr60: {
+      title: 'Pr60',
+      attributes: speed["60"]
+    },
+    st60: {
+      title: 'St60',
+      attributes: speed["60"]
+    },
+    ps60: {
+      title: 'PS60',
+      attributes: speed["60"]
+    },
+  };
   const region = {
+    // Belarus
+    'BO': {
+      A: {
+        attributes: speed["20"]
+      },
+      C: preset.pr60,
+      D: preset.st60,
+      E: preset.ps60,
+      F: {
+        title: 'SUP',
+        attributes: {
+          roadType: types.street,
+          flags: flags.unpaved,
+        }
+      }
+    },
+    // Russian Federation
     'RS': {
-      C: {
-        title: 'Pr60',
-        attributes: {
-          fwdMaxSpeed: 60,
-          revMaxSpeed: 60,
-        }
-      },
-      D: {
-        title: 'St60',
-        attributes: {
-          fwdMaxSpeed: 60,
-          revMaxSpeed: 60,
-        }
-      },
-      E: {
-        title: 'PS60',
-        attributes: {
-          fwdMaxSpeed: 60,
-          revMaxSpeed: 60,
-        }
-      },
+      C: preset.pr60,
+      D: preset.st60,
+      E: preset.ps60,
+    },
+    // Ukraine
+    'UP': {
+      F: preset.headlights,
+      G: preset.headlights,
+      H: preset.headlights,
+      I: preset.headlights,
     }
   };
 
@@ -228,23 +260,18 @@
       cityName: addr.city ? addr.city.attributes.name : null,
       streetName: addr.street ? addr.street.name : null,
     };
-
     // Settings: Clear city
     if (settings.clearCity) {
       address.cityName = null;
     }
-
     // Settings: Detect city
     if (settings.detectCity && options.cityName) {
       address.cityName = options.cityName;
     }
-
     // Check city
     address.emptyCity = (address.cityName === null);
-
     // Check street
-    address.emptyStreet = (address.streetName === null);
-
+    address.emptyStreet = (address.streetName === null) || (address.streetName === '');
     // Update segment properties
     WazeApi.model.actionManager.add(
       new WazeActionUpdateObject(
@@ -301,10 +328,6 @@
   }
 
   // Detect city name by connected segments
-  // Get cities
-  //   W.model.cities.getValidCities();
-  // Calculate distance to city center
-  //   W.model.cities.getObjectById(644304).getAttributes().geometry.distanceTo(W.model.segments.getObjectById(374688209).getAttributes().geometry);
   function detectCity(segment) {
     // Check cityName of the segment
     if (segment.getAddress().getCity() && !segment.getAddress().getCity().isEmpty()) {
@@ -397,10 +420,10 @@
     let style = document.createElement('style');
     style.type = 'text/css';
     style.innerHTML =
-      'button.waze-btn.road-e95 { margin: 0 4px 4px 0; padding: 2px 8px; min-width: 36px; } ' +
+      'button.waze-btn.road-e95 { margin: 0 4px 4px 0; padding: 2px; width: 42px; } ' +
       'button.waze-btn.road-e95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
       'button.waze-btn.road-e95-E { margin-right: 42px; }' +
-      'button.waze-btn.road-e95-F { margin-right: 51px; padding: 2px 11px; }'
+      'button.waze-btn.road-e95-F { margin-right: 50px; }'
     ;
     document.getElementsByTagName('head')[0].appendChild(style);
   }
