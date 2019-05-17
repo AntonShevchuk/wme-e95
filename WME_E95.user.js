@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.7
+// @version      0.4.8
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -179,6 +179,46 @@
     },
   };
 
+  // Regions settings, will be merged with default values
+  const region = {
+    'RS': {
+      C: {
+        title: 'Pr60',
+        attributes: {
+          fwdMaxSpeed: 60,
+          revMaxSpeed: 60,
+        }
+      },
+      D: {
+        title: 'St60',
+        attributes: {
+          fwdMaxSpeed: 60,
+          revMaxSpeed: 60,
+        }
+      },
+      E: {
+        title: 'PS60',
+        attributes: {
+          fwdMaxSpeed: 60,
+          revMaxSpeed: 60,
+        }
+      },
+    }
+  };
+
+  // Get Button settings
+  function getButtonConfig(index) {
+    let btn = {};
+    if (region[WazeApi.model.countries.top.abbr]
+      && region[WazeApi.model.countries.top.abbr][index]) {
+      $.extend(true, btn, buttons[index], region[WazeApi.model.countries.top.abbr][index]);
+    } else {
+      btn = buttons[index];
+    }
+    console.log(WazeApi.model.countries.top.abbr, btn);
+    return btn;
+  }
+
   // Update segment attributes
   function setupRoad(segment, settings, options = []) {
     let addr = segment.getAddress().attributes;
@@ -242,7 +282,7 @@
     // Filter segments array
     segments.filter(segment => segment && segment.getPermissions());
     // Try to detect city
-    if (buttons[index].detectCity) {
+    if (getButtonConfig(index).detectCity) {
       console.log('E-95: city detection');
       let cityName = null;
       for (let i = 0, total = segments.length; i < total; i++) {
@@ -257,7 +297,7 @@
     }
 
     for (let i = 0, total = segments.length; i < total; i++) {
-      setupRoad(segments[i], buttons[index], options);
+      setupRoad(segments[i], getButtonConfig(index), options);
     }
   }
 
@@ -297,9 +337,10 @@
     // create all buttons
     for (let btn in buttons) {
       let button = document.createElement('button');
+      let buttonConfig = getButtonConfig(btn);
       button.className = 'waze-btn waze-btn-small road-e95 road-e95-' + btn;
-      button.style.backgroundColor = colors[buttons[btn].attributes.roadType];
-      button.innerHTML = buttons[btn].title;
+      button.style.backgroundColor = colors[buttonConfig.attributes.roadType];
+      button.innerHTML = buttonConfig.title;
       button.dataset.e95 = btn;
       controls.appendChild(button);
     }
@@ -319,13 +360,14 @@
   function init() {
     // Check for changes in the edit-panel
     // TODO: try to find solutions to handle native event
-    var speedlimitsObserver = new MutationObserver(function (mutations) {
+    let speedLimitsObserver = new MutationObserver(function (mutations) {
       mutations.forEach(function (mutation) {
         for (let i = 0, total = mutation.addedNodes.length; i < total; i++) {
           let node = mutation.addedNodes[i];
           // Only fire up if it's a node
           if (node.nodeType === Node.ELEMENT_NODE &&
             node.querySelector('div.selection') &&
+            node.querySelector('div.hide-walking-trail').style.display !== 'none' &&
             !node.querySelector('div.form-group.e95')) {
             createUI();
           }
@@ -333,7 +375,7 @@
       });
     });
 
-    speedlimitsObserver.observe(document.getElementById('edit-panel'), {childList: true, subtree: true});
+    speedLimitsObserver.observe(document.getElementById('edit-panel'), {childList: true, subtree: true});
     console.log('E95: observer was run');
 
     // Handler for all buttons
