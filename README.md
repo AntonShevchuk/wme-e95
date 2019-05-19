@@ -1,5 +1,7 @@
 # WME E95
-User script for Waze Map Editor
+User script for Waze Map Editor.
+
+![](screenshot.png)
 
 Create additional panel with buttons for setup road properties in one click.
 * **PLR**  |`Alt`+`1`| – parking road, limit 5, city detection, clear flags
