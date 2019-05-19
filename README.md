@@ -1,20 +1,106 @@
 # WME E95
 User script for Waze Map Editor.
+Create additional panel with buttons for setup road properties in one click.
 
 ![](screenshot.png)
 
-Create additional panel with buttons for setup road properties in one click.
-* **PLR**  |`Alt`+`1`| – parking road, limit 5, city detection, clear flags
-* **Pr20** |`Alt`+`2`| – private road, limit 20, city detection, clear flags
-* **Pr50** |`Alt`+`3`| – private road, limit 50, city detection, clear flags
-* **St50** |`Alt`+`4`| – street, limit 50, city detection, clear flags
-* **PS50** |`Alt`+`5`| – primary street, limit 50, city detection, clear flags, lock to 2 level
-* **OR**   |`Alt`+`6`| – off-road, limit 90, clear city info, set highlight requirements flag
-* **Pr90** |`Alt`+`7`| – private road, limit 90, clear city info, set highlight requirements flag
-* **St90** |`Alt`+`8`| – street, limit 90, clear city info, set highlight requirements flag
-* **PS90** |`Alt`+`9`| – primary street, limit 90, clear city info, set highlight requirements flag, lock to 2 level
-
 Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
+
+### Default settings
+
+<table style="width:100%">
+<tr>
+  <th>Button</th>
+  <th>Shortcut</th>
+  <th>Type</th>
+  <th>Speed</th>
+  <th>City</th>
+  <th>Lock</th>
+</tr>
+<tr>
+<td align='center'><strong>PLR</strong></td>
+<td align='center'><code>Alt</code>+<code>1</code></td>
+<td align='center'>parking</td>
+<td align='center'>5 km/h</td>
+<td align='center'>auto</td>
+<td align='center'>1</td>
+</tr>
+<tr>
+<td align='center'><strong>Pr20</strong></td>
+<td align='center'><code>Alt</code>+<code>2</code></td>
+<td align='center'>private</td>
+<td align='center'>20 km/h</td>
+<td align='center'>auto</td>
+<td align='center'>1</td>
+</tr>
+<tr>
+<td align='center'><strong>Pr50</strong></td>
+<td align='center'><code>Alt</code>+<code>3</code></td>
+<td align='center'>private</td>
+<td align='center'>50 km/h</td>
+<td align='center'>auto</td>
+<td align='center'>1</td>
+</tr>
+<tr>
+<td align='center'><strong>St50</strong></td>
+<td align='center'><code>Alt</code>+<code>4</code></td>
+<td align='center'>street</td>
+<td align='center'>50 km/h</td>
+<td align='center'>auto</td>
+<td align='center'>1</td>
+</tr>
+<tr>
+<td align='center'><strong>PS50</strong></td>
+<td align='center'><code>Alt</code>+<code>5</code></td>
+<td align='center'>primary</td>
+<td align='center'>50 km/h</td>
+<td align='center'>auto</td>
+<td align='center'>2</td>
+</tr>
+<tr>
+<td align='center'><strong>OR</strong></td>
+<td align='center'><code>Alt</code>+<code>6</code></td>
+<td align='center'>off-road</td>
+<td align='center'>90 km/h</td>
+<td align='center'>clear</td>
+<td align='center'>1</td>
+</tr>
+<tr>
+<td align='center'><strong>Pr90</strong></td>
+<td align='center'><code>Alt</code>+<code>7</code></td>
+<td align='center'>private</td>
+<td align='center'>90 km/h</td>
+<td align='center'>clear</td>
+<td align='center'>1</td>
+</tr>
+<tr>
+<td align='center'><strong>St90</strong></td>
+<td align='center'><code>Alt</code>+<code>8</code></td>
+<td align='center'>street</td>
+<td align='center'>90 km/h</td>
+<td align='center'>clear</td>
+<td align='center'>1</td>
+</tr>
+<tr>
+<td align='center'><strong>PS90</strong></td>
+<td align='center'><code>Alt</code>+<code>9</code></td>
+<td align='center'>primary</td>
+<td align='center'>90 km/h</td>
+<td align='center'>clear</td>
+<td align='center'>2</td>
+</tr>
+</table>
+
+### Ukraine
+* For roads outside the city set highlight requirements flag
+
+### Belarus
+* For parking lot roads (PLR) set speed limit to 20km/h
+* For roads inside the city set speed limit to 60km/h (Pr60, St60, PS60)
+* Replace Off-Road (OR) with Street with Unpaved flag (SUP) 
+
+### Russia
+* For roads inside the city set speed limit to 60km/h (Pr60, St60, PS60)
 
 ## Links
 Author homepage: http://anton.shevchuk.name/  
