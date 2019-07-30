@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.10
+// @version      0.4.11
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -258,7 +258,7 @@
     function getButtonConfig(index) {
         let btn = {};
         if (region[WazeApi.model.countries.top.abbr]
-            && region[WazeApi.model.countries.top.abbr][index]) {
+          && region[WazeApi.model.countries.top.abbr][index]) {
             $.extend(true, btn, buttons[index], region[WazeApi.model.countries.top.abbr][index]);
         } else {
             btn = buttons[index];
@@ -290,20 +290,20 @@
         address.emptyStreet = (address.streetName === null) || (address.streetName === '');
         // Update segment properties
         WazeApi.model.actionManager.add(
-            new WazeActionUpdateObject(
-                segment,
-                settings.attributes
-            )
+          new WazeActionUpdateObject(
+            segment,
+            settings.attributes
+          )
         );
         // Update segment address
         WazeApi.model.actionManager.add(
-            new WazeActionUpdateFeatureAddress(
-                segment,
-                address,
-                {
-                    streetIDField: 'primaryStreetID'
-                }
-            )
+          new WazeActionUpdateFeatureAddress(
+            segment,
+            address,
+            {
+                streetIDField: 'primaryStreetID'
+            }
+          )
         );
     }
 
@@ -404,9 +404,10 @@
                     let node = mutation.addedNodes[i];
                     // Only fire up if it's a node
                     if (node.nodeType === Node.ELEMENT_NODE &&
-                        node.querySelector('div.selection') &&
-                        node.querySelector('div.hide-walking-trail').style.display !== 'none' &&
-                        !node.querySelector('div.form-group.e95')) {
+                      node.querySelector('div.selection') &&
+                      node.querySelector('#segment-edit-general') &&
+                      node.querySelector('div.hide-walking-trail').style.display !== 'none' &&
+                      !node.querySelector('div.form-group.e95')) {
                         createUI();
                     }
                 }
@@ -436,10 +437,10 @@
         let style = document.createElement('style');
         style.type = 'text/css';
         style.innerHTML =
-            'button.waze-btn.road-e95 { margin: 0 4px 4px 0; padding: 2px; width: 42px; } ' +
-            'button.waze-btn.road-e95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
-            'button.waze-btn.road-e95-E { margin-right: 42px; }' +
-            'button.waze-btn.road-e95-F { margin-right: 50px; }'
+          'button.waze-btn.road-e95 { margin: 0 4px 4px 0; padding: 2px; width: 42px; } ' +
+          'button.waze-btn.road-e95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
+          'button.waze-btn.road-e95-E { margin-right: 42px; }' +
+          'button.waze-btn.road-e95-F { margin-right: 50px; }'
         ;
         document.getElementsByTagName('head')[0].appendChild(style);
     }
@@ -448,9 +449,9 @@
     function bootstrap(tries = 1) {
         console.log('E95: attempt ' + tries);
         if (WazeApi &&
-            WazeApi.map &&
-            WazeApi.model &&
-            WazeApi.loginManager.user) {
+          WazeApi.map &&
+          WazeApi.model &&
+          WazeApi.loginManager.user) {
             console.log('E95: was initialized');
             init();
         } else if (tries < 100) {
