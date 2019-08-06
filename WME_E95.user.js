@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.11
+// @version      0.4.12
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -16,14 +16,27 @@
 // @namespace    https://greasyfork.org/uk/scripts/382614-wme-e95
 // ==/UserScript==
 /* jshint esversion: 6 */
-/* global require */
+/* global require, window */
 
-(function ($, WazeApi) {
+(function ($, WazeApi, I18n) {
     'use strict';
 
-    let WazeActionUpdateObject = require("Waze/Action/UpdateObject");
-    let WazeActionUpdateFeatureAddress = require("Waze/Action/UpdateFeatureAddress");
+    // Script name, uses as unique index
+    const NAME = 'E95';
 
+    // Translations
+    const LOCALE = I18n.currentLocale();
+    const translation = {
+        'en': {
+            title: 'Quick Properties'
+        },
+        'uk': {
+            title: 'Швидкі налаштування',
+        },
+        'ru': {
+            title: 'Быстрые настройки'
+        }
+    };
     // Road Types
     //   I18n.translations.uk.segment.road_types
     const types = {
@@ -47,7 +60,6 @@
         // ...
         '20': '#ababab'
     };
-
     // Road Flags
     //   for setup flags use binary operators
     //   e.g. flags.tunnel | flags.headlights
@@ -59,7 +71,6 @@
         unpaved: 0b00010000,
         headlights: 0b00100000,
     };
-
     // Buttons:
     //   title - for buttons
     //   keyCode - key for shortcuts (Alt + 1..9)
@@ -71,7 +82,7 @@
     const buttons = {
         A: {
             title: 'PLR',
-            keyCode: 49,
+            shortcut: 'A+49',
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 5,
@@ -85,7 +96,7 @@
         },
         B: {
             title: 'Pr20',
-            keyCode: 50,
+            shortcut: 'A+50',
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 20,
@@ -99,7 +110,7 @@
         },
         C: {
             title: 'Pr50',
-            keyCode: 51,
+            shortcut: 'A+51',
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 50,
@@ -113,7 +124,7 @@
         },
         D: {
             title: 'St50',
-            keyCode: 52,
+            shortcut: 'A+52',
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 50,
@@ -125,7 +136,7 @@
         },
         E: {
             title: 'PS50',
-            keyCode: 53,
+            shortcut: 'A+53',
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 50,
@@ -139,7 +150,7 @@
         },
         F: {
             title: 'OR',
-            keyCode: 54,
+            shortcut: 'A+54',
             clearCity: true,
             attributes: {
                 fwdMaxSpeed: 90,
@@ -152,7 +163,7 @@
         },
         G: {
             title: 'Pr90',
-            keyCode: 55,
+            shortcut: 'A+55',
             clearCity: true,
             attributes: {
                 fwdMaxSpeed: 90,
@@ -165,7 +176,7 @@
         },
         H: {
             title: 'St90',
-            keyCode: 56,
+            shortcut: 'A+56',
             clearCity: true,
             attributes: {
                 fwdMaxSpeed: 90,
@@ -178,7 +189,7 @@
         },
         I: {
             title: 'PS90',
-            keyCode: 57,
+            shortcut: 'A+57',
             clearCity: true,
             attributes: {
                 fwdMaxSpeed: 90,
@@ -190,7 +201,6 @@
             }
         },
     };
-
     // Regions settings, will be merged with default values
     // Default values is actual for Ukraine
     const speed = {
@@ -254,12 +264,17 @@
         }
     };
 
+    // Require Waze API
+    let WazeActionUpdateObject = require('Waze/Action/UpdateObject');
+    let WazeActionUpdateFeatureAddress = require('Waze/Action/UpdateFeatureAddress');
+
     // Get Button settings
     function getButtonConfig(index) {
         let btn = {};
-        if (region[WazeApi.model.countries.top.abbr]
-          && region[WazeApi.model.countries.top.abbr][index]) {
-            $.extend(true, btn, buttons[index], region[WazeApi.model.countries.top.abbr][index]);
+        let abbr = WazeApi.model.getTopCountry().getAttributes().abbr;
+        if (region[abbr] && region[abbr][index]) {
+            // Merge default settings with region settings
+            $.extend(true, btn, buttons[index], region[abbr][index]);
         } else {
             btn = buttons[index];
         }
@@ -271,8 +286,8 @@
         let addr = segment.getAddress().attributes;
         // Change address
         let address = {
-            countryID: addr.country ? addr.country.id : WazeApi.model.countries.top.id,
-            stateID: addr.state ? addr.state.id : WazeApi.model.states.top.id,
+            countryID: addr.country ? addr.country.id : WazeApi.model.getTopCountry().getID(),
+            stateID: addr.state ? addr.state.id : WazeApi.model.getTopState().getID(),
             cityName: addr.city ? addr.city.attributes.name : null,
             streetName: addr.street ? addr.street.name : null,
         };
@@ -325,17 +340,15 @@
         segments = segments.filter(segment => segment && segment.getPermissions());
         // Try to detect city
         if (getButtonConfig(index).detectCity) {
-            console.log('E-95: city detection');
             let cityName = null;
             for (let i = 0, total = segments.length; i < total; i++) {
-                console.log('E95: attempt ' + (i + 1));
                 cityName = detectCity(segments[i]);
                 if (cityName) {
                     options.cityName = cityName;
                     break;
                 }
             }
-            console.log('E-95: detected city ' + cityName);
+            log('detected city ' + cityName);
         }
 
         for (let i = 0, total = segments.length; i < total; i++) {
@@ -350,7 +363,9 @@
             return segment.getAddress().getCity().getName();
         }
         let cityName = null;
-        // TODO: replace follow magic with segment.getConnectedSegments() and segment.getConnectedSegmentsByDirection() when it will work
+        // TODO: replace follow magic with
+        //  segment.getConnectedSegments() and segment.getConnectedSegmentsByDirection() when it will work
+        //  last check - 30.07.19
         let connected = WazeApi.model.nodes.getObjectById(segment.getAttributes().fromNodeID).getSegmentIds(); // segments from point A
         connected = connected.concat(WazeApi.model.nodes.getObjectById(segment.getAttributes().toNodeID).getSegmentIds()); // segments from point B
         connected.filter(id => id !== segment.getID());
@@ -369,33 +384,72 @@
     // Create UI controls everytime when updated DOM of sidebar
     // Uses native JS function for better performance
     function createUI() {
-        // container for buttons
+        // Container for buttons
         let controls = document.createElement('div');
         controls.className = 'controls';
-        // create all buttons
+        // Create buttons
         for (let btn in buttons) {
+            let config = getButtonConfig(btn);
             let button = document.createElement('button');
-            let buttonConfig = getButtonConfig(btn);
-            button.className = 'waze-btn waze-btn-small road-e95 road-e95-' + btn;
-            button.style.backgroundColor = colors[buttonConfig.attributes.roadType];
-            button.innerHTML = buttonConfig.title;
-            button.dataset.e95 = btn;
+                button.className = 'waze-btn waze-btn-small e95 e95-' + btn;
+                button.style.backgroundColor = colors[config.attributes.roadType];
+                button.innerHTML = config.title;
+                button.title = I18n.translate('segment.road_types')[config.attributes.roadType];
+                button.dataset.e95 = btn;
             controls.appendChild(button);
         }
 
         let label = document.createElement('label');
-        label.className = 'control-label';
-        label.innerHTML = 'Quick properties';
+            label.className = 'control-label';
+            label.innerHTML = I18n.translate(NAME)['title'];
 
         let group = document.createElement('div');
-        group.className = 'form-group e95';
-        group.appendChild(label);
-        group.appendChild(controls);
+            group.className = 'form-group ' + NAME;
+            group.appendChild(label);
+            group.appendChild(controls);
 
         document.getElementById('segment-edit-general').prepend(group);
     }
 
-    function init() {
+    // Apply CSS styles
+    function appendStyle(css) {
+        let style = document.createElement('style');
+            style.type = 'text/css';
+            style.innerHTML = css;
+        document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    // Simple console.log wrapper
+    function log(message) {
+        console.log(NAME + ': ' + message);
+    }
+
+    // Initial Translation for UI and Shortcuts
+    function initTranslation() {
+        I18n.translations[LOCALE][NAME] = translation[LOCALE] || translation['en'];
+
+        // Translation for Shortcuts
+        I18n.translations[LOCALE].keyboard_shortcuts.groups[NAME] = [];
+        I18n.translations[LOCALE].keyboard_shortcuts.groups[NAME].description = NAME;
+        I18n.translations[LOCALE].keyboard_shortcuts.groups[NAME].members = [];
+
+        // Create description for every button
+        for (let btn in buttons) {
+            let name = NAME + 'Button' + buttons[btn].title;
+            // Build description
+            I18n.translations[LOCALE].keyboard_shortcuts.groups[NAME].members[name] =
+              buttons[btn].title + ' - ' +
+              I18n.translate('segment.road_types')[buttons[btn].attributes.roadType] + '; ' +
+              I18n.translate('edit.segment.fields.speed_limit') + ' ' +
+              I18n.translate('measurements.speed.km', {speed: buttons[btn].attributes.fwdMaxSpeed})
+            ;
+        }
+    }
+
+    // Initial Mutation Observer
+    // #segment-edit-general - for segment tab
+    // #landmark-edit-general - for POI tab
+    function initObserver() {
         // Check for changes in the edit-panel
         // TODO: try to find solutions to handle native event
         let speedLimitsObserver = new MutationObserver(function (mutations) {
@@ -405,9 +459,9 @@
                     // Only fire up if it's a node
                     if (node.nodeType === Node.ELEMENT_NODE &&
                       node.querySelector('div.selection') &&
-                      node.querySelector('#segment-edit-general') &&
-                      node.querySelector('div.hide-walking-trail').style.display !== 'none' &&
-                      !node.querySelector('div.form-group.e95')) {
+                      node.querySelector('#segment-edit-general') &&                           // segment tab
+                      node.querySelector('div.hide-walking-trail').style.display !== 'none' && // skip for walking trails
+                      !node.querySelector('div.form-group.' + NAME)) {
                         createUI();
                     }
                 }
@@ -415,53 +469,64 @@
         });
 
         speedLimitsObserver.observe(document.getElementById('edit-panel'), {childList: true, subtree: true});
-        console.log('E95: observer was run');
+        log('observer was run');
+    }
+
+    function initButtons() {
+        $('#edit-panel').on('click', 'button.e95', processHandler);
+    }
+
+    function initShortcuts() {
+        WazeApi.accelerators.Groups[NAME] = [];
+        WazeApi.accelerators.Groups[NAME].members = [];
+
+        for (let btn in buttons) {
+            let name = NAME + 'Button' + buttons[btn].title;
+            WazeApi.accelerators.addAction(name, { group: NAME });
+            WazeApi.accelerators.events.register(name, null, () => process(btn));
+            WazeApi.accelerators.registerShortcut(buttons[btn].shortcut, name);
+        }
+    }
+
+    function init() {
+        // Initial Translation
+        initTranslation();
+
+        // Initial Mutation Observer
+        initObserver();
 
         // Handler for all buttons
-        $('#edit-panel').on('click', 'button.road-e95', processHandler);
+        initButtons();
 
         // Handler for button shortcuts
-        $(document).on('keyup', function (e) {
-            if (e.altKey && !e.ctrlKey && !e.shiftKey) {
-                for (let btn in buttons) {
-                    if (buttons[btn].keyCode === e.which) {
-                        process(btn);
-                        break;
-                    }
-                }
-            }
-        });
-        console.log('E95: handler was initialized');
+        initShortcuts();
 
-        // Apply styles
-        let style = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML =
-          'button.waze-btn.road-e95 { margin: 0 4px 4px 0; padding: 2px; width: 42px; } ' +
-          'button.waze-btn.road-e95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
-          'button.waze-btn.road-e95-E { margin-right: 42px; }' +
-          'button.waze-btn.road-e95-F { margin-right: 50px; }'
-        ;
-        document.getElementsByTagName('head')[0].appendChild(style);
+        // Apply CSS styles
+        appendStyle(
+          'button.waze-btn.e95 { margin: 0 4px 4px 0; padding: 2px; width: 42px; } ' +
+          'button.waze-btn.e95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
+          'button.waze-btn.e95-E { margin-right: 42px; }' +
+          'button.waze-btn.e95-F { margin-right: 50px; }'
+        );
     }
 
     // Bootstrap plugin
     function bootstrap(tries = 1) {
-        console.log('E95: attempt ' + tries);
+        log('attempt ' + tries);
         if (WazeApi &&
           WazeApi.map &&
           WazeApi.model &&
           WazeApi.loginManager.user) {
-            console.log('E95: was initialized');
+            log('was initialized');
             init();
         } else if (tries < 100) {
             tries++;
-            setTimeout(() => bootstrap(tries), 800);
+            setTimeout(() => bootstrap(tries), 500);
         } else {
-            console.error('E95: initialization failed');
+            console.error('initialization failed');
         }
     }
 
-    console.log('E95: initialization');
+    log('initialization');
     bootstrap();
-})(window.jQuery, window.W);
+})(window.jQuery, window.W, window.I18n);
