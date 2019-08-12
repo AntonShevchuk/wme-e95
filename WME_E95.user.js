@@ -1,19 +1,19 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.12
+// @version      0.4.13
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
+// @grant        none
 // @include      https://www.waze.com/editor*
 // @include      https://www.waze.com/*/editor*
 // @include      https://beta.waze.com/editor*
 // @include      https://beta.waze.com/*/editor*
 // @exclude      https://www.waze.com/user/editor*
 // @exclude      https://beta.waze.com/user/editor*
-// @icon         data:image/png;base64,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
-// @grant        none
+// @icon         data:image/png;base64,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
 // @supportURL   https://github.com/AntonShevchuk/wme-e95/issues
-// @namespace    https://greasyfork.org/uk/scripts/382614-wme-e95
+// @namespace    https://greasyfork.org/users/227648
 // ==/UserScript==
 /* jshint esversion: 6 */
 /* global require, window */
@@ -73,7 +73,7 @@
     };
     // Buttons:
     //   title - for buttons
-    //   keyCode - key for shortcuts (Alt + 1..9)
+    //   shortcut - keys for shortcuts, by default is Alt + (1..9)
     //   detectCity - try to detect city name by closures segments
     //   clearCity - clear city name
     //   attributes - native settings for model object
@@ -324,7 +324,7 @@
 
     // Update street handler
     function processHandler() {
-        process(this.dataset.e95);
+        process(this.dataset[NAME]);
     }
 
     function process(index) {
@@ -391,17 +391,17 @@
         for (let btn in buttons) {
             let config = getButtonConfig(btn);
             let button = document.createElement('button');
-                button.className = 'waze-btn waze-btn-small e95 e95-' + btn;
+                button.className = 'waze-btn waze-btn-small ' + NAME + ' ' + NAME + '-' + btn;
                 button.style.backgroundColor = colors[config.attributes.roadType];
                 button.innerHTML = config.title;
                 button.title = I18n.translate('segment.road_types')[config.attributes.roadType];
-                button.dataset.e95 = btn;
+                button.dataset[NAME] = btn;
             controls.appendChild(button);
         }
 
         let label = document.createElement('label');
             label.className = 'control-label';
-            label.innerHTML = I18n.translate(NAME)['title'];
+            label.innerHTML = I18n.translate(NAME).title;
 
         let group = document.createElement('div');
             group.className = 'form-group ' + NAME;
@@ -426,7 +426,7 @@
 
     // Initial Translation for UI and Shortcuts
     function initTranslation() {
-        I18n.translations[LOCALE][NAME] = translation[LOCALE] || translation['en'];
+        I18n.translations[LOCALE][NAME] = translation[LOCALE] || translation.en;
 
         // Translation for Shortcuts
         I18n.translations[LOCALE].keyboard_shortcuts.groups[NAME] = [];
@@ -459,7 +459,7 @@
                     // Only fire up if it's a node
                     if (node.nodeType === Node.ELEMENT_NODE &&
                       node.querySelector('div.selection') &&
-                      node.querySelector('#segment-edit-general') &&                           // segment tab
+                      node.querySelector('#segment-edit-general') && // segment tab
                       node.querySelector('div.hide-walking-trail').style.display !== 'none' && // skip for walking trails
                       !node.querySelector('div.form-group.' + NAME)) {
                         createUI();
@@ -473,7 +473,7 @@
     }
 
     function initButtons() {
-        $('#edit-panel').on('click', 'button.e95', processHandler);
+        $('#edit-panel').on('click', 'button.'+NAME, processHandler);
     }
 
     function initShortcuts() {
@@ -503,10 +503,10 @@
 
         // Apply CSS styles
         appendStyle(
-          'button.waze-btn.e95 { margin: 0 4px 4px 0; padding: 2px; width: 42px; } ' +
-          'button.waze-btn.e95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
-          'button.waze-btn.e95-E { margin-right: 42px; }' +
-          'button.waze-btn.e95-F { margin-right: 50px; }'
+          'button.waze-btn.E95 { margin: 0 4px 4px 0; padding: 2px; width: 42px; } ' +
+          'button.waze-btn.E95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
+          'button.waze-btn.E95-E { margin-right: 42px; }' +
+          'button.waze-btn.E95-F { margin-right: 50px; }'
         );
     }
 
