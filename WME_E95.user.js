@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.13
+// @version      0.4.14
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -234,7 +234,7 @@
     };
     const region = {
         // Belarus
-        'BO': {
+        37: {
             A: {
                 attributes: speed["20"]
             },
@@ -249,19 +249,19 @@
                 }
             }
         },
-        // Russian Federation
-        'RS': {
-            C: preset.pr60,
-            D: preset.st60,
-            E: preset.ps60,
-        },
         // Ukraine
-        'UP': {
+        232: {
             F: preset.headlights,
             G: preset.headlights,
             H: preset.headlights,
             I: preset.headlights,
-        }
+        },
+        // Russian Federation
+        237: {
+            C: preset.pr60,
+            D: preset.st60,
+            E: preset.ps60,
+        },
     };
 
     // Require Waze API
@@ -271,7 +271,7 @@
     // Get Button settings
     function getButtonConfig(index) {
         let btn = {};
-        let abbr = WazeApi.model.getTopCountry().getAttributes().abbr;
+        let abbr = WazeApi.model.getTopCountry().getID();
         if (region[abbr] && region[abbr][index]) {
             // Merge default settings with region settings
             $.extend(true, btn, buttons[index], region[abbr][index]);
