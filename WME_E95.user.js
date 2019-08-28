@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.14
+// @version      0.4.16
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -16,9 +16,9 @@
 // @namespace    https://greasyfork.org/users/227648
 // ==/UserScript==
 /* jshint esversion: 6 */
-/* global require, window */
+/* global require, window, W, I18n */
 
-(function ($, WazeApi, I18n) {
+(function ($) {
     'use strict';
 
     // Script name, uses as unique index
@@ -83,6 +83,7 @@
         A: {
             title: 'PLR',
             shortcut: 'A+49',
+            callback: process,
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 5,
@@ -97,6 +98,7 @@
         B: {
             title: 'Pr20',
             shortcut: 'A+50',
+            callback: process,
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 20,
@@ -111,6 +113,7 @@
         C: {
             title: 'Pr50',
             shortcut: 'A+51',
+            callback: process,
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 50,
@@ -125,6 +128,7 @@
         D: {
             title: 'St50',
             shortcut: 'A+52',
+            callback: process,
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 50,
@@ -137,6 +141,7 @@
         E: {
             title: 'PS50',
             shortcut: 'A+53',
+            callback: process,
             detectCity: true,
             attributes: {
                 fwdMaxSpeed: 50,
@@ -151,6 +156,7 @@
         F: {
             title: 'OR',
             shortcut: 'A+54',
+            callback: process,
             clearCity: true,
             attributes: {
                 fwdMaxSpeed: 90,
@@ -164,6 +170,7 @@
         G: {
             title: 'Pr90',
             shortcut: 'A+55',
+            callback: process,
             clearCity: true,
             attributes: {
                 fwdMaxSpeed: 90,
@@ -177,6 +184,7 @@
         H: {
             title: 'St90',
             shortcut: 'A+56',
+            callback: process,
             clearCity: true,
             attributes: {
                 fwdMaxSpeed: 90,
@@ -190,6 +198,7 @@
         I: {
             title: 'PS90',
             shortcut: 'A+57',
+            callback: process,
             clearCity: true,
             attributes: {
                 fwdMaxSpeed: 90,
@@ -200,6 +209,14 @@
                 lockRank: 1,
             }
         },
+        J: {
+            title: 'U',
+            shortcut: 'A+U',
+            callback: function (button) {
+                console.log(button);
+                console.log(W.selectionManager.getSegmentSelection());
+            }
+        }
     };
     // Regions settings, will be merged with default values
     // Default values is actual for Ukraine
@@ -249,18 +266,18 @@
                 }
             }
         },
+        // Russian Federation
+        186: {
+            C: preset.pr60,
+            D: preset.st60,
+            E: preset.ps60,
+        },
         // Ukraine
         232: {
             F: preset.headlights,
             G: preset.headlights,
             H: preset.headlights,
             I: preset.headlights,
-        },
-        // Russian Federation
-        237: {
-            C: preset.pr60,
-            D: preset.st60,
-            E: preset.ps60,
         },
     };
 
@@ -271,7 +288,7 @@
     // Get Button settings
     function getButtonConfig(index) {
         let btn = {};
-        let abbr = WazeApi.model.getTopCountry().getID();
+        let abbr = W.model.getTopCountry().getID();
         if (region[abbr] && region[abbr][index]) {
             // Merge default settings with region settings
             $.extend(true, btn, buttons[index], region[abbr][index]);
@@ -286,8 +303,8 @@
         let addr = segment.getAddress().attributes;
         // Change address
         let address = {
-            countryID: addr.country ? addr.country.id : WazeApi.model.getTopCountry().getID(),
-            stateID: addr.state ? addr.state.id : WazeApi.model.getTopState().getID(),
+            countryID: addr.country ? addr.country.id : W.model.getTopCountry().getID(),
+            stateID: addr.state ? addr.state.id : W.model.getTopState().getID(),
             cityName: addr.city ? addr.city.attributes.name : null,
             streetName: addr.street ? addr.street.name : null,
         };
@@ -304,14 +321,14 @@
         // Check street
         address.emptyStreet = (address.streetName === null) || (address.streetName === '');
         // Update segment properties
-        WazeApi.model.actionManager.add(
+        W.model.actionManager.add(
           new WazeActionUpdateObject(
             segment,
             settings.attributes
           )
         );
         // Update segment address
-        WazeApi.model.actionManager.add(
+        W.model.actionManager.add(
           new WazeActionUpdateFeatureAddress(
             segment,
             address,
@@ -322,24 +339,26 @@
         );
     }
 
-    // Update street handler
+    // Update handler
     function processHandler() {
-        process(this.dataset[NAME]);
+        let button = getButtonConfig(this.dataset[NAME]);
+        // run callback
+        return button.callback(button);
     }
 
-    function process(index) {
+    function process(button) {
         // Get all selected segments
-        let selected = WazeApi.selectionManager.getSelectedFeatures();
+        let selected = W.selectionManager.getSelectedFeatures();
         let segments = [];
         let options = {};
         // Fill segments array
         for (let i = 0, total = selected.length; i < total; i++) {
-            segments.push(WazeApi.model.segments.getObjectById(selected[i].model.attributes.id))
+            segments.push(W.model.segments.getObjectById(selected[i].model.attributes.id))
         }
         // Filter segments array
         segments = segments.filter(segment => segment && segment.getPermissions());
         // Try to detect city
-        if (getButtonConfig(index).detectCity) {
+        if (button.detectCity) {
             let cityName = null;
             for (let i = 0, total = segments.length; i < total; i++) {
                 cityName = detectCity(segments[i]);
@@ -352,7 +371,7 @@
         }
 
         for (let i = 0, total = segments.length; i < total; i++) {
-            setupRoad(segments[i], getButtonConfig(index), options);
+            setupRoad(segments[i], button, options);
         }
     }
 
@@ -366,12 +385,12 @@
         // TODO: replace follow magic with
         //  segment.getConnectedSegments() and segment.getConnectedSegmentsByDirection() when it will work
         //  last check - 30.07.19
-        let connected = WazeApi.model.nodes.getObjectById(segment.getAttributes().fromNodeID).getSegmentIds(); // segments from point A
-        connected = connected.concat(WazeApi.model.nodes.getObjectById(segment.getAttributes().toNodeID).getSegmentIds()); // segments from point B
+        let connected = W.model.nodes.getObjectById(segment.getAttributes().fromNodeID).getSegmentIds(); // segments from point A
+        connected = connected.concat(W.model.nodes.getObjectById(segment.getAttributes().toNodeID).getSegmentIds()); // segments from point B
         connected.filter(id => id !== segment.getID());
 
         for (let i = 0, total = connected.length; i < total; i++) {
-            let city = WazeApi.model.segments.getObjectById(connected[i]).getAddress().getCity();
+            let city = W.model.segments.getObjectById(connected[i]).getAddress().getCity();
             // skip segments with empty cities
             if (city && !city.isEmpty()) {
                 cityName = city.getName();
@@ -391,17 +410,22 @@
         for (let btn in buttons) {
             let config = getButtonConfig(btn);
             let button = document.createElement('button');
-                button.className = 'waze-btn waze-btn-small ' + NAME + ' ' + NAME + '-' + btn;
-                button.style.backgroundColor = colors[config.attributes.roadType];
-                button.innerHTML = config.title;
-                button.title = I18n.translate('segment.road_types')[config.attributes.roadType];
                 button.dataset[NAME] = btn;
+                button.className = 'waze-btn waze-btn-small ' + NAME + ' ' + NAME + '-' + btn;
+                button.innerHTML = config.title;
+                if (config.attributes) {
+                    button.title = I18n.t('segment.road_types')[config.attributes.roadType];
+                    button.style.backgroundColor = colors[config.attributes.roadType];
+                } else {
+                    button.title = config.title;
+                }
+
             controls.appendChild(button);
         }
 
         let label = document.createElement('label');
             label.className = 'control-label';
-            label.innerHTML = I18n.translate(NAME).title;
+            label.innerHTML = I18n.t(NAME).title;
 
         let group = document.createElement('div');
             group.className = 'form-group ' + NAME;
@@ -437,12 +461,14 @@
         for (let btn in buttons) {
             let name = NAME + 'Button' + buttons[btn].title;
             // Build description
-            I18n.translations[LOCALE].keyboard_shortcuts.groups[NAME].members[name] =
-              buttons[btn].title + ' - ' +
-              I18n.translate('segment.road_types')[buttons[btn].attributes.roadType] + '; ' +
-              I18n.translate('edit.segment.fields.speed_limit') + ' ' +
-              I18n.translate('measurements.speed.km', {speed: buttons[btn].attributes.fwdMaxSpeed})
-            ;
+            I18n.translations[LOCALE].keyboard_shortcuts.groups[NAME].members[name] = buttons[btn].title;
+            if (buttons[btn].attributes) {
+                I18n.translations[LOCALE].keyboard_shortcuts.groups[NAME].members[name] += ' - ' +
+                I18n.t('segment.road_types')[buttons[btn].attributes.roadType] + '; ' +
+                I18n.t('edit.segment.fields.speed_limit') + ' ' +
+                I18n.t('measurements.speed.km', {speed: buttons[btn].attributes.fwdMaxSpeed})
+                ;
+            }
         }
     }
 
@@ -477,14 +503,14 @@
     }
 
     function initShortcuts() {
-        WazeApi.accelerators.Groups[NAME] = [];
-        WazeApi.accelerators.Groups[NAME].members = [];
+        W.accelerators.Groups[NAME] = [];
+        W.accelerators.Groups[NAME].members = [];
 
         for (let btn in buttons) {
             let name = NAME + 'Button' + buttons[btn].title;
-            WazeApi.accelerators.addAction(name, { group: NAME });
-            WazeApi.accelerators.events.register(name, null, () => process(btn));
-            WazeApi.accelerators.registerShortcut(buttons[btn].shortcut, name);
+            W.accelerators.addAction(name, { group: NAME });
+            W.accelerators.events.register(name, null, () => buttons[btn].callback(buttons[btn]));
+            W.accelerators.registerShortcut(buttons[btn].shortcut, name);
         }
     }
 
@@ -513,10 +539,10 @@
     // Bootstrap plugin
     function bootstrap(tries = 1) {
         log('attempt ' + tries);
-        if (WazeApi &&
-          WazeApi.map &&
-          WazeApi.model &&
-          WazeApi.loginManager.user) {
+        if (W &&
+          W.map &&
+          W.model &&
+          W.loginManager.user) {
             log('was initialized');
             init();
         } else if (tries < 100) {
@@ -529,4 +555,4 @@
 
     log('initialization');
     bootstrap();
-})(window.jQuery, window.W, window.I18n);
+})(window.jQuery);
