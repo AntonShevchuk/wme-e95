@@ -532,7 +532,8 @@
           'button.waze-btn.E95 { margin: 0 4px 4px 0; padding: 2px; width: 42px; } ' +
           'button.waze-btn.E95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
           'button.waze-btn.E95-E { margin-right: 42px; }' +
-          'button.waze-btn.E95-F { margin-right: 50px; }'
+          'button.waze-btn.E95-F { margin-right: 50px; }' +
+          'button.waze-btn.E95-J { display: none }'
         );
     }
 
