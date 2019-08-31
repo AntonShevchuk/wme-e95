@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.23
+// @version      0.4.24
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -376,9 +376,9 @@
     let cityName = null;
     // TODO: replace follow magic with
     //  segment.getConnectedSegments() and segment.getConnectedSegmentsByDirection() when it will work
-    //  last check - 30.07.19
-    let connected = W.model.nodes.getObjectById(segment.getAttributes().fromNodeID).getSegmentIds(); // segments from point A
-        connected = connected.concat(W.model.nodes.getObjectById(segment.getAttributes().toNodeID).getSegmentIds()); // segments from point B
+    //  last check - 2019.08.31
+    let connected = W.model.nodes.getObjectById(segment.attributes.fromNodeID).getSegmentIds(); // segments from point A
+        connected = connected.concat(W.model.nodes.getObjectById(segment.attributes.toNodeID).getSegmentIds()); // segments from point B
         connected.filter(id => id !== segment.getID());
 
     for (let i = 0, total = connected.length; i < total; i++) {
