@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         WME E95
-// @version      0.4.26
+// @version      0.5.0
 // @description  Setup road properties in one click
 // @author       Anton Shevchuk
 // @license      MIT License
@@ -20,7 +20,17 @@
 // ==/UserScript==
 
 /* jshint esversion: 6 */
-/* global require, window, W, I18n, OL, WazeWrap, APIHelper, APIHelperUI, APIHelperUIButton */
+/* global window */
+/* global console */
+/* global require */
+/* global $ */
+/* global W */
+/* global OL */
+/* global I18n */
+/* global WazeWrap */
+/* global APIHelper */
+/* global APIHelperUI */
+/* global APIHelperUIButton */
 
 (function ($) {
   'use strict';
@@ -288,8 +298,8 @@
   };
 
   // Require Waze API
-  let WazeActionUpdateObject = require('Waze/Action/UpdateObject');
-  let WazeActionUpdateFeatureAddress = require('Waze/Action/UpdateFeatureAddress');
+  let WazeActionUpdateObject;
+  let WazeActionUpdateFeatureAddress;
 
   // Get Button settings
   function getButtonConfig(index) {
@@ -348,6 +358,10 @@
     address.emptyCity = (address.cityName === null);
     // Check street
     address.emptyStreet = (address.streetName === null) || (address.streetName === '');
+    // Check lock level
+    if (segment.attributes.lockRank > settings.attributes.lockRank) {
+      settings.attributes.lockRank = segment.attributes.lockRank;
+    }
     // Update segment properties
     W.model.actionManager.add(
       new WazeActionUpdateObject(
@@ -375,9 +389,12 @@
     }
     let cityName = null;
     // TODO: replace follow magic with
-    //  segment.getConnectedSegments() and segment.getConnectedSegmentsByDirection() when it will work
-    //  last check - 2019.08.31
-    let connected = W.model.nodes.getObjectById(segment.attributes.fromNodeID).getSegmentIds(); // segments from point A
+    //  W.selectionManager.getSelectedFeatures()[0].model.getConnectedSegments()
+    //  W.selectionManager.getSelectedFeatures()[0].model.getConnectedSegmentsByDirection()
+    //  when it will work
+    //  last check - 2019.11.21
+    let connected = [];
+        connected = connected.concat(W.model.nodes.getObjectById(segment.attributes.fromNodeID).getSegmentIds()); // segments from point A
         connected = connected.concat(W.model.nodes.getObjectById(segment.attributes.toNodeID).getSegmentIds()); // segments from point B
         connected.filter(id => id !== segment.getID());
 
@@ -405,6 +422,9 @@
   let panel;
 
   function ready() {
+    // Require scripts
+    WazeActionUpdateObject = require('Waze/Action/UpdateObject');
+    WazeActionUpdateFeatureAddress = require('Waze/Action/UpdateFeatureAddress');
     // Build panel
     // Container for buttons
     let controls = document.createElement('div');
