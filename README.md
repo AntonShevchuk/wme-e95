@@ -1,6 +1,6 @@
 # WME E95
-User script for Waze Map Editor.
-Create additional panel with buttons for setup road properties in one click.
+User script for Waze Map Editor.  
+Create an additional panel with buttons for setup a set of road properties in one click.
 
 ![](screenshot.png)
 
