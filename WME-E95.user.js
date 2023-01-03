@@ -91,23 +91,26 @@
   //   e.g. flags.tunnel | flags.headlights
   const FLAGS = {
     tunnel: 0b00000001,
-    // ???     : 0b00000010,
-    // ???     : 0b00000100,
-    // ???     : 0b00001000,
+    // ???
+    // a     : 0b00000010,
+    // b     : 0b00000100,
+    // c     : 0b00001000,
     unpaved: 0b00010000,
     headlights: 0b00100000,
   }
   // Buttons:
   //   title - for buttons
   //   shortcut - keys for shortcuts, by default is Alt + (1..9)
-  //   detectCity - try to detect city name by closures segments
-  //   clearCity - clear city name
+  //   options:
+  //    - detectCity - try to detect the city name by closures segments
+  //    - clearCity - clear the city name
+  //    - clearStreet - clear the street name
   //   attributes - native settings for model object
   // TODO:
   //   – check permissions for user level lower than 2
   const BUTTONS = {
     A: {
-      title: 'PLR',
+      title: 'Pr 5',
       shortcut: 'A+1',
       options: {
         detectCity: true,
@@ -118,7 +121,7 @@
         revMaxSpeed: 5,
         fwdMaxSpeedUnverified: false,
         revMaxSpeedUnverified: false,
-        roadType: TYPES.parking,
+        roadType: TYPES.private,
         lockRank: 0,
       }
     },
@@ -187,15 +190,15 @@
       }
     },
     F: {
-      title: '20',
+      title: 'PLR',
       shortcut: 'A+6',
       options: {
         detectCity: true,
       },
       attributes: {
         flags: 0,
-        fwdMaxSpeed: 20,
-        revMaxSpeed: 20,
+        fwdMaxSpeed: 5,
+        revMaxSpeed: 5,
         fwdMaxSpeedUnverified: false,
         revMaxSpeedUnverified: false,
         roadType: TYPES.parking,
@@ -207,7 +210,7 @@
       shortcut: 'A+7',
       options: {
         clearCity: true,
-        clearStreet: true,
+        clearStreet: false,
       },
       attributes: {
         flags: 0,
@@ -414,7 +417,7 @@
       }
       // set city flag
       address.emptyCity = (address.cityName === null)
-      // set street name
+      // set street flag
       address.emptyStreet = (address.streetName === null) || (address.streetName === '')
       // update segment's address
       W.model.actionManager.add(
@@ -426,7 +429,7 @@
           }
         )
       )
-      // keep the current lock level if it is higher than in the options
+      // keep the current lock level if it is higher than in the config's attributes
       if (segment.attributes.lockRank > attributes.lockRank) {
         attributes.lockRank = segment.attributes.lockRank
       }
@@ -467,7 +470,7 @@
       // cities of the connected segments
       let cities = connected.map(id => W.model.segments.getObjectById(id).getAddress().getCity())
       cities = cities.filter(city => city) // filter segments w/out city
-      cities = cities.map(city => city.getName()) // get cities name
+      cities = cities.map(city => city.getName()) // extract cities name
       cities = cities.filter(city => city) // filter empty city name
 
       if (cities.length) {
@@ -515,10 +518,7 @@
     }
   }
 
-  $(document)
-    .on('bootstrap.wme', ready)
-
-  function ready () {
+  $(document).on('bootstrap.wme', () => {
     // Require scripts
     WazeActionUpdateObject = require('Waze/Action/UpdateObject')
     WazeActionUpdateFeatureAddress = require('Waze/Action/UpdateFeatureAddress')
@@ -526,5 +526,5 @@
     new E95(NAME, BUTTONS, CONFIGS)
 
     WMEUIShortcut.setGroupTitle(NAME, I18n.t(NAME).title)
-  }
+  })
 })()

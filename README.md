@@ -18,9 +18,9 @@ Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
   <th>Lock</th>
 </tr>
 <tr>
-<td align='center'><strong>PLR</strong></td>
+<td align='center'><strong>Pr 5</strong></td>
 <td align='center'><code>Alt</code>+<code>1</code></td>
-<td align='center'>parking</td>
+<td align='center'>private</td>
 <td align='center'>5 km/h</td>
 <td align='center'>auto</td>
 <td align='center'>1</td>
@@ -58,10 +58,10 @@ Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
 <td align='center'>2</td>
 </tr>
 <tr>
-<td align='center'><strong>20</strong></td>
+<td align='center'><strong>PLR</strong></td>
 <td align='center'><code>Alt</code>+<code>6</code></td>
 <td align='center'>parking</td>
-<td align='center'>20 km/h</td>
+<td align='center'>5 km/h</td>
 <td align='center'>auto</td>
 <td align='center'>1</td>
 </tr>
