@@ -346,7 +346,7 @@
       }
       let label = document.createElement('label')
       label.className = 'control-label'
-      label.innerHTML = I18n.t(NAME).title
+      label.innerText = I18n.t(NAME).title
 
       this.panel = document.createElement('div')
       this.panel.className = 'form-group ' + NAME
