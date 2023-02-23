@@ -2,7 +2,8 @@
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
 // @version      0.7.2
-// @description  Setup road properties in one click
+// @description  Setup road properties with templates
+// @description:uk Швидке налаштування атрібутів вулиці за шаблонами
 // @license      MIT License
 // @author       Anton Shevchuk
 // @namespace    https://greasyfork.org/users/227648-anton-shevchuk
