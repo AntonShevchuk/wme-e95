@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name         WME E95
+// @name:uk      WME 🇺🇦 E95
 // @version      0.7.2
 // @description  Setup road properties in one click
 // @license      MIT License
