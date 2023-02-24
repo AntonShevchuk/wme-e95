@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
-// @version      0.7.2
+// @version      0.7.3
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрібутів вулиці за шаблонами
 // @license      MIT License
@@ -492,11 +492,14 @@
      * @return {void}
      */
     onSegment (event, element, model) {
-      // Skip for walking trails
-      if (model.isWalkingRoadType()) {
+      // Skip for walking trails and blocked roads
+      if (model.isWalkingRoadType()
+        || model.isLockedByHigherRank()) {
         return
       }
-      // Panel should already create
+
+      // Panel can be already exists
+      element.querySelector('div.form-group.E95') ||
       element.prepend(this.getPanel())
     }
 
@@ -511,11 +514,13 @@
      * @return {void}
      */
     onSegments (event, element, models) {
-      // Skip for walking trails
-      if (models.filter((model) => !model.isWalkingRoadType()).length === 0) {
+      // Skip for walking trails or locked roads
+      if (models.filter((model) => model.isWalkingRoadType() || model.isLockedByHigherRank()).length > 0) {
+        element.querySelector('div.form-group.E95')?.remove()
         return
       }
-      // Panel should already create
+      // Panel can be already exists
+      element.querySelector('div.form-group.E95') ||
       element.prepend(this.getPanel())
     }
   }
