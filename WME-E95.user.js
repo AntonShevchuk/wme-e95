@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
-// @version      0.7.3
+// @version      0.7.4
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрібутів вулиці за шаблонами
 // @license      MIT License
@@ -494,7 +494,9 @@
     onSegment (event, element, model) {
       // Skip for walking trails and blocked roads
       if (model.isWalkingRoadType()
-        || model.isLockedByHigherRank()) {
+        || model.isLockedByHigherRank()
+        || !model.isGeometryEditable()
+      ) {
         return
       }
 
@@ -515,7 +517,7 @@
      */
     onSegments (event, element, models) {
       // Skip for walking trails or locked roads
-      if (models.filter((model) => model.isWalkingRoadType() || model.isLockedByHigherRank()).length > 0) {
+      if (models.filter((model) => model.isWalkingRoadType() || model.isLockedByHigherRank() || !model.isGeometryEditable()).length > 0) {
         element.querySelector('div.form-group.E95')?.remove()
         return
       }
