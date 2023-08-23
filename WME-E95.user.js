@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
-// @version      0.7.6
+// @version      0.7.7
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрібутів вулиці за шаблонами
 // @license      MIT License
@@ -394,13 +394,14 @@
      */
     updateSegment (segment, options, attributes = {}) {
       // current segment address
-      let addr = segment.getAddress().attributes
+      let addr = segment.getAddress()
+
       // fill address information
       let address = {
-        countryID: addr.country ? addr.country.id : W.model.getTopCountry().getID(),
-        stateID: addr.state ? addr.state.id : W.model.getTopState().getID(),
-        cityName: addr.city ? addr.city.attributes.name : null,
-        streetName: addr.street ? addr.street.name : null,
+        countryID: addr.getCountry()?.getID() || W.model.getTopCountry().getID(),
+        stateID: addr.getState()?.getID() || W.model.getTopState().getID(),
+        cityName: addr.getCity()?.getName() || '',
+        streetName: addr.getStreet()?.getName() || '',
       }
       // options: detect city
       if (!address.cityName && options.detectCity && options.cityName) {
@@ -421,29 +422,30 @@
       address.emptyCity = (address.cityName === null)
       // set street flag
       address.emptyStreet = (address.streetName === null) || (address.streetName === '')
-      // update segment's address
-      W.model.actionManager.add(
-        new WazeActionUpdateFeatureAddress(
+
+
+      let updateFeatureAddress = new WazeActionUpdateFeatureAddress(
           segment,
           address,
           {
             streetIDField: 'primaryStreetID'
           }
-        )
       )
+
+      // update segment's address
+      W.model.actionManager.add(updateFeatureAddress)
+
       // keep the current lock level if it is higher than in the config's attributes
       if (segment.attributes.lockRank > attributes.lockRank) {
         attributes.lockRank = segment.attributes.lockRank
       }
       // need more logs
       this.log('set road type to ' + I18n.t('segment.road_types')[attributes.roadType])
+
       // update segment's properties
-      W.model.actionManager.add(
-        new WazeActionUpdateObject(
-          segment,
-          attributes
-        )
-      )
+      let updateObject = new WazeActionUpdateObject(segment, attributes)
+
+      W.model.actionManager.add(updateObject)
     }
 
     /**
