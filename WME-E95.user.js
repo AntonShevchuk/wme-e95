@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
-// @version      0.7.7
+// @version      0.7.8
 // @description  Setup road properties with templates
-// @description:uk Швидке налаштування атрібутів вулиці за шаблонами
+// @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @license      MIT License
 // @author       Anton Shevchuk
 // @namespace    https://greasyfork.org/users/227648-anton-shevchuk
@@ -274,6 +274,11 @@
     }
   }
 
+  // codes of countries
+  const COUNTRIES = {
+    ukraine: 232
+  }
+
   // country specified buttons config
   const CONFIGS = {
     // Ukraine
@@ -306,12 +311,13 @@
   let WazeActionUpdateFeatureAddress
 
   class E95 extends WMEBase {
-    constructor (name, buttons, configs) {
+    constructor (name, buttons, config  ) {
       super(name)
+
 
       this.panel = null
       this.buttons = buttons
-      this.configs = configs
+      this.config = config
     }
 
     getPanel () {
@@ -362,7 +368,7 @@
     getButtonConfig (index) {
       // Load settings for current country by call method W.model.getTopCountry().getID()
       // Then mixed it with default settings by Tools.mergeDeep() method
-      return Tools.mergeDeep(this.buttons[index], this.configs[W.model.getTopCountry().getID()][index])
+      return Tools.mergeDeep(this.buttons[index], this.config[index])
     }
 
     // Handler for Road buttons
@@ -534,7 +540,11 @@
     WazeActionUpdateObject = require('Waze/Action/UpdateObject')
     WazeActionUpdateFeatureAddress = require('Waze/Action/UpdateFeatureAddress')
 
-    new E95(NAME, BUTTONS, CONFIGS)
+    // check country configuration
+    let country = W.model.getTopCountry()?.getID() || COUNTRIES.ukraine
+    let config = CONFIGS[country] ? CONFIGS[country] : CONFIGS[COUNTRIES.ukraine]
+
+    new E95(NAME, BUTTONS, config)
 
     WMEUIShortcut.setGroupTitle(NAME, I18n.t(NAME).title)
   })
