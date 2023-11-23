@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
-// @version      0.8.0
+// @version      0.8.1
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @license      MIT License
@@ -38,19 +38,28 @@
   const TRANSLATION = {
     'en': {
       title: 'Quick Properties',
+      description: 'Apply the road\'s settings by one click',
+      help: 'You can use the <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">Keyboard shortcuts</a> to apply the settings. It\'s more convenient than clicking on the buttons.',
     },
     'uk': {
       title: 'Швидкі налаштування',
+      description: 'Застосовуйте швидкі налаштування для доріг за один клік',
+      help: 'Використовуйте <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">гарячі клавіши</a>, це значно швидше ніж використовувати кнопку',
+
     },
     'ru': {
-      title: 'Быстрые настройки'
+      title: 'Быстрые настройки',
+      description: 'Применяйте быстрые настройки для дорог в один клик',
+      help: 'Используйте <a href="#keyboard-dialog" target="_blank" rel="noopener noreferrer" data-toggle="modal">комбинации клавиш</a>, и не надо будет клацать кнопку',
     }
   }
 
   const STYLE = 'button.waze-btn.E95 { margin: 0 4px 4px 0; padding: 2px; width: 42px; } ' +
     'button.waze-btn.E95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
     'button.waze-btn.E95-E { margin-right: 42px; }' +
-    'button.waze-btn.E95-J { margin-right: 42px; }'
+    'button.waze-btn.E95-J { margin-right: 42px; }' +
+    'p.e95-info { border-top: 1px solid #ccc; color: #777; font-size: x-small; margin-top: 15px; padding-top: 10px; text-align: center; }'
+
 
   WMEUI.addTranslation(NAME, TRANSLATION)
   WMEUI.addStyle(STYLE)
@@ -314,9 +323,26 @@
     constructor (name, buttons, config  ) {
       super(name)
 
+      this.helper = new WMEUIHelper(name)
+
       this.panel = null
       this.buttons = buttons
       this.config = config
+
+
+      let tab = this.helper.createTab(
+        I18n.t(name).title,
+        {
+          image: GM_info.script.icon
+        }
+      )
+      tab.addText('description', I18n.t(name).description)
+      tab.addDiv('text', I18n.t(name).help)
+      tab.addText(
+        'info',
+        '<a href="' + GM_info.scriptUpdateURL + '">' + GM_info.script.name + '</a> ' + GM_info.script.version
+      )
+      tab.inject()
     }
 
     getPanel () {
