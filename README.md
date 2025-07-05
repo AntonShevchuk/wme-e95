@@ -103,6 +103,8 @@ Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
 * For roads outside the city set highlight requirements flag
 
 ## Links
-Author homepage: http://anton.shevchuk.name/  
+
+Author homepage: https://anton.shevchuk.name/  
+Author pet projects: https://hohli.com/  
 Script homepage: https://github.com/AntonShevchuk/wme-e95/  
 GreasyFork: https://greasyfork.org/uk/scripts/382614-wme-e95  
