@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
-// @version      0.8.4
+// @version      0.8.5
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @license      MIT License
@@ -130,8 +130,8 @@
         flags: 0,
         fwdMaxSpeed: 5,
         revMaxSpeed: 5,
-        fwdMaxSpeedUnverified: false,
-        revMaxSpeedUnverified: false,
+        //fwdMaxSpeedUnverified: false,
+        //revMaxSpeedUnverified: false,
         roadType: TYPES.private,
         lockRank: 0,
       }
@@ -146,8 +146,8 @@
         flags: 0,
         fwdMaxSpeed: 20,
         revMaxSpeed: 20,
-        fwdMaxSpeedUnverified: false,
-        revMaxSpeedUnverified: false,
+        //fwdMaxSpeedUnverified: false,
+        //revMaxSpeedUnverified: false,
         roadType: TYPES.private,
         lockRank: 0,
       }
@@ -162,8 +162,8 @@
         flags: 0,
         fwdMaxSpeed: 50,
         revMaxSpeed: 50,
-        fwdMaxSpeedUnverified: false,
-        revMaxSpeedUnverified: false,
+        //fwdMaxSpeedUnverified: false,
+        //revMaxSpeedUnverified: false,
         roadType: TYPES.private,
         lockRank: 0,
       }
@@ -178,8 +178,8 @@
         flags: 0,
         fwdMaxSpeed: 50,
         revMaxSpeed: 50,
-        fwdMaxSpeedUnverified: false,
-        revMaxSpeedUnverified: false,
+        //fwdMaxSpeedUnverified: false,
+        //revMaxSpeedUnverified: false,
         roadType: TYPES.street,
         lockRank: 0,
       }
@@ -194,8 +194,8 @@
         flags: 0,
         fwdMaxSpeed: 50,
         revMaxSpeed: 50,
-        fwdMaxSpeedUnverified: false,
-        revMaxSpeedUnverified: false,
+        //fwdMaxSpeedUnverified: false,
+        //revMaxSpeedUnverified: false,
         roadType: TYPES.primary,
         lockRank: 1,
       }
@@ -210,8 +210,8 @@
         flags: 0,
         fwdMaxSpeed: 5,
         revMaxSpeed: 5,
-        fwdMaxSpeedUnverified: false,
-        revMaxSpeedUnverified: false,
+        //fwdMaxSpeedUnverified: false,
+        //revMaxSpeedUnverified: false,
         roadType: TYPES.parking,
         lockRank: 0,
       }
@@ -227,8 +227,8 @@
         flags: 0,
         fwdMaxSpeed: 90,
         revMaxSpeed: 90,
-        fwdMaxSpeedUnverified: false,
-        revMaxSpeedUnverified: false,
+        //fwdMaxSpeedUnverified: false,
+        //revMaxSpeedUnverified: false,
         roadType: TYPES.offroad,
         lockRank: 0,
       }
@@ -243,8 +243,8 @@
         flags: 0,
         fwdMaxSpeed: 90,
         revMaxSpeed: 90,
-        fwdMaxSpeedUnverified: false,
-        revMaxSpeedUnverified: false,
+        //fwdMaxSpeedUnverified: false,
+        //revMaxSpeedUnverified: false,
         roadType: TYPES.private,
         lockRank: 0,
       }
@@ -259,8 +259,8 @@
         flags: 0,
         fwdMaxSpeed: 90,
         revMaxSpeed: 90,
-        fwdMaxSpeedUnverified: false,
-        revMaxSpeedUnverified: false,
+        //fwdMaxSpeedUnverified: false,
+        //revMaxSpeedUnverified: false,
         roadType: TYPES.street,
         lockRank: 0,
       }
@@ -275,8 +275,8 @@
         flags: 0,
         fwdMaxSpeed: 90,
         revMaxSpeed: 90,
-        fwdMaxSpeedUnverified: false,
-        revMaxSpeedUnverified: false,
+        //fwdMaxSpeedUnverified: false,
+        //revMaxSpeedUnverified: false,
         roadType: TYPES.primary,
         lockRank: 1,
       }
@@ -425,7 +425,7 @@
      */
     updateSegment (segment, options, attributes = {}) {
       // current segment address
-      let addr = segment.getAddress()
+      let addr = segment.getAddress(W.model)
 
       // fill address information
       let address = {
@@ -486,8 +486,8 @@
      */
     detectCity (segment) {
       // check cityName of the segment
-      if (segment.getAddress().getCity() && !segment.getAddress().getCity().isEmpty()) {
-        return segment.getAddress().getCity().getName()
+      if (segment.getAddress(W.model).getCity() && !segment.getAddress(W.model).getCity().isEmpty()) {
+        return segment.getAddress(W.model).getCity().getName()
       }
 
       // TODO: replace follow magic with methods getConnectedSegments() and getConnectedSegmentsByDirection()
@@ -498,12 +498,12 @@
 
       // connected segments
       let connected = []
-      connected = connected.concat(segment.getFromNode().getSegmentIds()) // segments from point A
-      connected = connected.concat(segment.getToNode().getSegmentIds()) // segments from point B
+      connected = connected.concat(segment.getFromNode(W.model).getSegmentIds()) // segments from point A
+      connected = connected.concat(segment.getToNode(W.model).getSegmentIds()) // segments from point B
       connected = connected.filter(id => id !== segment.getID()) // filter himself
 
       // cities of the connected segments
-      let cities = connected.map(id => W.model.segments.getObjectById(id).getAddress().getCity())
+      let cities = connected.map(id => W.model.segments.getObjectById(id).getAddress(W.model).getCity())
       cities = cities.filter(city => city) // filter segments w/out city
       cities = cities.map(city => city.getName()) // extract cities name
       cities = cities.filter(city => city) // filter empty city name
