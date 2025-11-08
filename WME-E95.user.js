@@ -25,11 +25,9 @@
 /* global require */
 /* global $, jQuery */
 /* global I18n */
-/* global SDK */
 /* global WMEBase, WMEUI, WMEUIHelper, WMEUIHelperControlButton */
 /* global Container, Settings, SimpleCache, Tools  */
-
-// import type { Node$1, Segment, Venue, WmeSDK } from "wme-sdk-typings";
+/* global Node$1, Segment, Venue, VenueAddress, WmeSDK */
 
 (function () {
   'use strict'

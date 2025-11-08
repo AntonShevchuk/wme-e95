@@ -106,5 +106,6 @@ Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
 
 Author homepage: https://anton.shevchuk.name/  
 Author pet projects: https://hohli.com/  
+Support author: https://donate.hohli.com/  
 Script homepage: https://github.com/AntonShevchuk/wme-e95/  
 GreasyFork: https://greasyfork.org/uk/scripts/382614-wme-e95  
