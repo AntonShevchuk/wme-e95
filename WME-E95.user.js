@@ -457,13 +457,14 @@
       this.buttons = null
       this.panel = null
 
+      // Initialization should be AFTER opening the editor,
+      // elsewhere country code can be wrong
       this.wmeSDK.Events
         .once({ eventName: "wme-feature-editor-opened" })
         .then((event) => {
           if (event.featureType === 'segment') {
             this.initButtons(buttons, config)
             this.initShortcuts()
-            this.initPanel()
           }
         });
     }
@@ -514,6 +515,7 @@
       }
       // this.log('Buttons loaded')
     }
+
     initShortcuts () {
       for (let key in this.buttons) {
         if (this.buttons.hasOwnProperty(key)) {
@@ -533,16 +535,6 @@
             }
           }
         }
-      }
-    }
-
-    initPanel () {
-      let segmentEditGeneral = $('#segment-edit-general')
-      if (segmentEditGeneral.has('div.form-group.e95').length === 0) {
-        segmentEditGeneral.prepend(
-          this.getPanel()
-        )
-        // this.log('Panel initialized')
       }
     }
 
@@ -718,11 +710,11 @@
       connected = connected.concat(this.wmeSDK.DataModel.Segments.getConnectedSegments({ segmentId: segment.id }))
       connected = connected.concat(this.wmeSDK.DataModel.Segments.getConnectedSegments({ segmentId: segment.id, reverseDirection: true }))
 
-      console.log(connected)
+      // console.log(connected)
 
       let cities = connected.map(segment => this.wmeSDK.DataModel.Segments.getAddress({ segmentId: segment.id }).city)
 
-      console.log(cities)
+      // console.log(cities)
 
       // cities of the connected segments
       cities = cities.filter(city => city) // filter segments w/out city
@@ -748,10 +740,12 @@
     onSegment (event, element, model) {
       // Skip for walking trails and blocked roads
       if ( this.wmeSDK.DataModel.Segments.isRoadTypeDrivable({ roadType: model.roadType })
-        && this.wmeSDK.DataModel.Segments.hasPermissions({ segmentId: model.id })
+        && this.wmeSDK.DataModel.Segments.hasPermissions({ segmentId: model.id, permission: 'EDIT_PROPERTIES' })
       ) {
         // Panel can be already exists
-        if (this.buttons) this.initPanel()
+        if (!element.querySelector('div.form-group.e95')) {
+          element.prepend( this.getPanel() )
+        }
       } else {
         // Remove the panel
         element.querySelector('div.form-group.e95')?.remove()
@@ -772,7 +766,7 @@
       // Skip for walking trails or locked roads
       if (models.filter((model) =>
           this.wmeSDK.DataModel.Segments.isRoadTypeDrivable({ roadType: model.roadType })
-          && this.wmeSDK.DataModel.Segments.hasPermissions({ segmentId: model.id })
+          && this.wmeSDK.DataModel.Segments.hasPermissions({ segmentId: model.id, permission: 'EDIT_PROPERTIES' })
         ).length === 0) {
         // Remove the panel
         element.querySelector('div.form-group.e95')?.remove()
@@ -780,7 +774,9 @@
       }
 
       // Panel can be already exists
-      if (this.buttons) this.initPanel()
+      if (!element.querySelector('div.form-group.e95')) {
+        element.prepend( this.getPanel() )
+      }
     }
   }
 
