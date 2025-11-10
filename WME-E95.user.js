@@ -137,7 +137,7 @@
         fwdSpeedLimit: 5,
         revSpeedLimit: 5,
         roadType: TYPES.private,
-        lockRank: 4,
+        lockRank: 0,
       }
     },
     B: {
