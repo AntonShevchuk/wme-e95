@@ -2,7 +2,7 @@
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
 // @name:ru      WME 🇺🇦 E95
-// @version      0.9.1
+// @version      0.9.2
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @description:ru Настройка атрибутов улиц по шаблонам
@@ -137,7 +137,7 @@
         fwdSpeedLimit: 5,
         revSpeedLimit: 5,
         roadType: TYPES.private,
-        lockRank: 0,
+        lockRank: 4,
       }
     },
     B: {
@@ -263,6 +263,7 @@
 
   // codes of countries
   const COUNTRIES = {
+    none: 0,
     albania: 2,
     hungary: 99,
     portugal: 181,
@@ -271,6 +272,8 @@
 
   // country specified buttons config
   const CONFIGS = {
+    // None, use the default configuration
+    0: {},
     // Albania
     // Pr40 Alt+9 private 40 km/h auto 2
     // FW90 Alt+0 freeway 90 km/h clear 5
@@ -484,25 +487,41 @@
       tab.inject().then(() => this.log('Script Tab Initialized') )
     }
 
+    initConfig (buttons, config) {
+      // check country configuration
+      let country = this.wmeSDK.DataModel.Countries.getTopCountry()?.id
+
+      if (country && config[country]) {
+        this.buttons = Tools.mergeDeep(buttons, config[country])
+      } else {
+        this.buttons = buttons
+      }
+    }
+
     initButtons (buttons, config) {
       // check country configuration
-      let country = this.wmeSDK.DataModel.Countries.getTopCountry()?.id || COUNTRIES.ukraine
+      let country = this.wmeSDK.DataModel.Countries.getTopCountry()?.id
 
-      this.config = config[country]
+      // load country configuration if needed
+      if (country && config[country]) {
+        buttons = Tools.mergeDeep(buttons, config[country])
+      }
+
       this.buttons = {}
 
+      // reload buttons
       for (let key in buttons) {
-        let config = Tools.mergeDeep(buttons[key], this.config[key])
+        let button = buttons[key]
 
         this.buttons[key] = {
-          title: config.title,
-          color: COLORS[config.attributes.roadType],
-          callback: () => this.buttonCallback(config),
+          title: button.title,
+          color: COLORS[button.attributes.roadType],
+          callback: () => this.buttonCallback(button),
           shortcut: buttons[key].shortcut,
-          description: config.title + ' - ' +
-            I18n.t('segment.road_types')[config.attributes.roadType] + '; ' +
+          description: button.title + ' - ' +
+            I18n.t('segment.road_types')[button.attributes.roadType] + '; ' +
             I18n.t('edit.segment.fields.speed_limit') + ' ' +
-            I18n.t('measurements.speed.km', { speed: config.attributes.fwdSpeedLimit })
+            I18n.t('measurements.speed.km', { speed: button.attributes.fwdSpeedLimit })
         }
       }
       // this.log('Buttons loaded')
@@ -569,6 +588,7 @@
 
     // Handler for Road buttons
     buttonCallback (button) {
+      this.group('apply "' + button.title + '"')
       // Get all selected segments
       let segments = this.getSelectedSegments()
       let options = button.options
@@ -590,6 +610,7 @@
       for (let i = 0, total = segments.length; i < total; i++) {
         this.updateSegment(segments[i], options, attributes)
       }
+      this.groupEnd()
     }
 
     /**
@@ -625,50 +646,59 @@
       let address = this.wmeSDK.DataModel.Segments.getAddress({ segmentId: segment.id})
 
       // check address information
-      let cityID = address.city?.id || null
-      let streetID = address.street?.id || null
+      let cityId = address.city?.id || null
+      let streetId = address.street?.id || null
 
-      // options: clear city
+      // clear city option
       if (options.clearCity) {
-        this.log('clear city id')
-        cityID = getEmptyCity().id
-      } else
-      // options: detect city
-      if (!cityID && options.detectCity && options.cityID) {
-        this.log('detected city "' + options.cityID + '"')
-        cityID = options.cityID
-      } else
-      // options: top city or empty city
-      if (!cityID) {
-        cityID = this.wmeSDK.DataModel.Cities.getTopCity()?.id || getEmptyCity().id
+        cityId = getEmptyCity().id
+        this.log('clear city and use the empty city id: ' + cityId)
+      }
+      // detect city option
+      if (!cityId && options.detectCity && options.cityId) {
+        cityId = options.cityId
+        this.log('use the detected city id: ' + cityId)
+      }
+      // top city
+      if (!cityId && options.detectCity) {
+        cityId = this.wmeSDK.DataModel.Cities.getTopCity()?.id
+        this.log('try to use the top city: ' + cityId)
+      }
+      // empty city
+      if (!cityId) {
+        cityId = getEmptyCity().id
+        this.log('use the empty city id: ' + cityId)
       }
 
-      // options: clear street
-      if (options.clearStreet || !streetID) {
-        this.log('use empty street id')
-        streetID = getEmptyStreet(cityID)?.id
+      // clear street option
+      if (options.clearStreet || !streetId) {
+        streetId = getEmptyStreet(cityId)?.id
+        this.log('use the empty street id: ' + streetId)
       }
 
-      if (streetID !== address.street?.id) {
-        this.log('update the street id: ' + streetID)
+      // update street
+      if (streetId !== address.street?.id) {
         this.wmeSDK.DataModel.Segments.updateAddress({
           segmentId: segment.id,
-          primaryStreetId: streetID
+          primaryStreetId: streetId
         })
+        this.log('apply the street id: ' + streetId)
       }
 
       // keep the current lock level if it is higher than in the config's attributes
       if (segment.lockRank > attributes.lockRank) {
         attributes.lockRank = segment.lockRank
+        this.log('use current lock rank: ' + (attributes.lockRank + 1) + ' ⚠️')
       }
 
       // use user lock rank, if it lower than we want to apply
       if (attributes.lockRank > this.wmeSDK.State.getUserInfo().rank) {
         attributes.lockRank = this.wmeSDK.State.getUserInfo().rank
+        this.log('use user lock rank: ' + (attributes.lockRank + 1) + ' ⚠️')
       }
 
       // need more logs
-      this.log('set road type to ' + I18n.t('segment.road_types')[attributes.roadType])
+      this.log('set road type to "' + I18n.t('segment.road_types')[attributes.roadType] + '"')
 
       // Get the keys from the source object you want to check
       const keysToCompare = Object.keys(attributes);
@@ -680,11 +710,11 @@
       });
 
       if (shouldUpdate) {
-        this.log("Update the segment! 🚩");
         attributes.segmentId = segment.id
         this.wmeSDK.DataModel.Segments.updateSegment(attributes)
+        this.log("segment updated");
       } else {
-        this.log("No update needed. ✅");
+        this.log("no update needed");
       }
     }
 
@@ -694,6 +724,7 @@
      * @return {Number|null}
      */
     detectCity (segment) {
+      this.log('detect a city')
       let address = this.wmeSDK.DataModel.Segments.getAddress({ segmentId: segment.id })
 
       // check city of the segment
