@@ -2,7 +2,7 @@
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
 // @name:ru      WME 🇺🇦 E95
-// @version      0.9.0
+// @version      0.9.1
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @description:ru Настройка атрибутов улиц по шаблонам
@@ -100,8 +100,8 @@
     '20': '#ababab'
   }
   // Road Flags
-  //   for setup flags use binary operators
-  //   e.g. flags.tunnel | flags.headlights
+  // https://www.waze.com/editor/sdk/interfaces/index.SDK.SegmentFlagAttributes.html
+  /*
   const FLAGS = {
     beacons: false,
     fwdLanesEnabled: false,
@@ -113,17 +113,19 @@
     tunnel: false,
     unpaved: false
   }
+  */
 
   // Buttons:
   //   title - for buttons
-  //   shortcut - keys for shortcuts, by default is Alt + (1..9)
+  //   shortcut:
+  //    - keys for shortcuts, by default is Alt + (1..9)
+  //    - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
   //   options:
   //    - detectCity - try to detect the city name by closures segments
   //    - clearCity - clear the city name
   //    - clearStreet - clear the street name
-  //   attributes - native settings for model object
-  // TODO:
-  //   – check permissions for user level lower than 2
+  //   attributes:
+  //    - https://www.waze.com/editor/sdk/classes/index.SDK.Segments.html#updatesegment
   const BUTTONS = {
     A: {
       title: 'PR 5',
@@ -132,7 +134,6 @@
         detectCity: true,
       },
       attributes: {
-        //flags: 0,
         fwdSpeedLimit: 5,
         revSpeedLimit: 5,
         roadType: TYPES.private,
@@ -146,7 +147,6 @@
         detectCity: true,
       },
       attributes: {
-        //flags: 0,
         fwdSpeedLimit: 20,
         revSpeedLimit: 20,
         roadType: TYPES.private,
@@ -160,7 +160,6 @@
         detectCity: true,
       },
       attributes: {
-        //flags: 0,
         fwdSpeedLimit: 50,
         revSpeedLimit: 50,
         roadType: TYPES.private,
@@ -174,7 +173,6 @@
         detectCity: true,
       },
       attributes: {
-        //flags: 0,
         fwdSpeedLimit: 50,
         revSpeedLimit: 50,
         roadType: TYPES.street,
@@ -188,7 +186,6 @@
         detectCity: true,
       },
       attributes: {
-        //flags: 0,
         fwdSpeedLimit: 50,
         revSpeedLimit: 50,
         roadType: TYPES.primary,
@@ -202,7 +199,6 @@
         detectCity: true,
       },
       attributes: {
-        //flags: 0,
         fwdSpeedLimit: 5,
         revSpeedLimit: 5,
 
@@ -218,7 +214,6 @@
         clearStreet: false,
       },
       attributes: {
-        //flags: 0,
         fwdSpeedLimit: 90,
         revSpeedLimit: 90,
         roadType: TYPES.offroad,
@@ -232,7 +227,6 @@
         clearCity: true,
       },
       attributes: {
-        //flags: 0,
         fwdSpeedLimit: 90,
         revSpeedLimit: 90,
         roadType: TYPES.private,
@@ -246,7 +240,6 @@
         clearCity: true,
       },
       attributes: {
-        //flags: 0,
         fwdSpeedLimit: 90,
         revSpeedLimit: 90,
         roadType: TYPES.street,
@@ -260,7 +253,6 @@
         clearCity: true,
       },
       attributes: {
-        //flags: 0,
         fwdSpeedLimit: 90,
         revSpeedLimit: 90,
         roadType: TYPES.primary,
@@ -669,6 +661,12 @@
       if (segment.lockRank > attributes.lockRank) {
         attributes.lockRank = segment.lockRank
       }
+
+      // use user lock rank, if it lower than we want to apply
+      if (attributes.lockRank > this.wmeSDK.State.getUserInfo().rank) {
+        attributes.lockRank = this.wmeSDK.State.getUserInfo().rank
+      }
+
       // need more logs
       this.log('set road type to ' + I18n.t('segment.road_types')[attributes.roadType])
 
@@ -683,7 +681,6 @@
 
       if (shouldUpdate) {
         this.log("Update the segment! 🚩");
-        console.log(attributes)
         attributes.segmentId = segment.id
         this.wmeSDK.DataModel.Segments.updateSegment(attributes)
       } else {
@@ -710,19 +707,16 @@
       connected = connected.concat(this.wmeSDK.DataModel.Segments.getConnectedSegments({ segmentId: segment.id }))
       connected = connected.concat(this.wmeSDK.DataModel.Segments.getConnectedSegments({ segmentId: segment.id, reverseDirection: true }))
 
-      // console.log(connected)
-
       let cities = connected.map(segment => this.wmeSDK.DataModel.Segments.getAddress({ segmentId: segment.id }).city)
-
-      // console.log(cities)
 
       // cities of the connected segments
       cities = cities.filter(city => city) // filter segments w/out city
       cities = cities.filter(city => !city.isEmpty) // filter empty city name
       cities = cities.map(city => city.id) // extract cities id
+      cities = [...new Set(cities)] // unique cities
 
       if (cities.length) {
-        return cities.shift()
+        return cities.shift() // use first one
       }
       return null
     }
