@@ -57,8 +57,8 @@
   WMEUI.addTranslation(NAME, TRANSLATION)
 
   const STYLE =
-    '.e95 .controls { display: grid; grid-template-columns: repeat(6, 42px); gap: 6px; padding: 0; }' +
-    '.e95 button.e95 { width:42px;margin:0;padding:2px;display:flex;justify-content:center;align-items:center;border:1px solid #ccc;cursor:pointer;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.1);white-space:nowrap;color:#333;min-height:24px } ' +
+    '.e95 .controls { display: grid; grid-template-columns: repeat(6, 44px); gap: 6px; padding: 0; }' +
+    '.e95 button.e95 { width:44px;margin:0;padding:2px;display:flex;justify-content:center;border:1px solid #eee;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.1);white-space:nowrap;color:#333; } ' +
     '.e95 button.e95:hover { box-shadow:0 2px 8px 0 rgba(0,0,0,.1),inset 0 0 100px 100px rgba(255,255,255,.3) } ' +
     'p.e95-info { border-top: 1px solid #ccc; color: #777; font-size: x-small; margin-top: 15px; padding-top: 10px; text-align: center; }' +
     '#sidebar p.e95-blue { background-color:#0057B8;color:white;height:32px;text-align:center;line-height:32px;font-size:24px;margin:0; }' +
