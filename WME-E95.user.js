@@ -2,7 +2,7 @@
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
 // @name:ru      WME 🇺🇦 E95
-// @version      0.9.4
+// @version      0.9.5
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @description:ru Настройка атрибутов улиц по шаблонам
@@ -56,8 +56,10 @@
 
   WMEUI.addTranslation(NAME, TRANSLATION)
 
-  const STYLE = 'button.waze-btn.e95 { margin: 0 4px 4px 0; padding: 2px; width: 42px; } ' +
-    'button.waze-btn.e95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
+  const STYLE =
+    '.e95 .controls { display: grid; grid-template-columns: repeat(6, 42px); gap: 6px; padding: 0; }' +
+    '.e95 button.e95 { width:42px;margin:0;padding:2px;display:flex;justify-content:center;align-items:center;border:1px solid #ccc;cursor:pointer;border-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.1);white-space:nowrap;color:#333;min-height:24px } ' +
+    '.e95 button.e95:hover { box-shadow:0 2px 8px 0 rgba(0,0,0,.1),inset 0 0 100px 100px rgba(255,255,255,.3) } ' +
     'p.e95-info { border-top: 1px solid #ccc; color: #777; font-size: x-small; margin-top: 15px; padding-top: 10px; text-align: center; }' +
     '#sidebar p.e95-blue { background-color:#0057B8;color:white;height:32px;text-align:center;line-height:32px;font-size:24px;margin:0; }' +
     '#sidebar p.e95-yellow { background-color:#FFDD00;color:black;height:32px;text-align:center;line-height:32px;font-size:24px;margin:0; }'
