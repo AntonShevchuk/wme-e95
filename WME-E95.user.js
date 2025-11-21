@@ -2,7 +2,7 @@
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
 // @name:ru      WME 🇺🇦 E95
-// @version      0.9.3
+// @version      0.9.4
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @description:ru Настройка атрибутов улиц по шаблонам
@@ -284,11 +284,11 @@
   const COUNTRIES = {
     none: 0,
     albania: 2,
+    greece: 85,
     hungary: 99,
     portugal: 181,
     ukraine: 232
   }
-
   // country specified buttons config
   const CONFIGS = {
     // None, use the default configuration
@@ -408,6 +408,92 @@
           lockRank: 3,
         }
       }
+    },
+    // Greece
+    85: {
+      D: {
+        title: 'ST30',
+        attributes: {
+          fwdSpeedLimit: 30,
+          revSpeedLimit: 30,
+          roadType: TYPES.street,
+        },
+      },
+      E: {
+        title: 'ST50',
+        attributes: {
+          fwdSpeedLimit: 50,
+          revSpeedLimit: 50,
+          roadType: TYPES.street,
+        },
+      },
+      F: {
+        title: 'ST90',
+        attributes: {
+          fwdSpeedLimit: 90,
+          revSpeedLimit: 90,
+          roadType: TYPES.street,
+        },
+      },
+
+      J: {
+        title: 'PR30',
+        options: {},
+        attributes: {
+          fwdSpeedLimit: 30,
+          revSpeedLimit: 30,
+          roadType: TYPES.primary,
+        },
+      },
+      K: {
+        title: 'PR50',
+        options: {},
+        attributes: {
+          fwdSpeedLimit: 50,
+          revSpeedLimit: 50,
+          roadType: TYPES.primary,
+        },
+      },
+      L: {
+        title: 'PR90',
+        options: {},
+        attributes: {
+          fwdSpeedLimit: 90,
+          revSpeedLimit: 90,
+          roadType: TYPES.primary,
+        },
+      },
+
+      M: {
+        title: 'PRV',
+        attributes: {
+          roadType: TYPES.private,
+        },
+      },
+      N: {
+        title: 'UN',
+        options: {},
+        attributes: {
+          flagAttributes: { unpaved: true },
+          roadType: TYPES.street,
+        },
+      },
+      O: {
+        title: 'UN40',
+        attributes: {
+          flagAttributes: { unpaved: true },
+          fwdSpeedLimit: 40,
+          revSpeedLimit: 40,
+          roadType: TYPES.street,
+        },
+      },
+      P: {
+        title: 'ST',
+        options: {},
+        attributes: {
+          roadType: TYPES.street,
+        },
+      },
     },
     // Hungary
     99: {
@@ -533,6 +619,9 @@
     initButtons (buttons, config) {
       // check country configuration
       let country = this.wmeSDK.DataModel.Countries.getTopCountry()?.id
+
+      // test buttons layout for the country:
+      // country = COUNTRIES.greece
 
       // load country configuration if needed
       if (country && config[country]) {
