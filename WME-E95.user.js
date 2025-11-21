@@ -2,7 +2,7 @@
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
 // @name:ru      WME 🇺🇦 E95
-// @version      0.9.2
+// @version      0.9.3
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @description:ru Настройка атрибутов улиц по шаблонам
@@ -58,8 +58,6 @@
 
   const STYLE = 'button.waze-btn.e95 { margin: 0 4px 4px 0; padding: 2px; width: 42px; } ' +
     'button.waze-btn.e95:hover { box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1), inset 0 0 100px 100px rgba(255, 255, 255, 0.3); } ' +
-    'button.waze-btn.e95-E { margin-right: 42px; }' +
-    'button.waze-btn.e95-J { margin-right: 42px; }' +
     'p.e95-info { border-top: 1px solid #ccc; color: #777; font-size: x-small; margin-top: 15px; padding-top: 10px; text-align: center; }' +
     '#sidebar p.e95-blue { background-color:#0057B8;color:white;height:32px;text-align:center;line-height:32px;font-size:24px;margin:0; }' +
     '#sidebar p.e95-yellow { background-color:#FFDD00;color:black;height:32px;text-align:center;line-height:32px;font-size:24px;margin:0; }'
@@ -92,7 +90,11 @@
   const COLORS = {
     '1': '#ffffeb',
     '2': '#f0ea58',
-    // ...
+    '3': '#bd74c9',
+    '4': '#ababab',
+    '5': '#ffffff',
+    '6': '#45b1c8',
+    '7': '#63b27f',
     '8': '#867342',
     // ...
     '17': '#beba6c',
@@ -114,7 +116,7 @@
     unpaved: false
   }
   */
-
+  //
   // Buttons:
   //   title - for buttons
   //   shortcut:
@@ -122,10 +124,13 @@
   //    - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
   //   options:
   //    - detectCity - try to detect the city name by closures segments
-  //    - clearCity - clear the city name
-  //    - clearStreet - clear the street name
+  //    - clearCity - clear the city and the street
   //   attributes:
   //    - https://www.waze.com/editor/sdk/classes/index.SDK.Segments.html#updatesegment
+  //
+  //   A | B | C | D | E | F
+  //   G | H | I | J | K | L
+  //
   const BUTTONS = {
     A: {
       title: 'PR 5',
@@ -193,26 +198,35 @@
       }
     },
     F: {
-      title: 'PLR',
+      title: 'mH50',
       shortcut: 'A+6',
+      options: {
+        detectCity: true,
+      },
+      attributes: {
+        fwdSpeedLimit: 50,
+        revSpeedLimit: 50,
+        roadType: TYPES.minor,
+        lockRank: 2,
+      }
+    },
+    G: {
+      title: 'PLR',
+      shortcut: 'A+7',
       options: {
         detectCity: true,
       },
       attributes: {
         fwdSpeedLimit: 5,
         revSpeedLimit: 5,
-
         roadType: TYPES.parking,
         lockRank: 0,
       }
     },
-    G: {
+    H: {
       title: 'OR',
-      shortcut: 'A+7',
-      options: {
-        clearCity: true,
-        clearStreet: false,
-      },
+      shortcut: 'A+8',
+      options: {},
       attributes: {
         fwdSpeedLimit: 90,
         revSpeedLimit: 90,
@@ -220,12 +234,10 @@
         lockRank: 0,
       }
     },
-    H: {
+    I: {
       title: 'PR90',
-      shortcut: 'A+8',
-      options: {
-        clearCity: true,
-      },
+      shortcut: 'A+9',
+      options: {},
       attributes: {
         fwdSpeedLimit: 90,
         revSpeedLimit: 90,
@@ -233,12 +245,10 @@
         lockRank: 0,
       }
     },
-    I: {
+    J: {
       title: 'St90',
-      shortcut: 'A+9',
-      options: {
-        clearCity: true,
-      },
+      shortcut: 'A+0',
+      options: {},
       attributes: {
         fwdSpeedLimit: 90,
         revSpeedLimit: 90,
@@ -246,17 +256,26 @@
         lockRank: 0,
       }
     },
-    J: {
+    K: {
       title: 'PS90',
-      shortcut: 'A+0',
-      options: {
-        clearCity: true,
-      },
+      shortcut: 'A+109',
+      options: {},
       attributes: {
         fwdSpeedLimit: 90,
         revSpeedLimit: 90,
         roadType: TYPES.primary,
         lockRank: 1,
+      }
+    },
+    L: {
+      title: 'mH90',
+      shortcut: 'A+=',
+      options: {},
+      attributes: {
+        fwdSpeedLimit: 90,
+        revSpeedLimit: 90,
+        roadType: TYPES.minor,
+        lockRank: 2,
       }
     }
   }
@@ -275,10 +294,30 @@
     // None, use the default configuration
     0: {},
     // Albania
-    // Pr40 Alt+9 private 40 km/h auto 2
-    // FW90 Alt+0 freeway 90 km/h clear 5
     2: {
       A: {
+        title: 'PLR',
+        shortcut: 'A+7',
+        options: {
+          detectCity: true,
+        },
+        attributes: {
+          fwdSpeedLimit: 5,
+          revSpeedLimit: 5,
+          roadType: TYPES.parking,
+          lockRank: 0,
+        }
+      },
+      B: {
+        title: 'Pr40',
+        attributes: {
+          fwdSpeedLimit: 40,
+          revSpeedLimit: 40,
+          roadType: TYPES.private,
+          lockRank: 1,
+        }
+      },
+      C: {
         title: 'St40',
         attributes: {
           fwdSpeedLimit: 40,
@@ -287,29 +326,11 @@
           lockRank: 1,
         }
       },
-      B: {
-        title: 'St80',
-        attributes: {
-          fwdSpeedLimit: 80,
-          revSpeedLimit: 80,
-          roadType: TYPES.street,
-          lockRank: 1,
-        }
-      },
-      C: {
+      D: {
         title: 'PS40',
         attributes: {
           fwdSpeedLimit: 40,
           revSpeedLimit: 40,
-          roadType: TYPES.primary,
-          lockRank: 1,
-        }
-      },
-      D: {
-        title: 'PS80',
-        attributes: {
-          fwdSpeedLimit: 80,
-          revSpeedLimit: 80,
           roadType: TYPES.primary,
           lockRank: 1,
         }
@@ -324,15 +345,6 @@
         }
       },
       F: {
-        title: 'mH80',
-        attributes: {
-          fwdSpeedLimit: 80,
-          revSpeedLimit: 80,
-          roadType: TYPES.minor,
-          lockRank: 2,
-        }
-      },
-      G: {
         title: 'MH40',
         attributes: {
           fwdSpeedLimit: 40,
@@ -341,31 +353,59 @@
           lockRank: 3,
         },
       },
-      H: {
-        title: 'MH80',
-        attributes: {
-          fwdSpeedLimit: 80,
-          revSpeedLimit: 80,
-          roadType: TYPES.major,
-          lockRank: 3,
-        }
-      },
-      I: {
-        title: 'Pr40',
-        attributes: {
-          fwdSpeedLimit: 40,
-          revSpeedLimit: 40,
-          roadType: TYPES.private,
-          lockRank: 1,
-        }
-      },
-      J: {
+
+      G: {
         title: 'FW90',
         attributes: {
           fwdSpeedLimit: 90,
           revSpeedLimit: 90,
           roadType: TYPES.freeway,
           lockRank: 4,
+        }
+      },
+      H: {
+        title: 'Pr80',
+        attributes: {
+          fwdSpeedLimit: 80,
+          revSpeedLimit: 80,
+          roadType: TYPES.private,
+          lockRank: 1,
+        }
+      },
+      I: {
+        title: 'St80',
+        attributes: {
+          fwdSpeedLimit: 80,
+          revSpeedLimit: 80,
+          roadType: TYPES.street,
+          lockRank: 1,
+        }
+      },
+      J: {
+        title: 'PS80',
+        attributes: {
+          fwdSpeedLimit: 80,
+          revSpeedLimit: 80,
+          roadType: TYPES.primary,
+          lockRank: 1,
+        }
+      },
+      K: {
+        title: 'mH80',
+        attributes: {
+          fwdSpeedLimit: 80,
+          revSpeedLimit: 80,
+          roadType: TYPES.minor,
+          lockRank: 2,
+        }
+      },
+      L: {
+        title: 'MH80',
+        attributes: {
+          fwdSpeedLimit: 80,
+          revSpeedLimit: 80,
+          roadType: TYPES.major,
+          lockRank: 3,
         }
       }
     },
@@ -385,7 +425,7 @@
           revSpeedLimit: 30,
         }
       },
-      F: {
+      G: {
         title: 'PLR',
         attributes: {
           fwdSpeedLimit: 20,
@@ -395,14 +435,14 @@
     },
     // Portugal
     181: {
-      F: {
+      G: {
         title: 'PLR',
         attributes: {
           fwdSpeedLimit: 30,
           revSpeedLimit: 30,
         }
       },
-      G: {
+      H: {
         title: 'OR',
         attributes: {
           fwdSpeedLimit: 30,
@@ -414,28 +454,31 @@
     232: {
       G: {
         attributes: {
-          flags: {
+          flagAttributes: {
             headlights: true
           }
         }
       },
       H: {
+        options: {
+          clearCity: true
+        },
         attributes: {
-          flags: {
+          flagAttributes: {
             headlights: true
           }
         }
       },
       I: {
         attributes: {
-          flags: {
+          flagAttributes: {
             headlights: true
           }
         }
       },
       J: {
         attributes: {
-          flags: {
+          flagAttributes: {
             headlights: true
           }
         }
@@ -485,17 +528,6 @@
       tab.addText('blue', 'made in')
       tab.addText('yellow', 'Ukraine')
       tab.inject().then(() => this.log('Script Tab Initialized') )
-    }
-
-    initConfig (buttons, config) {
-      // check country configuration
-      let country = this.wmeSDK.DataModel.Countries.getTopCountry()?.id
-
-      if (country && config[country]) {
-        this.buttons = Tools.mergeDeep(buttons, config[country])
-      } else {
-        this.buttons = buttons
-      }
     }
 
     initButtons (buttons, config) {
@@ -601,6 +633,7 @@
           cityId = this.detectCity(segments[i])
           if (cityId) {
             options.cityId = cityId
+            this.log('detected city id: ' + cityId)
             break
           }
         }
@@ -649,29 +682,33 @@
       let cityId = address.city?.id || null
       let streetId = address.street?.id || null
 
-      // clear city option
+      // set flags
+      let cityIsEmpty = address.city ? address.city.isEmpty : true
+      let streetIsEmpty = address.street ? address.street.isEmpty : true
+
       if (options.clearCity) {
+        // clear the city option
         cityId = getEmptyCity().id
+        streetId = getEmptyStreet(cityId)?.id
         this.log('clear city and use the empty city id: ' + cityId)
-      }
-      // detect city option
-      if (!cityId && options.detectCity && options.cityId) {
+      } else if (cityIsEmpty && options.detectCity && options.cityId) {
+        // detect city option
         cityId = options.cityId
         this.log('use the detected city id: ' + cityId)
-      }
-      // top city
-      if (!cityId && options.detectCity) {
+      } else if (cityIsEmpty && options.detectCity) {
+        // top city
         cityId = this.wmeSDK.DataModel.Cities.getTopCity()?.id
-        this.log('try to use the top city: ' + cityId)
+        this.log('use the top city if available: ' + cityId)
       }
+
       // empty city
       if (!cityId) {
         cityId = getEmptyCity().id
         this.log('use the empty city id: ' + cityId)
       }
 
-      // clear street option
-      if (options.clearStreet || !streetId) {
+      // empty street
+      if (!streetId || streetIsEmpty) {
         streetId = getEmptyStreet(cityId)?.id
         this.log('use the empty street id: ' + streetId)
       }
