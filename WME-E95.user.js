@@ -2,7 +2,7 @@
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
 // @name:ru      WME 🇺🇦 E95
-// @version      0.9.5
+// @version      0.9.6
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @description:ru Настройка атрибутов улиц по шаблонам
@@ -201,7 +201,7 @@
     },
     F: {
       title: 'mH50',
-      shortcut: 'A+6',
+      shortcut: null,
       options: {
         detectCity: true,
       },
@@ -214,7 +214,7 @@
     },
     G: {
       title: 'PLR',
-      shortcut: 'A+7',
+      shortcut: 'A+6',
       options: {
         detectCity: true,
       },
@@ -227,7 +227,7 @@
     },
     H: {
       title: 'OR',
-      shortcut: 'A+8',
+      shortcut: 'A+7',
       options: {},
       attributes: {
         fwdSpeedLimit: 90,
@@ -238,7 +238,7 @@
     },
     I: {
       title: 'PR90',
-      shortcut: 'A+9',
+      shortcut: 'A+8',
       options: {},
       attributes: {
         fwdSpeedLimit: 90,
@@ -249,7 +249,7 @@
     },
     J: {
       title: 'St90',
-      shortcut: 'A+0',
+      shortcut: 'A+9',
       options: {},
       attributes: {
         fwdSpeedLimit: 90,
@@ -260,7 +260,7 @@
     },
     K: {
       title: 'PS90',
-      shortcut: 'A+109',
+      shortcut: 'A+0',
       options: {},
       attributes: {
         fwdSpeedLimit: 90,
@@ -271,7 +271,7 @@
     },
     L: {
       title: 'mH90',
-      shortcut: 'A+=',
+      shortcut: null,
       options: {},
       attributes: {
         fwdSpeedLimit: 90,
@@ -654,7 +654,7 @@
       for (let key in this.buttons) {
         if (this.buttons.hasOwnProperty(key)) {
           let button = this.buttons[key]
-          if (button.shortcut) {
+          if (button.hasOwnProperty('shortcut')) {
             let shortcut = {
               callback: button.callback,
               description: button.description,
@@ -662,11 +662,11 @@
               shortcutKeys: button.shortcut,
             };
 
-            if (!this.wmeSDK.Shortcuts.areShortcutKeysInUse({ shortcutKeys: button.shortcut })) {
-              this.wmeSDK.Shortcuts.createShortcut(shortcut);
-            } else {
+            if (shortcut.shortcutKeys && this.wmeSDK.Shortcuts.areShortcutKeysInUse({ shortcutKeys: shortcut.shortcutKeys })) {
               this.log('Shortcut already in use')
+              shortcut.shortcutKeys = null
             }
+            this.wmeSDK.Shortcuts.createShortcut(shortcut);
           }
         }
       }

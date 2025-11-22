@@ -1,8 +1,8 @@
-# WME E95
+# WME 🇺🇦 E95
 User script for Waze Map Editor.  
 Create an additional panel with buttons for set up a set of road properties in one click.
 
-![](screenshot.png)
+![Options for a Segment](screenshot.png)
 
 Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
 
@@ -59,7 +59,7 @@ Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
 </tr>
 <tr>
 <td align='center'><strong>mH50</strong></td>
-<td align='center'><code>Alt</code>+<code>6</code></td>
+<td align='center'><code>None</code></td>
 <td align='center'>minor highway</td>
 <td align='center'>50 km/h</td>
 <td align='center'>auto</td>
@@ -67,7 +67,7 @@ Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
 </tr>
 <tr>
 <td align='center'><strong>PLR</strong></td>
-<td align='center'><code>Alt</code>+<code>7</code></td>
+<td align='center'><code>Alt</code>+<code>6</code></td>
 <td align='center'>parking</td>
 <td align='center'>5 km/h</td>
 <td align='center'>auto</td>
@@ -75,7 +75,7 @@ Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
 </tr>
 <tr>
 <td align='center'><strong>OR</strong></td>
-<td align='center'><code>Alt</code>+<code>8</code></td>
+<td align='center'><code>Alt</code>+<code>7</code></td>
 <td align='center'>off-road</td>
 <td align='center'>90 km/h</td>
 <td align='center'>none</td>
@@ -83,7 +83,7 @@ Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
 </tr>
 <tr>
 <td align='center'><strong>PR90</strong></td>
-<td align='center'><code>Alt</code>+<code>9</code></td>
+<td align='center'><code>Alt</code>+<code>8</code></td>
 <td align='center'>private</td>
 <td align='center'>90 km/h</td>
 <td align='center'>none</td>
@@ -91,7 +91,7 @@ Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
 </tr>
 <tr>
 <td align='center'><strong>St90</strong></td>
-<td align='center'><code>Alt</code>+<code>0</code></td>
+<td align='center'><code>Alt</code>+<code>9</code></td>
 <td align='center'>street</td>
 <td align='center'>90 km/h</td>
 <td align='center'>none</td>
@@ -99,7 +99,7 @@ Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
 </tr>
 <tr>
 <td align='center'><strong>PS90</strong></td>
-<td align='center'><code>Alt</code>+<code>-</code></td>
+<td align='center'><code>Alt</code>+<code>0</code></td>
 <td align='center'>primary</td>
 <td align='center'>90 km/h</td>
 <td align='center'>clear</td>
@@ -107,7 +107,7 @@ Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
 </tr>
 <tr>
 <td align='center'><strong>mH90</strong></td>
-<td align='center'><code>Alt</code>+<code>=</code></td>
+<td align='center'><code>None</code></td>
 <td align='center'>minor highway</td>
 <td align='center'>90 km/h</td>
 <td align='center'>clear</td>
