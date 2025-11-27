@@ -2,7 +2,7 @@
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
 // @name:ru      WME 🇺🇦 E95
-// @version      0.9.6
+// @version      0.10.0
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @description:ru Настройка атрибутов улиц по шаблонам
@@ -16,7 +16,7 @@
 // @icon         data:image/png;base64,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
 // @grant        none
 // @require      https://update.greasyfork.org/scripts/389765/1090053/CommonUtils.js
-// @require      https://update.greasyfork.org/scripts/450160/1691572/WME-Bootstrap.js
+// @require      https://update.greasyfork.org/scripts/450160/1701700/WME-Bootstrap.js
 // @require      https://update.greasyfork.org/scripts/450221/1691071/WME-Base.js
 // @require      https://update.greasyfork.org/scripts/450320/1688694/WME-UI.js
 // ==/UserScript==
@@ -41,22 +41,35 @@
       title: 'Quick Properties',
       description: 'Apply the road\'s settings by one click',
       help: 'You can use the <strong>Keyboard shortcuts</strong> to apply the settings. It\'s more convenient than clicking on the buttons.',
+      layers: {
+        speedLimit: 'Speed Limit',
+        headlights: 'Headlights'
+      }
     },
     'uk': {
       title: 'Швидкі налаштування',
       description: 'Застосовуйте швидкі налаштування для доріг за один клік',
       help: 'Використовуйте <strong>гарячі клавіши</strong>, це значно швидше ніж використовувати кнопки',
+      layers: {
+        speedLimit: 'Обмеження Швидкості',
+        headlights: 'Ввімкнені фари'
+      }
     },
     'ru': {
       title: 'Быстрые настройки',
       description: 'Применяйте быстрые настройки для дорог в один клик',
       help: 'Используйте <strong>комбинации клавиш</strong>, и не надо будет клацать кнопки',
+      layers: {
+        speedLimit: 'Ограничение скорости',
+        headlights: 'Включены фары'
+      }
     }
   }
 
   WMEUI.addTranslation(NAME, TRANSLATION)
 
   const STYLE =
+    'polyline.warning { stroke: #ff0000; stroke-dasharray: 2 8; stroke-opacity: 0.8; stroke-width: 2; }' +
     '.e95 .controls { display: grid; grid-template-columns: repeat(6, 44px); gap: 6px; padding: 0; }' +
     '.e95 button.e95 { width:44px;margin:0;padding:2px;display:flex;justify-content:center;border:1px solid #eee;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.1);white-space:nowrap;color:#333; } ' +
     '.e95 button.e95:hover { box-shadow:0 2px 8px 0 rgba(0,0,0,.1),inset 0 0 100px 100px rgba(255,255,255,.3) } ' +
@@ -66,9 +79,56 @@
 
   WMEUI.addStyle(STYLE)
 
+  const SETTINGS = {
+    styleContext: {
+      color: (context) => {
+        const style = context?.feature?.properties?.style;
+        if (!style)
+          return style;
+        return style?.color;
+      },
+    },
+    styleRules: [
+        {
+          predicate: (properties) => properties.styleName === "stylePolyline",
+          style: {
+            stroke: true,
+            strokeColor: '${color}',
+            strokeDashstyle: 'longdash',
+            strokeLinecap: 'round', // [butt | round | square]
+            strokeOpacity: 1,
+            strokeWidth: 4,
+          },
+        }
+      ],
+  };
+
+  const LAYERS = {
+    speedLimit: {
+      enabled: false,
+      color: '#f00',
+      callback: function(segment) {
+        // one-way road and speed limit do not exist
+        if (segment.isAtoB && !segment.fwdSpeedLimit) {
+          return true
+        }
+        // one-way road and speed limit do not exist
+        if (segment.isBtoA && !segment.revSpeedLimit) {
+          return true
+        }
+        // two-way road
+        return segment.isTwoWay && (!segment.fwdSpeedLimit || !segment.revSpeedLimit);
+      }
+    },
+    headlights: {
+      enabled: false,
+      color: '#88ffee',
+      callback: (segment) => segment.flagAttributes.headlights
+    },
+  }
+
   // Road Types
-  //   I18n.translations.uk.segment.road_types
-  //   I18n.translations.en.segment.road_types
+  // https://www.waze.com/editor/sdk/variables/index.SDK.ROAD_TYPE.html
   const TYPES = {
     street: 1,
     primary: 2,
@@ -88,6 +148,7 @@
     parking: 20,
     narrow: 22
   }
+
   // Road colors by type
   const COLORS = {
     '1': '#ffffeb',
@@ -103,6 +164,7 @@
     // ...
     '20': '#ababab'
   }
+
   // Road Flags
   // https://www.waze.com/editor/sdk/interfaces/index.SDK.SegmentFlagAttributes.html
   /*
@@ -118,6 +180,7 @@
     unpaved: false
   }
   */
+
   //
   // Buttons:
   //   title - for buttons
@@ -291,9 +354,10 @@
     portugal: 181,
     ukraine: 232
   }
+
   // country specified buttons config
   const CONFIGS = {
-    // None, use the default configuration
+    // None use the default configuration
     0: {},
     // Albania
     2: {
@@ -355,7 +419,6 @@
           lockRank: 3,
         },
       },
-
       G: {
         title: 'FW90',
         attributes: {
@@ -437,7 +500,6 @@
           roadType: TYPES.street,
         },
       },
-
       J: {
         title: 'PR30',
         options: {},
@@ -465,7 +527,6 @@
           roadType: TYPES.primary,
         },
       },
-
       M: {
         title: 'PRV',
         attributes: {
@@ -540,13 +601,6 @@
     },
     // Ukraine
     232: {
-      G: {
-        attributes: {
-          flagAttributes: {
-            headlights: true
-          }
-        }
-      },
       H: {
         options: {
           clearCity: true
@@ -571,34 +625,47 @@
           }
         }
       },
+      K: {
+        attributes: {
+          flagAttributes: {
+            headlights: true
+          }
+        }
+      },
+      L: {
+        attributes: {
+          flagAttributes: {
+            headlights: true
+          }
+        }
+      },
     }
   }
 
   class E95 extends WMEBase {
-    constructor (name, buttons, config) {
-      super(name)
-      this.initHelper()
-      this.initTab()
+    constructor (name, layers, buttons, config) {
+      super(name, { layers })
 
       this.buttons = null
       this.panel = null
+      this.layers = {}
 
-      // Initialization should be AFTER opening the editor,
-      // elsewhere country code can be wrong
-      this.wmeSDK.Events
-        .once({ eventName: "wme-feature-editor-opened" })
-        .then((event) => {
-          if (event.featureType === 'segment') {
-            this.initButtons(buttons, config)
-            this.initShortcuts()
-          }
-        });
+      this.initHelper()
+      this.initTab()
+      this.initLayers()
+      this.initHandlers(buttons, config)
     }
 
+    /**
+     * Initialization of WMEUIHelper
+     */
     initHelper() {
       this.helper = new WMEUIHelper(this.name)
     }
 
+    /**
+     * Initialization of WMEUIHelperTab
+     */
     initTab () {
       let tab = this.helper.createTab(
         I18n.t(this.name).title,
@@ -618,10 +685,139 @@
       tab.inject().then(() => this.log('Script Tab Initialized') )
     }
 
+    /**
+     * Initial the layers
+     */
+    initLayers () {
+      let layers = this.settings.get('layers')
+
+      for (let layerName in layers) {
+        if (layers.hasOwnProperty(layerName)) {
+          this.initLayer(layerName)
+        }
+      }
+    }
+
+    /**
+     * Initial the layer: set visibility to true and add the checkbox for this layer
+     */
+    initLayer (layerName) {
+      this.layers[layerName] = this.name + ': ' + I18n.t(NAME)['layers'][layerName]
+
+      this.wmeSDK.Map.addLayer({
+        layerName: this.layers[layerName],
+        styleRules: SETTINGS.styleRules,
+        styleContext: SETTINGS.styleContext
+      });
+
+      this.wmeSDK.Map.setLayerVisibility({ layerName: this.layers[layerName], visibility: this.settings.get('layers', layerName, 'enabled')});
+
+      this.wmeSDK.LayerSwitcher.addLayerCheckbox({ name: this.layers[layerName] });
+      this.wmeSDK.LayerSwitcher.setLayerCheckboxChecked({ name: this.layers[layerName], isChecked: this.settings.get('layers', layerName, 'enabled') })
+
+      if (this.settings.get('layers', layerName, 'enabled')) {
+        this.wmeSDK.Events.trackDataModelEvents({ dataModelName: "segments" })
+      }
+    }
+
+    initHandlers (buttons, config) {
+      // initial loading
+      this.wmeSDK.Events.on({
+        eventName: "wme-map-data-loaded",
+        eventHandler: () => {
+          if (this.wmeSDK.DataModel.Countries.getTopCountry()?.id
+            && !this.buttons) {
+            this.initButtons(buttons, config)
+            this.initShortcuts()
+          }
+        }
+      })
+
+      // the layer toggled
+      this.wmeSDK.Events.on({
+        eventName: "wme-layer-checkbox-toggled",
+        eventHandler: (e) => {
+          if (Object.values(this.layers).includes(e.name)) {
+            let layerKey = Object.keys(this.layers).find(key => this.layers[key] === e.name)
+            this.wmeSDK.Map.setLayerVisibility({ layerName: e.name, visibility: e.checked });
+            this.settings.set(['layers', layerKey, 'enabled'], e.checked)
+
+            let layers = this.settings.get('layers')
+
+            let enabledLayers = false
+
+            for (let layerName in layers) {
+              if (layers.hasOwnProperty(layerName) && layers[layerName].enabled) {
+                enabledLayers = true
+                break
+              }
+            }
+
+            if (enabledLayers) {
+              this.wmeSDK.Events.trackDataModelEvents({ dataModelName: "segments" })
+              this.highlightSegments()
+            } else {
+              this.wmeSDK.Events.stopDataModelEventsTracking({ dataModelName: "segments" })
+            }
+          }
+        }
+      })
+
+      // added a new model
+      this.wmeSDK.Events.on({
+        eventName: "wme-data-model-objects-added",
+        eventHandler: (e) => {
+          if (e.dataModelName === 'segments' && e.objectIds.length) {
+            for (let i = 0; i < e.objectIds.length; i++) {
+              let segmentId = e.objectIds[i]
+              let segment = this.wmeSDK.DataModel.Segments.getById({ segmentId })
+              this.highlightSegment(segment)
+            }
+          }
+        }
+      })
+
+      // changed a model
+      this.wmeSDK.Events.on({
+        eventName: "wme-data-model-objects-changed",
+        eventHandler: (e) => {
+          // segments were changed
+          if (e.dataModelName === 'segments' && e.objectIds.length) {
+            for (let i = 0; i < e.objectIds.length; i++) {
+              let segmentId = e.objectIds[i]
+              this.removeHighlight(segmentId)
+
+              let segment = this.wmeSDK.DataModel.Segments.getById({ segmentId })
+              // try to highlight a changed segment
+              this.highlightSegment(segment)
+            }
+          }
+        }
+      })
+
+      // remove a model
+      this.wmeSDK.Events.on({
+        eventName: "wme-data-model-objects-removed",
+        eventHandler: (e) => {
+          if (e.dataModelName === 'segments' && e.objectIds.length) {
+            for (let i = 0; i < e.objectIds.length; i++) {
+              this.removeHighlight(e.objectIds[i])
+            }
+          }
+        }
+      })
+    }
+
+    /**
+     * Preparation of the buttons
+     * @param {Object} buttons
+     * @param {Object} config
+     */
     initButtons (buttons, config) {
       // check country configuration
       let country = this.wmeSDK.DataModel.Countries.getTopCountry()?.id
 
+      this.log("Load configuration for County with ID: " + country)
       // test buttons layout for the country:
       // country = COUNTRIES.greece
 
@@ -650,6 +846,9 @@
       // this.log('Buttons loaded')
     }
 
+    /**
+     * Initialization of the Shortcuts
+     */
     initShortcuts () {
       for (let key in this.buttons) {
         if (this.buttons.hasOwnProperty(key)) {
@@ -672,15 +871,19 @@
       }
     }
 
+    /**
+     * Get HTML of the panel
+     * @return {HTMLElement}
+     */
     getPanel () {
       if (this.panel) {
-        return this.panel
+       return this.panel
       }
 
       // Build panel
       // Container for buttons
       let controls = document.createElement('div')
-      controls.className = 'controls'
+          controls.className = 'controls'
       // Create buttons
       for (let key in this.buttons) {
         let button = this.buttons[key]
@@ -709,7 +912,121 @@
       return this.panel
     }
 
-    // Handler for Road buttons
+    /**
+     * Draw segments without Speed Limits
+     */
+    highlightSegments () {
+      let segments = this.getAllSegments()
+
+      for (let i = 0; i <= segments.length; i++ ) {
+        this.highlightSegment(segments[i])
+      }
+    }
+
+    /**
+     * Draw a segment on the E95 Layer
+     * @param segment
+     */
+    highlightSegment (segment) {
+      if (!segment?.id) {
+        return
+      }
+      if (segment.id < 0) {
+        return
+      }
+      // skip not drivable segments
+      if (!this.wmeSDK.DataModel.Segments.isRoadTypeDrivable({ roadType: segment.roadType })) {
+        return
+      }
+
+      let layers = this.settings.get('layers')
+
+      for (let layerName in layers) {
+        if (layers.hasOwnProperty(layerName)) {
+          let layer = layers[layerName]
+          if (layer.enabled && layer.callback(segment)) {
+            if (!this.wmeSDK.Map.getFeatureDomElement({ layerName: this.layers[layerName], featureId: segment.id })) {
+              // add a new feature to the layer
+              let feature = turf.lineString(
+                segment.geometry.coordinates,
+                { styleName: "stylePolyline", style: { color: layer.color } },
+                { id: segment.id })
+              this.wmeSDK.Map.addFeatureToLayer({ layerName: this.layers[layerName], feature: feature });
+            }
+          }
+        }
+      }
+    }
+
+    /**
+     * Remove a segment from the E95 Layer
+     * @param segmentId
+     */
+    removeHighlight (segmentId) {
+      if (!segmentId) {
+        return
+      }
+
+      let layers = this.settings.get('layers')
+
+      for (let layerName in layers) {
+        if (layers.hasOwnProperty(layerName)) {
+          if (this.wmeSDK.Map.getFeatureDomElement({ layerName: this.layers[layerName], featureId: segmentId })) {
+            this.wmeSDK.Map.removeFeatureFromLayer({ layerName: this.layers[layerName], featureId: segmentId })
+          }
+        }
+      }
+    }
+
+    /**
+     * Handler for `segment.wme` event
+     * Create UI controls every time when updated DOM of sidebar
+     * Uses native JS function for better performance
+     *
+     * @param {jQuery.Event} event
+     * @param {HTMLElement} element
+     * @param {Segment} model
+     * @return {void}
+     */
+    onSegment (event, element, model) {
+      // Skip for walking trails and blocked roads
+      if ( this.wmeSDK.DataModel.Segments.isRoadTypeDrivable({ roadType: model.roadType })
+        && this.wmeSDK.DataModel.Segments.hasPermissions({ segmentId: model.id, permission: 'EDIT_PROPERTIES' })
+      ) {
+        element.prepend( this.getPanel() )
+      } else {
+        // Remove the panel
+        element.querySelector('div.form-group.e95')?.remove()
+      }
+    }
+
+    /**
+     * Handler for `segments.wme` event
+     * Create UI controls every time when updated DOM of sidebar
+     * Uses native JS function for better performance
+     *
+     * @param {jQuery.Event} event
+     * @param {HTMLElement} element
+     * @param {Array<Segment>} models
+     * @return {void}
+     */
+    onSegments (event, element, models) {
+      // Skip for walking trails or locked roads
+      if (models.filter((model) =>
+        this.wmeSDK.DataModel.Segments.isRoadTypeDrivable({ roadType: model.roadType })
+        && this.wmeSDK.DataModel.Segments.hasPermissions({ segmentId: model.id, permission: 'EDIT_PROPERTIES' })
+      ).length > 0) {
+        element.prepend( this.getPanel() )
+      } else {
+        // Remove the panel
+        element.querySelector('div.form-group.e95')?.remove()
+      }
+    }
+
+    /**
+     * Handler for Road buttons
+     * @param button
+     */
     buttonCallback (button) {
       this.group('apply "' + button.title + '"')
       // Get all selected segments
@@ -879,61 +1196,9 @@
       }
       return null
     }
-
-    /**
-     * Handler for `segment.wme` event
-     * Create UI controls every time when updated DOM of sidebar
-     * Uses native JS function for better performance
-     *
-     * @param {jQuery.Event} event
-     * @param {HTMLElement} element
-     * @param {Segment} model
-     * @return {void}
-     */
-    onSegment (event, element, model) {
-      // Skip for walking trails and blocked roads
-      if ( this.wmeSDK.DataModel.Segments.isRoadTypeDrivable({ roadType: model.roadType })
-        && this.wmeSDK.DataModel.Segments.hasPermissions({ segmentId: model.id, permission: 'EDIT_PROPERTIES' })
-      ) {
-        // Panel can be already exists
-        if (!element.querySelector('div.form-group.e95')) {
-          element.prepend( this.getPanel() )
-        }
-      } else {
-        // Remove the panel
-        element.querySelector('div.form-group.e95')?.remove()
-      }
-    }
-
-    /**
-     * Handler for `segments.wme` event
-     * Create UI controls every time when updated DOM of sidebar
-     * Uses native JS function for better performance
-     *
-     * @param {jQuery.Event} event
-     * @param {HTMLElement} element
-     * @param {Array<Segment>} models
-     * @return {void}
-     */
-    onSegments (event, element, models) {
-      // Skip for walking trails or locked roads
-      if (models.filter((model) =>
-          this.wmeSDK.DataModel.Segments.isRoadTypeDrivable({ roadType: model.roadType })
-          && this.wmeSDK.DataModel.Segments.hasPermissions({ segmentId: model.id, permission: 'EDIT_PROPERTIES' })
-        ).length === 0) {
-        // Remove the panel
-        element.querySelector('div.form-group.e95')?.remove()
-        return
-      }
-
-      // Panel can be already exists
-      if (!element.querySelector('div.form-group.e95')) {
-        element.prepend( this.getPanel() )
-      }
-    }
   }
 
   $(document).on('bootstrap.wme', () => {
-    new E95(NAME, BUTTONS, CONFIGS)
+    new E95(NAME, LAYERS, BUTTONS, CONFIGS)
   })
 })()
