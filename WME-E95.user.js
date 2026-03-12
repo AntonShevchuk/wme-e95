@@ -19,6 +19,8 @@
 // @require      https://update.greasyfork.org/scripts/450160/1704233/WME-Bootstrap.js
 // @require      https://update.greasyfork.org/scripts/450221/1691071/WME-Base.js
 // @require      https://update.greasyfork.org/scripts/450320/1688694/WME-UI.js
+//
+// @require      https://cdn.jsdelivr.net/npm/@turf/turf@7.2.0/turf.min.js
 // ==/UserScript==
 
 /* jshint esversion: 8 */
@@ -350,6 +352,7 @@
     none: 0,
     albania: 2,
     greece: 85,
+    honduras: 97,
     hungary: 99,
     portugal: 181,
     ukraine: 232
@@ -558,6 +561,89 @@
         },
       },
     },
+    // Honduras
+    97: {
+      A: {
+        title: 'PR',
+        options: {
+          detectCity: true,
+        },
+        attributes: {
+          fwdSpeedLimit: 20,
+          revSpeedLimit: 20,
+          roadType: TYPES.private,
+          lockRank: 0,
+        }
+      },
+      B: {
+        title: 'PLR',
+        options: {
+          detectCity: true,
+        },
+        attributes: {
+          fwdSpeedLimit: 20,
+          revSpeedLimit: 20,
+          roadType: TYPES.parking,
+          lockRank: 0,
+        }
+      },
+      C: {
+        title: 'StU',
+        options: {
+          detectCity: true,
+        },
+        attributes: {
+          flagAttributes: { unpaved: true },
+          fwdSpeedLimit: 40,
+          revSpeedLimit: 40,
+          roadType: TYPES.street,
+          lockRank: 0,
+        }
+      },
+      D: {
+        title: 'StP',
+        options: {
+          detectCity: true,
+        },
+        attributes: {
+          fwdSpeedLimit: 40,
+          revSpeedLimit: 40,
+          roadType: TYPES.street,
+          lockRank: 0,
+        }
+      },
+      E: {
+        title: 'PSU',
+        options: {
+          detectCity: true,
+        },
+        attributes: {
+          flagAttributes: { unpaved: true },
+          fwdSpeedLimit: 40,
+          revSpeedLimit: 40,
+          roadType: TYPES.primary,
+          lockRank: 1,
+        }
+      },
+      F: {
+        title: 'PSP',
+        options: {
+          detectCity: true,
+        },
+        attributes: {
+          fwdSpeedLimit: 40,
+          revSpeedLimit: 40,
+          roadType: TYPES.primary,
+          lockRank: 1,
+        }
+      },
+      G: false,
+      H: false,
+      I: false,
+      J: false,
+      K: false,
+      L: false,
+    },
     // Hungary
     99: {
       A: {
@@ -721,6 +807,12 @@
     }
 
     initHandlers (buttons, config) {
+      if (this.wmeSDK.DataModel.Countries.getTopCountry()?.id
+        && !this.buttons) {
+        this.initButtons(buttons, config)
+        this.initShortcuts()
+      }
+
       // initial loading
       this.wmeSDK.Events.on({
         eventName: "wme-map-data-loaded",
@@ -832,6 +924,11 @@
       for (let key in buttons) {
         let button = buttons[key]
 
+        // skip disabled buttons (e.g. A: false in country config)
+        if (!button) {
+          continue
+        }
+
         this.buttons[key] = {
           title: button.title,
           color: COLORS[button.attributes.roadType],
@@ -873,11 +970,15 @@
 
     /**
      * Get HTML of the panel
-     * @return {HTMLElement}
+     * @return {HTMLElement|false}
      */
     getPanel () {
       if (this.panel) {
        return this.panel
+      }
+
+      if (!this.buttons) {
+        return false
       }
 
       // Build panel
@@ -918,7 +1019,7 @@
     highlightSegments () {
       let segments = this.getAllSegments()
 
-      for (let i = 0; i <= segments.length; i++ ) {
+      for (let i = 0; i < segments.length; i++ ) {
         this.highlightSegment(segments[i])
       }
     }
@@ -993,7 +1094,8 @@
       if ( this.wmeSDK.DataModel.Segments.isRoadTypeDrivable({ roadType: model.roadType })
         && this.wmeSDK.DataModel.Segments.hasPermissions({ segmentId: model.id, permission: 'EDIT_PROPERTIES' })
       ) {
-        element.prepend( this.getPanel() )
+        let panel = this.getPanel()
+        if (panel) element.prepend( panel )
       } else {
         // Remove the panel
         element.querySelector('div.form-group.e95')?.remove()
@@ -1016,7 +1118,8 @@
         this.wmeSDK.DataModel.Segments.isRoadTypeDrivable({ roadType: model.roadType })
         && this.wmeSDK.DataModel.Segments.hasPermissions({ segmentId: model.id, permission: 'EDIT_PROPERTIES' })
       ).length > 0) {
-        element.prepend( this.getPanel() )
+        let panel = this.getPanel()
+        if (panel) element.prepend( panel )
       } else {
         // Remove the panel
         element.querySelector('div.form-group.e95')?.remove()
