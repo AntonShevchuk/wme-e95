@@ -2,7 +2,7 @@
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
 // @name:ru      WME 🇺🇦 E95
-// @version      0.10.2
+// @version      0.10.3
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @description:ru Настройка атрибутов улиц по шаблонам
@@ -572,7 +572,7 @@
           fwdSpeedLimit: 20,
           revSpeedLimit: 20,
           roadType: TYPES.private,
-          lockRank: 0,
+          lockRank: 2,
         }
       },
       B: {
@@ -584,7 +584,7 @@
           fwdSpeedLimit: 20,
           revSpeedLimit: 20,
           roadType: TYPES.parking,
-          lockRank: 0,
+          lockRank: 2,
         }
       },
       C: {
@@ -597,7 +597,7 @@
           fwdSpeedLimit: 40,
           revSpeedLimit: 40,
           roadType: TYPES.street,
-          lockRank: 0,
+          lockRank: 2,
         }
       },
       D: {
@@ -609,7 +609,7 @@
           fwdSpeedLimit: 40,
           revSpeedLimit: 40,
           roadType: TYPES.street,
-          lockRank: 0,
+          lockRank: 2,
         }
       },
       E: {
@@ -622,7 +622,7 @@
           fwdSpeedLimit: 40,
           revSpeedLimit: 40,
           roadType: TYPES.primary,
-          lockRank: 1,
+          lockRank: 3,
         }
       },
       F: {
@@ -634,7 +634,7 @@
           fwdSpeedLimit: 40,
           revSpeedLimit: 40,
           roadType: TYPES.primary,
-          lockRank: 1,
+          lockRank: 3,
         }
       },
       G: false,
