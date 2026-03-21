@@ -41,3 +41,8 @@ declare const turf: {
 declare const Container: any
 declare const Settings: any
 declare const SimpleCache: any
+
+declare module '*.css' {
+  const content: string
+  export default content
+}
