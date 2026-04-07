@@ -29,6 +29,10 @@ polyline.warning {
   box-shadow: 0 2px 8px 0 rgba(0,0,0,.1), inset 0 0 100px 100px rgba(255,255,255,.3);
 }
 
+.e95 .button-toolbar {
+  padding: 8px;
+}
+
 p.e95-info {
   border-top: 1px solid #ccc;
   color: #777;

@@ -14,24 +14,16 @@ export class E95 extends WMEBase {
     this.panel = null
     this.layers = {}
 
-    this.initHelper()
     this.initTab()
     this.initLayers()
     this.initHandlers(buttons, config)
   }
 
   /**
-   * Initialization of WMEUIHelper
-   */
-  initHelper() {
-    (this as any).helper = new WMEUIHelper(this.name)
-  }
-
-  /**
    * Initialization of WMEUIHelperTab
    */
   initTab () {
-    let tab = (this as any).helper.createTab(
+    let tab = this.helper.createTab(
       I18n.t(this.name).title,
       {
         sidebar: this.wmeSDK.Sidebar,
@@ -229,18 +221,7 @@ export class E95 extends WMEBase {
       if (this.buttons.hasOwnProperty(key)) {
         let button = this.buttons[key]
         if (button.hasOwnProperty('shortcut')) {
-          let shortcut: any = {
-            callback: button.callback,
-            description: button.description,
-            shortcutId: this.id + '-' + key,
-            shortcutKeys: button.shortcut,
-          };
-
-          if (shortcut.shortcutKeys && this.wmeSDK.Shortcuts.areShortcutKeysInUse({ shortcutKeys: shortcut.shortcutKeys })) {
-            this.log('Shortcut already in use')
-            shortcut.shortcutKeys = null
-          }
-          this.wmeSDK.Shortcuts.createShortcut(shortcut);
+          this.createShortcut(key, button.description, button.shortcut, button.callback)
         }
       }
     }
@@ -369,9 +350,7 @@ export class E95 extends WMEBase {
    */
   onSegment (event: any, element: HTMLElement, model: any) {
     // Skip for walking trails and blocked roads
-    if ( this.wmeSDK.DataModel.Segments.isRoadTypeDrivable({ roadType: model.roadType })
-      && this.wmeSDK.DataModel.Segments.hasPermissions({ segmentId: model.id, permission: 'EDIT_PROPERTIES' })
-    ) {
+    if (this.canEditSegment(model)) {
       let panel = this.getPanel()
       if (panel) element.prepend( panel )
     } else {
@@ -393,8 +372,7 @@ export class E95 extends WMEBase {
   onSegments (event: any, element: HTMLElement, models: any[]) {
     // Skip for walking trails or locked roads
     if (models.filter((model) =>
-      this.wmeSDK.DataModel.Segments.isRoadTypeDrivable({ roadType: model.roadType })
-      && this.wmeSDK.DataModel.Segments.hasPermissions({ segmentId: model.id, permission: 'EDIT_PROPERTIES' })
+      this.canEditSegment(model)
     ).length > 0) {
       let panel = this.getPanel()
       if (panel) element.prepend( panel )
