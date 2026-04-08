@@ -5,7 +5,7 @@ polyline.warning {
   stroke-width: 2;
 }
 
-.e95 .controls {
+.e95 .wme-ui-panel-content {
   display: grid;
   grid-template-columns: repeat(6, 44px);
   gap: 6px;
@@ -29,7 +29,7 @@ polyline.warning {
   box-shadow: 0 2px 8px 0 rgba(0,0,0,.1), inset 0 0 100px 100px rgba(255,255,255,.3);
 }
 
-.e95 .button-toolbar {
+.e95 .wme-ui-tab-content {
   padding: 8px;
 }
 

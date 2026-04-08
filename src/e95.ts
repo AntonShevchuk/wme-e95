@@ -355,7 +355,7 @@ export class E95 extends WMEBase {
       if (panel) element.prepend( panel )
     } else {
       // Remove the panel
-      element.querySelector('div.form-group.e95')?.remove()
+      element.querySelector('div.wme-ui-panel.e95')?.remove()
     }
   }
 
@@ -378,7 +378,7 @@ export class E95 extends WMEBase {
       if (panel) element.prepend( panel )
     } else {
       // Remove the panel
-      element.querySelector('div.form-group.e95')?.remove()
+      element.querySelector('div.wme-ui-panel.e95')?.remove()
     }
   }
 
