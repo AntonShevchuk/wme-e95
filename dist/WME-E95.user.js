@@ -745,7 +745,7 @@
                     if (Object.values(this.layers).includes(e.name)) {
                         let layerKey = Object.keys(this.layers).find(key => this.layers[key] === e.name);
                         this.wmeSDK.Map.setLayerVisibility({ layerName: e.name, visibility: e.checked });
-                        this.settings.set(['layers', layerKey, 'enabled'], e.checked);
+                        this.settings.set('layers', layerKey, 'enabled', e.checked);
                         let layers = this.settings.get('layers');
                         let enabledLayers = false;
                         for (let layerName in layers) {
