@@ -24,14 +24,14 @@ export class E95 extends WMEBase {
    */
   initTab () {
     let tab = this.helper.createTab(
-      I18n.t(this.name).title,
+      WMEUI.t(NAME).title,
       {
         sidebar: this.wmeSDK.Sidebar,
         image: GM_info.script.icon
       }
     )
-    tab.addText('description', I18n.t(this.name).description)
-    tab.addDiv('text', I18n.t(this.name).help)
+    tab.addText('description', WMEUI.t(NAME).description)
+    tab.addDiv('text', WMEUI.t(NAME).help)
     tab.addText(
       'info',
       '<a href="' + GM_info.scriptUpdateURL + '">' + GM_info.script.name + '</a> ' + GM_info.script.version
@@ -58,7 +58,7 @@ export class E95 extends WMEBase {
    * Initial the layer: set visibility to true and add the checkbox for this layer
    */
   initLayer (layerName: string) {
-    this.layers[layerName] = this.name + ': ' + I18n.t(NAME)['layers'][layerName]
+    this.layers[layerName] = this.name + ': ' + WMEUI.t(NAME)['layers'][layerName]
 
     this.wmeSDK.Map.addLayer({
       layerName: this.layers[layerName],
@@ -262,7 +262,7 @@ export class E95 extends WMEBase {
     }
     let label = document.createElement('wz-label') as HTMLLabelElement
     label.htmlFor = ''
-    label.innerText = I18n.t(NAME).title
+    label.innerText = WMEUI.t(NAME).title
 
     this.panel = document.createElement('div')
     this.panel.className = 'form-group ' + this.id
@@ -548,7 +548,7 @@ export class E95 extends WMEBase {
     // cities of the connected segments
     cities = cities.filter(city => city) // filter segments w/out city
     cities = cities.filter(city => !city.isEmpty) // filter empty city name
-    cities = cities.map(city => city.id) // extract cities id
+    cities = cities.map(city => city.id) // extract city's ids
     cities = [...new Set(cities)] // unique cities
 
     if (cities.length) {
