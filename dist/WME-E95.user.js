@@ -1143,9 +1143,9 @@
 
     var css_248z = "polyline.warning {\n  stroke: #ff0000;\n  stroke-dasharray: 2 8;\n  stroke-opacity: 0.8;\n  stroke-width: 2;\n}\n\n.e95 .controls {\n  display: grid;\n  grid-template-columns: repeat(6, 44px);\n  gap: 6px;\n  padding: 0;\n}\n\n.e95 button.e95 {\n  width: 44px;\n  margin: 0;\n  padding: 2px;\n  display: flex;\n  justify-content: center;\n  border: 1px solid #eee;\n  cursor: pointer;\n  box-shadow: 0 1px 2px rgba(0,0,0,.1);\n  white-space: nowrap;\n  color: #333;\n}\n\n.e95 button.e95:hover {\n  box-shadow: 0 2px 8px 0 rgba(0,0,0,.1), inset 0 0 100px 100px rgba(255,255,255,.3);\n}\n\n.e95 .button-toolbar {\n  padding: 8px;\n}\n\np.e95-info {\n  border-top: 1px solid #ccc;\n  color: #777;\n  font-size: x-small;\n  margin-top: 15px;\n  padding-top: 10px;\n  text-align: center;\n}\n\n#sidebar p.e95-blue {\n  background-color: #0057B8;\n  color: white;\n  height: 32px;\n  text-align: center;\n  line-height: 32px;\n  font-size: 24px;\n  margin: 0;\n}\n\n#sidebar p.e95-yellow {\n  background-color: #FFDD00;\n  color: black;\n  height: 32px;\n  text-align: center;\n  line-height: 32px;\n  font-size: 24px;\n  margin: 0;\n}\n";
 
-    WMEUI.addTranslation(NAME, TRANSLATION);
-    WMEUI.addStyle(css_248z);
     $(document).on('bootstrap.wme', () => {
+        WMEUI.addTranslation(NAME, TRANSLATION);
+        WMEUI.addStyle(css_248z);
         new E95(NAME, LAYERS, BUTTONS, CONFIGS);
     });
 
