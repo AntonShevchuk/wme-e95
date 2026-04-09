@@ -2,7 +2,7 @@
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
 // @name:ru      WME 🇺🇦 E95
-// @version      0.12.0
+// @version      0.13.0
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @description:ru Настройка атрибутов улиц по шаблонам
