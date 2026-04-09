@@ -98,36 +98,36 @@ const countries: CountryConfig[] = [
 
 #### Button Config Reference
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `title` | `string` | Button label (e.g. `'St50'`) |
-| `shortcut` | `string \| null` | Keyboard shortcut (e.g. `'A+1'` for Alt+1) |
-| `options.detectCity` | `boolean` | Auto-detect city from neighboring segments |
-| `options.clearCity` | `boolean` | Clear city and street |
-| `attributes.fwdSpeedLimit` | `number` | Forward speed limit (km/h) |
-| `attributes.revSpeedLimit` | `number` | Reverse speed limit (km/h) |
-| `attributes.roadType` | `number` | Use `TYPES.*` constants |
-| `attributes.lockRank` | `number` | Lock level 0-4 (capped to user's rank at runtime) |
-| `attributes.flagAttributes` | `object` | Flags like `{ headlights: true, unpaved: true }` |
+| Field                       | Type             | Description                                       |
+|-----------------------------|------------------|---------------------------------------------------|
+| `title`                     | `string`         | Button label (e.g. `'St50'`)                      |
+| `shortcut`                  | `string \| null` | Keyboard shortcut (e.g. `'A+1'` for Alt+1)        |
+| `options.detectCity`        | `boolean`        | Auto-detect city from neighboring segments        |
+| `options.clearCity`         | `boolean`        | Clear city and street                             |
+| `attributes.fwdSpeedLimit`  | `number`         | Forward speed limit (km/h)                        |
+| `attributes.revSpeedLimit`  | `number`         | Reverse speed limit (km/h)                        |
+| `attributes.roadType`       | `number`         | Use `TYPES.*` constants                           |
+| `attributes.lockRank`       | `number`         | Lock level 0-4 (capped to user's rank at runtime) |
+| `attributes.flagAttributes` | `object`         | Flags like `{ headlights: true, unpaved: true }`  |
 
 Road types follow [SDK ROAD_TYPE](https://www.waze.com/editor/sdk/variables/index.SDK.ROAD_TYPE.html): `STREET`, `PRIMARY_STREET`, `FREEWAY`, `RAMP`, `WALKING_TRAIL`, `MAJOR_HIGHWAY`, `MINOR_HIGHWAY`, `OFF_ROAD`, `WALKWAY`, `PEDESTRIAN_BOARDWALK`, `FERRY`, `STAIRWAY`, `PRIVATE_ROAD`, `RAILROAD`, `RUNWAY_TAXIWAY`, `PARKING_LOT_ROAD`, `ALLEY`.
 
 ## Default Buttons
 
-| Button | Shortcut | Type | Speed | City | Lock |
-|--------|----------|------|-------|------|------|
-| **PR 5** | `Alt+1` | private road | 5 km/h | auto | 1 |
-| **PR20** | `Alt+2` | private road | 20 km/h | auto | 1 |
-| **PR50** | `Alt+3` | private road | 50 km/h | auto | 1 |
-| **St50** | `Alt+4` | street | 50 km/h | auto | 1 |
-| **PS50** | `Alt+5` | primary street | 50 km/h | auto | 2 |
-| **mH50** | — | minor highway | 50 km/h | auto | 3 |
-| **PLR** | `Alt+6` | parking lot road | 5 km/h | auto | 1 |
-| **OR** | `Alt+7` | off-road | 90 km/h | — | 1 |
-| **PR90** | `Alt+8` | private road | 90 km/h | — | 1 |
-| **St90** | `Alt+9` | street | 90 km/h | — | 1 |
-| **PS90** | `Alt+0` | primary street | 90 km/h | — | 2 |
-| **mH90** | — | minor highway | 90 km/h | — | 3 |
+| Button   | Shortcut | Type             | Speed   | City | Lock |
+|----------|----------|------------------|---------|------|------|
+| **PR 5** | `Alt+1`  | private road     | 5 km/h  | auto | 1    |
+| **PR20** | `Alt+2`  | private road     | 20 km/h | auto | 1    |
+| **PR50** | `Alt+3`  | private road     | 50 km/h | auto | 1    |
+| **St50** | `Alt+4`  | street           | 50 km/h | auto | 1    |
+| **PS50** | `Alt+5`  | primary street   | 50 km/h | auto | 2    |
+| **mH50** | —        | minor highway    | 50 km/h | auto | 3    |
+| **PLR**  | `Alt+6`  | parking lot road | 5 km/h  | auto | 1    |
+| **OR**   | `Alt+7`  | off-road         | 90 km/h | —    | 1    |
+| **PR90** | `Alt+8`  | private road     | 90 km/h | —    | 1    |
+| **St90** | `Alt+9`  | street           | 90 km/h | —    | 1    |
+| **PS90** | `Alt+0`  | primary street   | 90 km/h | —    | 2    |
+| **mH90** | —        | minor highway    | 90 km/h | —    | 3    |
 
 ## Country Configurations
 
@@ -137,27 +137,27 @@ The script detects the country from the map and applies country-specific button 
 
 Full button layout replacement with local speed limits:
 
-| | A | B | C | D | E | F |
-|---|---|---|---|---|---|---|
-| **Button** | PLR | Pr40 | St40 | PS40 | mH40 | MH40 |
-| **Type** | parking | private | street | primary | minor | major |
-| **Speed** | 5 | 40 | 40 | 40 | 40 | 40 |
+|            | A       | B       | C      | D       | E     | F     |
+|------------|---------|---------|--------|---------|-------|-------|
+| **Button** | PLR     | Pr40    | St40   | PS40    | mH40  | MH40  |
+| **Type**   | parking | private | street | primary | minor | major |
+| **Speed**  | 5       | 40      | 40     | 40      | 40    | 40    |
 
-| | G | H | I | J | K | L |
-|---|---|---|---|---|---|---|
-| **Button** | FW90 | Pr80 | St80 | PS80 | mH80 | MH80 |
-| **Type** | freeway | private | street | primary | minor | major |
-| **Speed** | 90 | 80 | 80 | 80 | 80 | 80 |
+|            | G       | H       | I      | J       | K     | L     |
+|------------|---------|---------|--------|---------|-------|-------|
+| **Button** | FW90    | Pr80    | St80   | PS80    | mH80  | MH80  |
+| **Type**   | freeway | private | street | primary | minor | major |
+| **Speed**  | 90      | 80      | 80     | 80      | 80    | 80    |
 
 ### Greece
 
 Overrides D-F and J-L, adds extra buttons M-P:
 
-| | D | E | F | J | K | L |
-|---|---|---|---|---|---|---|
-| **Button** | ST30 | ST50 | ST90 | PR30 | PR50 | PR90 |
-| **Type** | street | street | street | primary | primary | primary |
-| **Speed** | 30 | 50 | 90 | 30 | 50 | 90 |
+|            | D      | E      | F      | J       | K       | L       |
+|------------|--------|--------|--------|---------|---------|---------|
+| **Button** | ST30   | ST50   | ST90   | PR30    | PR50    | PR90    |
+| **Type**   | street | street | street | primary | primary | primary |
+| **Speed**  | 30     | 50     | 90     | 30      | 50      | 90      |
 
 Extra buttons: **M** (private), **N** (unpaved street), **O** (unpaved street 40), **P** (street)
 
@@ -165,40 +165,40 @@ Extra buttons: **M** (private), **N** (unpaved street), **O** (unpaved street 40
 
 Uses only 6 buttons (G-L disabled), all with auto city detection:
 
-| | A | B | C | D | E | F |
-|---|---|---|---|---|---|---|
-| **Button** | PR | PLR | StU | StP | PSU | PSP |
-| **Type** | private | parking | street | street | primary | primary |
-| **Speed** | 20 | 20 | 40 | 40 | 40 | 40 |
-| **Flags** | | | unpaved | | unpaved | |
+|            | A       | B       | C       | D      | E       | F       |
+|------------|---------|---------|---------|--------|---------|---------|
+| **Button** | PR      | PLR     | StU     | StP    | PSU     | PSP     |
+| **Type**   | private | parking | street  | street | primary | primary |
+| **Speed**  | 20      | 20      | 40      | 40     | 40      | 40      |
+| **Flags**  |         |         | unpaved |        | unpaved |         |
 
 ### Hungary
 
 Minimal overrides — adjusts speed limits on buttons A, B, G:
 
-| | A | B | G |
-|---|---|---|---|
+|            | A    | B    | G   |
+|------------|------|------|-----|
 | **Button** | PR20 | PR30 | PLR |
-| **Speed** | 20 | 30 | 20 |
+| **Speed**  | 20   | 30   | 20  |
 
 ### Portugal
 
 Minimal overrides — adjusts speed limits on buttons G, H:
 
-| | G | H |
-|---|---|---|
+|            | G   | H  |
+|------------|-----|----|
 | **Button** | PLR | OR |
-| **Speed** | 30 | 30 |
+| **Speed**  | 30  | 30 |
 
 ### Ukraine
 
 Adds the **headlights** flag for roads outside cities:
 
-| | H | I | J | K | L |
-|---|---|---|---|---|---|
-| **Button** | OR | PR90 | St90 | PS90 | mH90 |
-| **Headlights** | yes | yes | yes | yes | yes |
-| **Clear city** | yes | — | — | — | — |
+|                | H   | I    | J    | K    | L    |
+|----------------|-----|------|------|------|------|
+| **Button**     | OR  | PR90 | St90 | PS90 | mH90 |
+| **Headlights** | yes | yes  | yes  | yes  | yes  |
+| **Clear city** | yes | —    | —    | —    | —    |
 
 ## @require Libraries
 
@@ -212,5 +212,8 @@ Adds the **headlights** flag for roads outside cities:
 ## Links
 
 Author homepage: https://anton.shevchuk.name/  
+Author pet projects: https://hohli.com/  
+Support author: https://donate.hohli.com/  
+
 Script homepage: https://github.com/AntonShevchuk/wme-e95/  
 GreasyFork: https://greasyfork.org/uk/scripts/382614-wme-e95  
