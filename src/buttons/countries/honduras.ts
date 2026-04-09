@@ -12,7 +12,7 @@ const honduras: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 20,
         revSpeedLimit: 20,
-        roadType: TYPES.private,
+        roadType: TYPES.PRIVATE_ROAD,
         lockRank: 2,
       },
     },
@@ -24,7 +24,7 @@ const honduras: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 20,
         revSpeedLimit: 20,
-        roadType: TYPES.parking,
+        roadType: TYPES.PARKING_LOT_ROAD,
         lockRank: 2,
       },
     },
@@ -37,7 +37,7 @@ const honduras: CountryConfig = {
         flagAttributes: { unpaved: true },
         fwdSpeedLimit: 40,
         revSpeedLimit: 40,
-        roadType: TYPES.street,
+        roadType: TYPES.STREET,
         lockRank: 2,
       },
     },
@@ -49,7 +49,7 @@ const honduras: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 40,
         revSpeedLimit: 40,
-        roadType: TYPES.street,
+        roadType: TYPES.STREET,
         lockRank: 2,
       },
     },
@@ -62,7 +62,7 @@ const honduras: CountryConfig = {
         flagAttributes: { unpaved: true },
         fwdSpeedLimit: 40,
         revSpeedLimit: 40,
-        roadType: TYPES.primary,
+        roadType: TYPES.PRIMARY_STREET,
         lockRank: 3,
       },
     },
@@ -74,7 +74,7 @@ const honduras: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 40,
         revSpeedLimit: 40,
-        roadType: TYPES.primary,
+        roadType: TYPES.PRIMARY_STREET,
         lockRank: 3,
       },
     },

@@ -2,7 +2,7 @@
 // @name         WME E95
 // @name:uk      WME 🇺🇦 E95
 // @name:ru      WME 🇺🇦 E95
-// @version      0.11.0
+// @version      0.12.0
 // @description  Setup road properties with templates
 // @description:uk Швидке налаштування атрибутів вулиці за шаблонами
 // @description:ru Настройка атрибутов улиц по шаблонам
@@ -27,11 +27,27 @@
     'use strict';
 
     const NAME = 'E95';
+
     const TRANSLATION = {
         'en': {
             title: 'Quick Properties',
             description: 'Apply the road\'s settings by one click',
             help: 'You can use the <strong>Keyboard shortcuts</strong> to apply the settings. It\'s more convenient than clicking on the buttons.',
+            config: 'The button configuration is based on <strong>community rules</strong> for each country. '
+                + 'It is not a personal preference — the settings are defined in the source code and automatically applied '
+                + 'when you edit in a supported country. If you edit in multiple countries, the script switches the configuration automatically.',
+            buttons: {
+                title: 'Buttons',
+                roadType: 'Road type',
+                speed: 'Speed limit',
+                lock: 'Lock rank',
+                shortcut: 'Shortcut',
+                detectCity: 'Detect city',
+                clearCity: 'Clear city',
+                headlights: 'Headlights',
+                unpaved: 'Unpaved',
+                yes: 'yes',
+            },
             layers: {
                 speedLimit: 'Speed Limit',
                 headlights: 'Headlights',
@@ -41,6 +57,21 @@
             title: 'Швидкі налаштування',
             description: 'Застосовуйте швидкі налаштування для доріг за один клік',
             help: 'Використовуйте <strong>гарячі клавіши</strong>, це значно швидше ніж використовувати кнопки',
+            config: 'Конфігурація кнопок базується на <strong>правилах спільноти</strong> для кожної країни. '
+                + 'Це не особисті налаштування — параметри визначені у коді скрипта та автоматично застосовуються '
+                + 'при редагуванні у підтримуваній країні. Якщо ви редагуєте у кількох країнах, скрипт перемикає конфігурацію автоматично.',
+            buttons: {
+                title: 'Кнопки',
+                roadType: 'Тип дороги',
+                speed: 'Обмеження швидкості',
+                lock: 'Рівень блокування',
+                shortcut: 'Гарячі клавіші',
+                detectCity: 'Визначити місто',
+                clearCity: 'Очистити місто',
+                headlights: 'Ввімкнені фари',
+                unpaved: 'Ґрунтова',
+                yes: 'так',
+            },
             layers: {
                 speedLimit: 'Обмеження Швидкості',
                 headlights: 'Ввімкнені фари',
@@ -50,34 +81,172 @@
             title: 'Быстрые настройки',
             description: 'Применяйте быстрые настройки для дорог в один клик',
             help: 'Используйте <strong>комбинации клавиш</strong>, и не надо будет клацать кнопки',
+            config: 'Конфигурация кнопок основана на <strong>правилах сообщества</strong> для каждой страны. '
+                + 'Это не личные настройки — параметры определены в коде скрипта и автоматически применяются '
+                + 'при редактировании в поддерживаемой стране. Если вы редактируете в нескольких странах, скрипт переключает конфигурацию автоматически.',
+            buttons: {
+                title: 'Кнопки',
+                roadType: 'Тип дороги',
+                speed: 'Ограничение скорости',
+                lock: 'Уровень блокировки',
+                shortcut: 'Горячие клавиши',
+                detectCity: 'Определить город',
+                clearCity: 'Очистить город',
+                headlights: 'Включены фары',
+                unpaved: 'Грунтовая',
+                yes: 'да',
+            },
             layers: {
                 speedLimit: 'Ограничение скорости',
                 headlights: 'Включены фары',
             },
         },
+        'pt': {
+            title: 'Propriedades Rápidas',
+            description: 'Aplique as configurações da estrada com um clique',
+            help: 'Pode usar os <strong>atalhos de teclado</strong> para aplicar as configurações. É mais conveniente do que clicar nos botões.',
+            config: 'A configuração dos botões é baseada nas <strong>regras da comunidade</strong> de cada país. '
+                + 'Não é uma preferência pessoal — as configurações são definidas no código-fonte e aplicadas automaticamente '
+                + 'ao editar num país suportado. Se editar em vários países, o script alterna a configuração automaticamente.',
+            buttons: {
+                title: 'Botões',
+                roadType: 'Tipo de estrada',
+                speed: 'Limite de velocidade',
+                lock: 'Nível de bloqueio',
+                shortcut: 'Atalho',
+                detectCity: 'Detetar cidade',
+                clearCity: 'Limpar cidade',
+                headlights: 'Faróis',
+                unpaved: 'Não pavimentada',
+                yes: 'sim',
+            },
+            layers: {
+                speedLimit: 'Limite de Velocidade',
+                headlights: 'Faróis',
+            },
+        },
+        'el': {
+            title: 'Γρήγορες Ιδιότητες',
+            description: 'Εφαρμόστε τις ρυθμίσεις του δρόμου με ένα κλικ',
+            help: 'Μπορείτε να χρησιμοποιήσετε τις <strong>συντομεύσεις πληκτρολογίου</strong> για να εφαρμόσετε τις ρυθμίσεις. Είναι πιο βολικό από το να πατάτε τα κουμπιά.',
+            config: 'Η διαμόρφωση των κουμπιών βασίζεται στους <strong>κανόνες της κοινότητας</strong> για κάθε χώρα. '
+                + 'Δεν είναι προσωπική προτίμηση — οι ρυθμίσεις ορίζονται στον πηγαίο κώδικα και εφαρμόζονται αυτόματα '
+                + 'όταν επεξεργάζεστε σε υποστηριζόμενη χώρα. Αν επεξεργάζεστε σε πολλές χώρες, το script αλλάζει τη διαμόρφωση αυτόματα.',
+            buttons: {
+                title: 'Κουμπιά',
+                roadType: 'Τύπος δρόμου',
+                speed: 'Όριο ταχύτητας',
+                lock: 'Επίπεδο κλειδώματος',
+                shortcut: 'Συντόμευση',
+                detectCity: 'Ανίχνευση πόλης',
+                clearCity: 'Εκκαθάριση πόλης',
+                headlights: 'Φώτα',
+                unpaved: 'Χωματόδρομος',
+                yes: 'ναι',
+            },
+            layers: {
+                speedLimit: 'Όριο Ταχύτητας',
+                headlights: 'Φώτα',
+            },
+        },
+        'sq': {
+            title: 'Vetitë e Shpejta',
+            description: 'Aplikoni cilësimet e rrugës me një klikim',
+            help: 'Mund të përdorni <strong>shkurtoret e tastierës</strong> për të aplikuar cilësimet. Është më e përshtatshme sesa të klikoni butonat.',
+            config: 'Konfigurimi i butonave bazohet në <strong>rregullat e komunitetit</strong> për çdo vend. '
+                + 'Nuk është preferencë personale — cilësimet janë të përcaktuara në kodin burimor dhe aplikohen automatikisht '
+                + 'kur redaktoni në një vend të mbështetur. Nëse redaktoni në disa vende, skripti ndërron konfigurimin automatikisht.',
+            buttons: {
+                title: 'Butonat',
+                roadType: 'Lloji i rrugës',
+                speed: 'Kufiri i shpejtësisë',
+                lock: 'Niveli i bllokimit',
+                shortcut: 'Shkurtore',
+                detectCity: 'Zbulo qytetin',
+                clearCity: 'Pastro qytetin',
+                headlights: 'Dritat',
+                unpaved: 'E pashtruar',
+                yes: 'po',
+            },
+            layers: {
+                speedLimit: 'Kufiri i Shpejtësisë',
+                headlights: 'Dritat',
+            },
+        },
+        'es': {
+            title: 'Propiedades Rápidas',
+            description: 'Aplica la configuración de la carretera con un clic',
+            help: 'Puedes usar los <strong>atajos de teclado</strong> para aplicar la configuración. Es más cómodo que hacer clic en los botones.',
+            config: 'La configuración de los botones se basa en las <strong>reglas de la comunidad</strong> de cada país. '
+                + 'No es una preferencia personal — la configuración está definida en el código fuente y se aplica automáticamente '
+                + 'al editar en un país soportado. Si editas en varios países, el script cambia la configuración automáticamente.',
+            buttons: {
+                title: 'Botones',
+                roadType: 'Tipo de carretera',
+                speed: 'Límite de velocidad',
+                lock: 'Nivel de bloqueo',
+                shortcut: 'Atajo',
+                detectCity: 'Detectar ciudad',
+                clearCity: 'Limpiar ciudad',
+                headlights: 'Faros',
+                unpaved: 'Sin pavimentar',
+                yes: 'sí',
+            },
+            layers: {
+                speedLimit: 'Límite de Velocidad',
+                headlights: 'Faros',
+            },
+        },
+        'hu': {
+            title: 'Gyors Tulajdonságok',
+            description: 'Alkalmazza az út beállításait egyetlen kattintással',
+            help: 'Használhatja a <strong>billentyűparancsokat</strong> a beállítások alkalmazásához. Kényelmesebb, mint a gombokra kattintani.',
+            config: 'A gombok konfigurációja az egyes országok <strong>közösségi szabályain</strong> alapul. '
+                + 'Ez nem személyes beállítás — a paraméterek a forráskódban vannak meghatározva, és automatikusan alkalmazásra kerülnek '
+                + 'a támogatott országban történő szerkesztéskor. Ha több országban szerkeszt, a szkript automatikusan váltja a konfigurációt.',
+            buttons: {
+                title: 'Gombok',
+                roadType: 'Úttípus',
+                speed: 'Sebességhatár',
+                lock: 'Zárolási szint',
+                shortcut: 'Billentyűparancs',
+                detectCity: 'Város felismerése',
+                clearCity: 'Város törlése',
+                headlights: 'Fényszórók',
+                unpaved: 'Burkolatlan',
+                yes: 'igen',
+            },
+            layers: {
+                speedLimit: 'Sebességhatár',
+                headlights: 'Fényszórók',
+            },
+        },
     };
 
+    /**
+     * Road types matching SDK.ROAD_TYPE enum values
+     * @see https://www.waze.com/editor/sdk/variables/index.SDK.ROAD_TYPE.html
+     */
     const TYPES = {
-        street: 1,
-        primary: 2,
-        freeway: 3,
-        major: 6,
-        minor: 7,
-        offroad: 8,
-        private: 17,
-        parking: 20};
-    const COLORS = {
-        '1': '#ffffeb',
-        '2': '#f0ea58',
-        '3': '#bd74c9',
-        '4': '#ababab',
-        '5': '#ffffff',
-        '6': '#45b1c8',
-        '7': '#63b27f',
-        '8': '#867342',
-        '17': '#beba6c',
-        '20': '#ababab',
+        STREET: 1,
+        PRIMARY_STREET: 2,
+        FREEWAY: 3,
+        RAMP: 4,
+        WALKING_TRAIL: 5,
+        MAJOR_HIGHWAY: 6,
+        MINOR_HIGHWAY: 7,
+        OFF_ROAD: 8,
+        WALKWAY: 9,
+        PEDESTRIAN_BOARDWALK: 10,
+        FERRY: 15,
+        STAIRWAY: 16,
+        PRIVATE_ROAD: 17,
+        RAILROAD: 18,
+        RUNWAY_TAXIWAY: 19,
+        PARKING_LOT_ROAD: 20,
+        ALLEY: 22,
     };
+    const TYPE_NAMES = Object.fromEntries(Object.entries(TYPES).map(([name, id]) => [id, name.toLowerCase().replace(/_/g, ' ')]));
 
     const albania = {
         id: 2,
@@ -92,7 +261,7 @@
                 attributes: {
                     fwdSpeedLimit: 5,
                     revSpeedLimit: 5,
-                    roadType: TYPES.parking,
+                    roadType: TYPES.PARKING_LOT_ROAD,
                     lockRank: 0,
                 },
             },
@@ -101,7 +270,7 @@
                 attributes: {
                     fwdSpeedLimit: 40,
                     revSpeedLimit: 40,
-                    roadType: TYPES.private,
+                    roadType: TYPES.PRIVATE_ROAD,
                     lockRank: 1,
                 },
             },
@@ -110,7 +279,7 @@
                 attributes: {
                     fwdSpeedLimit: 40,
                     revSpeedLimit: 40,
-                    roadType: TYPES.street,
+                    roadType: TYPES.STREET,
                     lockRank: 1,
                 },
             },
@@ -119,7 +288,7 @@
                 attributes: {
                     fwdSpeedLimit: 40,
                     revSpeedLimit: 40,
-                    roadType: TYPES.primary,
+                    roadType: TYPES.PRIMARY_STREET,
                     lockRank: 1,
                 },
             },
@@ -128,7 +297,7 @@
                 attributes: {
                     fwdSpeedLimit: 40,
                     revSpeedLimit: 40,
-                    roadType: TYPES.minor,
+                    roadType: TYPES.MINOR_HIGHWAY,
                     lockRank: 2,
                 },
             },
@@ -137,7 +306,7 @@
                 attributes: {
                     fwdSpeedLimit: 40,
                     revSpeedLimit: 40,
-                    roadType: TYPES.major,
+                    roadType: TYPES.MAJOR_HIGHWAY,
                     lockRank: 3,
                 },
             },
@@ -146,7 +315,7 @@
                 attributes: {
                     fwdSpeedLimit: 90,
                     revSpeedLimit: 90,
-                    roadType: TYPES.freeway,
+                    roadType: TYPES.FREEWAY,
                     lockRank: 4,
                 },
             },
@@ -155,7 +324,7 @@
                 attributes: {
                     fwdSpeedLimit: 80,
                     revSpeedLimit: 80,
-                    roadType: TYPES.private,
+                    roadType: TYPES.PRIVATE_ROAD,
                     lockRank: 1,
                 },
             },
@@ -164,7 +333,7 @@
                 attributes: {
                     fwdSpeedLimit: 80,
                     revSpeedLimit: 80,
-                    roadType: TYPES.street,
+                    roadType: TYPES.STREET,
                     lockRank: 1,
                 },
             },
@@ -173,7 +342,7 @@
                 attributes: {
                     fwdSpeedLimit: 80,
                     revSpeedLimit: 80,
-                    roadType: TYPES.primary,
+                    roadType: TYPES.PRIMARY_STREET,
                     lockRank: 1,
                 },
             },
@@ -182,7 +351,7 @@
                 attributes: {
                     fwdSpeedLimit: 80,
                     revSpeedLimit: 80,
-                    roadType: TYPES.minor,
+                    roadType: TYPES.MINOR_HIGHWAY,
                     lockRank: 2,
                 },
             },
@@ -191,7 +360,7 @@
                 attributes: {
                     fwdSpeedLimit: 80,
                     revSpeedLimit: 80,
-                    roadType: TYPES.major,
+                    roadType: TYPES.MAJOR_HIGHWAY,
                     lockRank: 3,
                 },
             },
@@ -207,7 +376,7 @@
                 attributes: {
                     fwdSpeedLimit: 30,
                     revSpeedLimit: 30,
-                    roadType: TYPES.street,
+                    roadType: TYPES.STREET,
                 },
             },
             E: {
@@ -215,7 +384,7 @@
                 attributes: {
                     fwdSpeedLimit: 50,
                     revSpeedLimit: 50,
-                    roadType: TYPES.street,
+                    roadType: TYPES.STREET,
                 },
             },
             F: {
@@ -223,7 +392,7 @@
                 attributes: {
                     fwdSpeedLimit: 90,
                     revSpeedLimit: 90,
-                    roadType: TYPES.street,
+                    roadType: TYPES.STREET,
                 },
             },
             J: {
@@ -232,7 +401,7 @@
                 attributes: {
                     fwdSpeedLimit: 30,
                     revSpeedLimit: 30,
-                    roadType: TYPES.primary,
+                    roadType: TYPES.PRIMARY_STREET,
                 },
             },
             K: {
@@ -241,7 +410,7 @@
                 attributes: {
                     fwdSpeedLimit: 50,
                     revSpeedLimit: 50,
-                    roadType: TYPES.primary,
+                    roadType: TYPES.PRIMARY_STREET,
                 },
             },
             L: {
@@ -250,13 +419,13 @@
                 attributes: {
                     fwdSpeedLimit: 90,
                     revSpeedLimit: 90,
-                    roadType: TYPES.primary,
+                    roadType: TYPES.PRIMARY_STREET,
                 },
             },
             M: {
                 title: 'PRV',
                 attributes: {
-                    roadType: TYPES.private,
+                    roadType: TYPES.PRIVATE_ROAD,
                 },
             },
             N: {
@@ -264,7 +433,7 @@
                 options: {},
                 attributes: {
                     flagAttributes: { unpaved: true },
-                    roadType: TYPES.street,
+                    roadType: TYPES.STREET,
                 },
             },
             O: {
@@ -273,14 +442,14 @@
                     flagAttributes: { unpaved: true },
                     fwdSpeedLimit: 40,
                     revSpeedLimit: 40,
-                    roadType: TYPES.street,
+                    roadType: TYPES.STREET,
                 },
             },
             P: {
                 title: 'ST',
                 options: {},
                 attributes: {
-                    roadType: TYPES.street,
+                    roadType: TYPES.STREET,
                 },
             },
         },
@@ -298,7 +467,7 @@
                 attributes: {
                     fwdSpeedLimit: 20,
                     revSpeedLimit: 20,
-                    roadType: TYPES.private,
+                    roadType: TYPES.PRIVATE_ROAD,
                     lockRank: 2,
                 },
             },
@@ -310,7 +479,7 @@
                 attributes: {
                     fwdSpeedLimit: 20,
                     revSpeedLimit: 20,
-                    roadType: TYPES.parking,
+                    roadType: TYPES.PARKING_LOT_ROAD,
                     lockRank: 2,
                 },
             },
@@ -323,7 +492,7 @@
                     flagAttributes: { unpaved: true },
                     fwdSpeedLimit: 40,
                     revSpeedLimit: 40,
-                    roadType: TYPES.street,
+                    roadType: TYPES.STREET,
                     lockRank: 2,
                 },
             },
@@ -335,7 +504,7 @@
                 attributes: {
                     fwdSpeedLimit: 40,
                     revSpeedLimit: 40,
-                    roadType: TYPES.street,
+                    roadType: TYPES.STREET,
                     lockRank: 2,
                 },
             },
@@ -348,7 +517,7 @@
                     flagAttributes: { unpaved: true },
                     fwdSpeedLimit: 40,
                     revSpeedLimit: 40,
-                    roadType: TYPES.primary,
+                    roadType: TYPES.PRIMARY_STREET,
                     lockRank: 3,
                 },
             },
@@ -360,7 +529,7 @@
                 attributes: {
                     fwdSpeedLimit: 40,
                     revSpeedLimit: 40,
-                    roadType: TYPES.primary,
+                    roadType: TYPES.PRIMARY_STREET,
                     lockRank: 3,
                 },
             },
@@ -487,7 +656,7 @@
             attributes: {
                 fwdSpeedLimit: 5,
                 revSpeedLimit: 5,
-                roadType: TYPES.private,
+                roadType: TYPES.PRIVATE_ROAD,
                 lockRank: 0,
             },
         },
@@ -500,7 +669,7 @@
             attributes: {
                 fwdSpeedLimit: 20,
                 revSpeedLimit: 20,
-                roadType: TYPES.private,
+                roadType: TYPES.PRIVATE_ROAD,
                 lockRank: 0,
             },
         },
@@ -513,7 +682,7 @@
             attributes: {
                 fwdSpeedLimit: 50,
                 revSpeedLimit: 50,
-                roadType: TYPES.private,
+                roadType: TYPES.PRIVATE_ROAD,
                 lockRank: 0,
             },
         },
@@ -526,7 +695,7 @@
             attributes: {
                 fwdSpeedLimit: 50,
                 revSpeedLimit: 50,
-                roadType: TYPES.street,
+                roadType: TYPES.STREET,
                 lockRank: 0,
             },
         },
@@ -539,7 +708,7 @@
             attributes: {
                 fwdSpeedLimit: 50,
                 revSpeedLimit: 50,
-                roadType: TYPES.primary,
+                roadType: TYPES.PRIMARY_STREET,
                 lockRank: 1,
             },
         },
@@ -552,7 +721,7 @@
             attributes: {
                 fwdSpeedLimit: 50,
                 revSpeedLimit: 50,
-                roadType: TYPES.minor,
+                roadType: TYPES.MINOR_HIGHWAY,
                 lockRank: 2,
             },
         },
@@ -565,7 +734,7 @@
             attributes: {
                 fwdSpeedLimit: 5,
                 revSpeedLimit: 5,
-                roadType: TYPES.parking,
+                roadType: TYPES.PARKING_LOT_ROAD,
                 lockRank: 0,
             },
         },
@@ -576,7 +745,7 @@
             attributes: {
                 fwdSpeedLimit: 90,
                 revSpeedLimit: 90,
-                roadType: TYPES.offroad,
+                roadType: TYPES.OFF_ROAD,
                 lockRank: 0,
             },
         },
@@ -587,7 +756,7 @@
             attributes: {
                 fwdSpeedLimit: 90,
                 revSpeedLimit: 90,
-                roadType: TYPES.private,
+                roadType: TYPES.PRIVATE_ROAD,
                 lockRank: 0,
             },
         },
@@ -598,7 +767,7 @@
             attributes: {
                 fwdSpeedLimit: 90,
                 revSpeedLimit: 90,
-                roadType: TYPES.street,
+                roadType: TYPES.STREET,
                 lockRank: 0,
             },
         },
@@ -609,7 +778,7 @@
             attributes: {
                 fwdSpeedLimit: 90,
                 revSpeedLimit: 90,
-                roadType: TYPES.primary,
+                roadType: TYPES.PRIMARY_STREET,
                 lockRank: 1,
             },
         },
@@ -620,7 +789,7 @@
             attributes: {
                 fwdSpeedLimit: 90,
                 revSpeedLimit: 90,
-                roadType: TYPES.minor,
+                roadType: TYPES.MINOR_HIGHWAY,
                 lockRank: 2,
             },
         },
@@ -672,26 +841,59 @@
         constructor(name, layers, buttons, config) {
             super(name, { layers });
             this.buttons = null;
-            this.panel = null;
             this.layers = {};
-            this.initTab();
             this.initLayers();
             this.initHandlers(buttons, config);
+            this.initTab(buttons);
         }
         /**
          * Initialization of WMEUIHelperTab
          */
-        initTab() {
-            let tab = this.helper.createTab(WMEUI.t(NAME).title, {
+        initTab(buttons) {
+            this.tab = this.helper.createTab(WMEUI.t(NAME).title, {
                 sidebar: this.wmeSDK.Sidebar,
                 image: GM_info.script.icon
             });
-            tab.addText('description', WMEUI.t(NAME).description);
-            tab.addDiv('text', WMEUI.t(NAME).help);
-            tab.addText('info', '<a href="' + GM_info.scriptUpdateURL + '">' + GM_info.script.name + '</a> ' + GM_info.script.version);
-            tab.addText('blue', 'made in');
-            tab.addText('yellow', 'Ukraine');
-            tab.inject().then(() => this.log('Script Tab Initialized'));
+            this.tab.addText('description', WMEUI.t(NAME).description);
+            this.tab.addDiv('text', WMEUI.t(NAME).help);
+            this.tab.addDiv('config', WMEUI.t(NAME).config);
+            this.initTabButtons(buttons);
+            this.tab.addText('info', '<a href="' + GM_info.scriptUpdateURL + '">' + GM_info.script.name + '</a> ' + GM_info.script.version);
+            this.tab.addText('blue', 'made in');
+            this.tab.addText('yellow', 'Ukraine');
+            this.tab.inject().then(() => this.log('Script Tab Initialized'));
+        }
+        /**
+         * Populate tab with button details after buttons are loaded
+         */
+        initTabButtons(buttons) {
+            const t = WMEUI.t(NAME).buttons;
+            for (let key in buttons) {
+                let raw = buttons[key];
+                if (!raw)
+                    continue;
+                let fs = this.helper.createFieldset('<span class="e95-road-' + raw.attributes.roadType + '">' + raw.title + '</span>', { className: 'collapsed' });
+                let details = t.roadType + ': ' + TYPE_NAMES[raw.attributes.roadType];
+                details += '<br>' + t.speed + ': ' + raw.attributes.fwdSpeedLimit + '/' + raw.attributes.revSpeedLimit + ' km/h';
+                details += '<br>' + t.lock + ': ' + (raw.attributes.lockRank + 1);
+                if (raw.shortcut) {
+                    details += '<br>' + t.shortcut + ': ' + raw.shortcut;
+                }
+                if (raw.options?.detectCity) {
+                    details += '<br>' + t.detectCity + ': ' + t.yes;
+                }
+                if (raw.options?.clearCity) {
+                    details += '<br>' + t.clearCity + ': ' + t.yes;
+                }
+                if (raw.attributes.flagAttributes?.headlights) {
+                    details += '<br>' + t.headlights + ': ' + t.yes;
+                }
+                if (raw.attributes.flagAttributes?.unpaved) {
+                    details += '<br>' + t.unpaved + ': ' + t.yes;
+                }
+                fs.addText('details', details);
+                this.tab.addElement(fs);
+            }
         }
         /**
          * Initial the layers
@@ -830,16 +1032,13 @@
                 }
                 this.buttons[key] = {
                     title: button.title,
-                    color: COLORS[button.attributes.roadType],
+                    roadType: button.attributes.roadType,
                     callback: () => this.buttonCallback(button),
                     shortcut: buttons[key].shortcut,
-                    description: button.title + ' - ' +
-                        I18n.t('segment.road_types')[button.attributes.roadType] + '; ' +
-                        I18n.t('edit.segment.fields.speed_limit') + ' ' +
-                        I18n.t('measurements.speed.km', { speed: button.attributes.fwdSpeedLimit })
+                    description: TYPE_NAMES[button.attributes.roadType] + ' — ' + button.attributes.fwdSpeedLimit + ' km/h'
                 };
             }
-            // this.log('Buttons loaded')
+            this.initPanel();
         }
         /**
          * Initialization of the Shortcuts
@@ -855,37 +1054,15 @@
             }
         }
         /**
-         * Get HTML of the panel
-         * @return {HTMLElement|false}
+         * Build the panel with buttons
          */
-        getPanel() {
-            if (this.panel) {
-                return this.panel;
-            }
-            if (!this.buttons) {
-                return false;
-            }
-            // Build panel
-            // Container for buttons
-            let controls = document.createElement('div');
-            controls.className = 'controls';
-            // Create buttons
+        initPanel() {
+            this.panel = this.helper.createPanel(WMEUI.t(NAME).title);
             for (let key in this.buttons) {
                 let button = this.buttons[key];
-                let UIButton = new WMEUIHelperControlButton(this.id, key, button.title, button.description, () => button.callback());
-                let buttonElement = UIButton.html();
-                buttonElement.dataset[NAME] = key;
-                buttonElement.style.backgroundColor = button.color;
-                controls.appendChild(buttonElement);
+                let btn = this.panel.addButton(key, button.title, button.description, () => button.callback(), { className: 'e95-road-' + button.roadType });
+                btn.html().dataset[NAME] = key;
             }
-            let label = document.createElement('wz-label');
-            label.htmlFor = '';
-            label.innerText = WMEUI.t(NAME).title;
-            this.panel = document.createElement('div');
-            this.panel.className = 'form-group ' + this.id;
-            this.panel.appendChild(label);
-            this.panel.appendChild(controls);
-            return this.panel;
         }
         /**
          * Draw segments without Speed Limits
@@ -953,37 +1130,21 @@
          * @return {void}
          */
         onSegment(event, element, model) {
-            // Skip for walking trails and blocked roads
             if (this.canEditSegment(model)) {
-                let panel = this.getPanel();
-                if (panel)
-                    element.prepend(panel);
+                if (this.panel)
+                    element.prepend(this.panel.html());
             }
             else {
-                // Remove the panel
-                element.querySelector('div.wme-ui-panel.e95')?.remove();
+                this.panel?.remove();
             }
         }
-        /**
-         * Handler for `segments.wme` event
-         * Create UI controls every time when updated DOM of sidebar
-         * Uses native JS function for better performance
-         *
-         * @param {jQuery.Event} event
-         * @param {HTMLElement} element
-         * @param {Array<Segment>} models
-         * @return {void}
-         */
         onSegments(event, element, models) {
-            // Skip for walking trails or locked roads
             if (models.filter((model) => this.canEditSegment(model)).length > 0) {
-                let panel = this.getPanel();
-                if (panel)
-                    element.prepend(panel);
+                if (this.panel)
+                    element.prepend(this.panel.html());
             }
             else {
-                // Remove the panel
-                element.querySelector('div.wme-ui-panel.e95')?.remove();
+                this.panel?.remove();
             }
         }
         /**
@@ -1095,7 +1256,7 @@
                 this.log('use user lock rank: ' + (attributes.lockRank + 1) + ' ⚠️');
             }
             // need more logs
-            this.log('set road type to "' + I18n.t('segment.road_types')[attributes.roadType] + '"');
+            this.log('set road type to ' + attributes.roadType);
             // Get the keys from the source object you want to check
             const keysToCompare = Object.keys(attributes);
             // Use .some() to find if *any* key has a different value.
@@ -1141,7 +1302,7 @@
         }
     }
 
-    var css_248z = "polyline.warning {\n  stroke: #ff0000;\n  stroke-dasharray: 2 8;\n  stroke-opacity: 0.8;\n  stroke-width: 2;\n}\n\n.e95 .wme-ui-panel-content {\n  display: grid;\n  grid-template-columns: repeat(6, 44px);\n  gap: 6px;\n  padding: 0;\n}\n\n.e95 button.e95 {\n  width: 44px;\n  margin: 0;\n  padding: 2px;\n  display: flex;\n  justify-content: center;\n  border: 1px solid #eee;\n  cursor: pointer;\n  box-shadow: 0 1px 2px rgba(0,0,0,.1);\n  white-space: nowrap;\n  color: #333;\n}\n\n.e95 button.e95:hover {\n  box-shadow: 0 2px 8px 0 rgba(0,0,0,.1), inset 0 0 100px 100px rgba(255,255,255,.3);\n}\n\n.e95 .wme-ui-tab-content {\n  padding: 8px;\n}\n\np.e95-info {\n  border-top: 1px solid #ccc;\n  color: #777;\n  font-size: x-small;\n  margin-top: 15px;\n  padding-top: 10px;\n  text-align: center;\n}\n\n#sidebar p.e95-blue {\n  background-color: #0057B8;\n  color: white;\n  height: 32px;\n  text-align: center;\n  line-height: 32px;\n  font-size: 24px;\n  margin: 0;\n}\n\n#sidebar p.e95-yellow {\n  background-color: #FFDD00;\n  color: black;\n  height: 32px;\n  text-align: center;\n  line-height: 32px;\n  font-size: 24px;\n  margin: 0;\n}\n";
+    var css_248z = "polyline.warning {\n  stroke: #ff0000;\n  stroke-dasharray: 2 8;\n  stroke-opacity: 0.8;\n  stroke-width: 2;\n}\n\n.e95 .wme-ui-panel-content {\n  display: grid;\n  grid-template-columns: repeat(6, 44px);\n  gap: 6px;\n  padding: 0;\n}\n\n.e95 button.e95 {\n  width: 44px;\n  margin: 1px;\n  padding: 2px;\n  border: 1px solid #eee;\n  cursor: pointer;\n  box-shadow: 0 1px 2px rgba(0,0,0,.1);\n  white-space: nowrap;\n  color: #333;\n}\n\n.e95 button.e95:hover {\n  box-shadow: 0 2px 8px 0 rgba(0,0,0,.1), inset 0 0 100px 100px rgba(255,255,255,.3);\n}\n\n/* Road type colors */\n.e95 .e95-road-1  { background-color: #ffffeb } /* street */\n.e95 .e95-road-2  { background-color: #f0ea58 } /* primary street */\n.e95 .e95-road-3  { background-color: #bd74c9; color: #fff } /* freeway */\n.e95 .e95-road-4  { background-color: #ababab } /* ramp */\n.e95 .e95-road-5  { background-color: #ffffff } /* walking trail */\n.e95 .e95-road-6  { background-color: #45b1c8 } /* major highway */\n.e95 .e95-road-7  { background-color: #63b27f } /* minor highway */\n.e95 .e95-road-8  { background-color: #867342; color: #fff } /* off-road */\n.e95 .e95-road-17 { background-color: #beba6c } /* private road */\n.e95 .e95-road-20 { background-color: #ababab } /* parking lot road */\n\n.e95 .wme-ui-tab-content {\n  padding: 8px;\n}\n\n.e95 .wme-ui-fieldset-legend span {\n  display: inline-block;\n  padding: 0 6px;\n  border-radius: 4px;\n  font-size: 11px;\n  line-height: 18px;\n  min-width: 48px;\n  text-align: center;\n  color: #333;\n  border: 1px solid rgba(0,0,0,.1);\n}\n\n.e95 .wme-ui-fieldset-content p {\n  margin: 0;\n  padding: 4px 0;\n  font-size: 12px;\n  line-height: 1.6;\n  color: #555;\n}\n\np.e95-info {\n  border-top: 1px solid #ccc;\n  color: #777;\n  font-size: x-small;\n  margin-top: 15px;\n  padding-top: 10px;\n  text-align: center;\n}\n\n#sidebar p.e95-blue {\n  background-color: #0057B8;\n  color: white;\n  height: 32px;\n  text-align: center;\n  line-height: 32px;\n  font-size: 24px;\n  margin: 0;\n}\n\n#sidebar p.e95-yellow {\n  background-color: #FFDD00;\n  color: black;\n  height: 32px;\n  text-align: center;\n  line-height: 32px;\n  font-size: 24px;\n  margin: 0;\n}\n";
 
     $(document).on('bootstrap.wme', () => {
         WMEUI.addTranslation(NAME, TRANSLATION);

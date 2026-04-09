@@ -9,7 +9,7 @@ const greece: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 30,
         revSpeedLimit: 30,
-        roadType: TYPES.street,
+        roadType: TYPES.STREET,
       },
     },
     E: {
@@ -17,7 +17,7 @@ const greece: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 50,
         revSpeedLimit: 50,
-        roadType: TYPES.street,
+        roadType: TYPES.STREET,
       },
     },
     F: {
@@ -25,7 +25,7 @@ const greece: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 90,
         revSpeedLimit: 90,
-        roadType: TYPES.street,
+        roadType: TYPES.STREET,
       },
     },
     J: {
@@ -34,7 +34,7 @@ const greece: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 30,
         revSpeedLimit: 30,
-        roadType: TYPES.primary,
+        roadType: TYPES.PRIMARY_STREET,
       },
     },
     K: {
@@ -43,7 +43,7 @@ const greece: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 50,
         revSpeedLimit: 50,
-        roadType: TYPES.primary,
+        roadType: TYPES.PRIMARY_STREET,
       },
     },
     L: {
@@ -52,13 +52,13 @@ const greece: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 90,
         revSpeedLimit: 90,
-        roadType: TYPES.primary,
+        roadType: TYPES.PRIMARY_STREET,
       },
     },
     M: {
       title: 'PRV',
       attributes: {
-        roadType: TYPES.private,
+        roadType: TYPES.PRIVATE_ROAD,
       },
     },
     N: {
@@ -66,7 +66,7 @@ const greece: CountryConfig = {
       options: {},
       attributes: {
         flagAttributes: { unpaved: true },
-        roadType: TYPES.street,
+        roadType: TYPES.STREET,
       },
     },
     O: {
@@ -75,14 +75,14 @@ const greece: CountryConfig = {
         flagAttributes: { unpaved: true },
         fwdSpeedLimit: 40,
         revSpeedLimit: 40,
-        roadType: TYPES.street,
+        roadType: TYPES.STREET,
       },
     },
     P: {
       title: 'ST',
       options: {},
       attributes: {
-        roadType: TYPES.street,
+        roadType: TYPES.STREET,
       },
     },
   },

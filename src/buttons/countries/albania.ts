@@ -13,7 +13,7 @@ const albania: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 5,
         revSpeedLimit: 5,
-        roadType: TYPES.parking,
+        roadType: TYPES.PARKING_LOT_ROAD,
         lockRank: 0,
       },
     },
@@ -22,7 +22,7 @@ const albania: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 40,
         revSpeedLimit: 40,
-        roadType: TYPES.private,
+        roadType: TYPES.PRIVATE_ROAD,
         lockRank: 1,
       },
     },
@@ -31,7 +31,7 @@ const albania: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 40,
         revSpeedLimit: 40,
-        roadType: TYPES.street,
+        roadType: TYPES.STREET,
         lockRank: 1,
       },
     },
@@ -40,7 +40,7 @@ const albania: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 40,
         revSpeedLimit: 40,
-        roadType: TYPES.primary,
+        roadType: TYPES.PRIMARY_STREET,
         lockRank: 1,
       },
     },
@@ -49,7 +49,7 @@ const albania: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 40,
         revSpeedLimit: 40,
-        roadType: TYPES.minor,
+        roadType: TYPES.MINOR_HIGHWAY,
         lockRank: 2,
       },
     },
@@ -58,7 +58,7 @@ const albania: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 40,
         revSpeedLimit: 40,
-        roadType: TYPES.major,
+        roadType: TYPES.MAJOR_HIGHWAY,
         lockRank: 3,
       },
     },
@@ -67,7 +67,7 @@ const albania: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 90,
         revSpeedLimit: 90,
-        roadType: TYPES.freeway,
+        roadType: TYPES.FREEWAY,
         lockRank: 4,
       },
     },
@@ -76,7 +76,7 @@ const albania: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 80,
         revSpeedLimit: 80,
-        roadType: TYPES.private,
+        roadType: TYPES.PRIVATE_ROAD,
         lockRank: 1,
       },
     },
@@ -85,7 +85,7 @@ const albania: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 80,
         revSpeedLimit: 80,
-        roadType: TYPES.street,
+        roadType: TYPES.STREET,
         lockRank: 1,
       },
     },
@@ -94,7 +94,7 @@ const albania: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 80,
         revSpeedLimit: 80,
-        roadType: TYPES.primary,
+        roadType: TYPES.PRIMARY_STREET,
         lockRank: 1,
       },
     },
@@ -103,7 +103,7 @@ const albania: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 80,
         revSpeedLimit: 80,
-        roadType: TYPES.minor,
+        roadType: TYPES.MINOR_HIGHWAY,
         lockRank: 2,
       },
     },
@@ -112,7 +112,7 @@ const albania: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 80,
         revSpeedLimit: 80,
-        roadType: TYPES.major,
+        roadType: TYPES.MAJOR_HIGHWAY,
         lockRank: 3,
       },
     },

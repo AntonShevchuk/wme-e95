@@ -1,44 +1,88 @@
-import { COLORS } from './types'
-import { NAME } from './translations'
+import { TYPE_NAMES } from './types'
+import { NAME } from './name'
 import { SETTINGS } from './layers'
 
 export class E95 extends WMEBase {
   buttons: any
-  panel: any
+  panel: WMEUIHelperPanel
+  tab: WMEUIHelperTab
   layers: Record<string, string>
 
   constructor (name: string, layers: any, buttons: any, config: any) {
     super(name, { layers })
 
     this.buttons = null
-    this.panel = null
     this.layers = {}
 
-    this.initTab()
     this.initLayers()
     this.initHandlers(buttons, config)
+    this.initTab(buttons)
   }
 
   /**
    * Initialization of WMEUIHelperTab
    */
-  initTab () {
-    let tab = this.helper.createTab(
+  initTab (buttons) {
+    this.tab = this.helper.createTab(
       WMEUI.t(NAME).title,
       {
         sidebar: this.wmeSDK.Sidebar,
         image: GM_info.script.icon
       }
     )
-    tab.addText('description', WMEUI.t(NAME).description)
-    tab.addDiv('text', WMEUI.t(NAME).help)
-    tab.addText(
+    this.tab.addText('description', WMEUI.t(NAME).description)
+    this.tab.addDiv('text', WMEUI.t(NAME).help)
+    this.tab.addDiv('config', WMEUI.t(NAME).config)
+
+    this.initTabButtons(buttons)
+
+    this.tab.addText(
       'info',
       '<a href="' + GM_info.scriptUpdateURL + '">' + GM_info.script.name + '</a> ' + GM_info.script.version
     )
-    tab.addText('blue', 'made in')
-    tab.addText('yellow', 'Ukraine')
-    tab.inject().then(() => this.log('Script Tab Initialized') )
+    this.tab.addText('blue', 'made in')
+    this.tab.addText('yellow', 'Ukraine')
+    this.tab.inject().then(() => this.log('Script Tab Initialized') )
+  }
+
+  /**
+   * Populate tab with button details after buttons are loaded
+   */
+  initTabButtons (buttons: any) {
+    const t = WMEUI.t(NAME).buttons
+
+    for (let key in buttons) {
+      let raw = buttons[key]
+      if (!raw) continue
+
+      let fs = this.helper.createFieldset(
+          '<span class="e95-road-' + raw.attributes.roadType + '">' + raw.title + '</span>',
+          { className: 'collapsed' }
+      )
+
+      let details = t.roadType + ': ' + TYPE_NAMES[raw.attributes.roadType]
+      details += '<br>' + t.speed + ': ' + raw.attributes.fwdSpeedLimit + '/' + raw.attributes.revSpeedLimit + ' km/h'
+      details += '<br>' + t.lock + ': ' + (raw.attributes.lockRank + 1)
+
+      if (raw.shortcut) {
+        details += '<br>' + t.shortcut + ': ' + raw.shortcut
+      }
+      if (raw.options?.detectCity) {
+        details += '<br>' + t.detectCity + ': ' + t.yes
+      }
+      if (raw.options?.clearCity) {
+        details += '<br>' + t.clearCity + ': ' + t.yes
+      }
+      if (raw.attributes.flagAttributes?.headlights) {
+        details += '<br>' + t.headlights + ': ' + t.yes
+      }
+      if (raw.attributes.flagAttributes?.unpaved) {
+        details += '<br>' + t.unpaved + ': ' + t.yes
+      }
+
+      fs.addText('details', details)
+      this.tab.addElement(fs)
+    }
   }
 
   /**
@@ -201,16 +245,14 @@ export class E95 extends WMEBase {
 
       this.buttons[key] = {
         title: button.title,
-        color: COLORS[button.attributes.roadType],
+        roadType: button.attributes.roadType,
         callback: () => this.buttonCallback(button),
         shortcut: buttons[key].shortcut,
-        description: button.title + ' - ' +
-          I18n.t('segment.road_types')[button.attributes.roadType] + '; ' +
-          I18n.t('edit.segment.fields.speed_limit') + ' ' +
-          (I18n as any).t('measurements.speed.km', { speed: button.attributes.fwdSpeedLimit })
+        description: TYPE_NAMES[button.attributes.roadType] + ' — ' + button.attributes.fwdSpeedLimit + ' km/h'
       }
     }
-    // this.log('Buttons loaded')
+
+    this.initPanel()
   }
 
   /**
@@ -228,48 +270,21 @@ export class E95 extends WMEBase {
   }
 
   /**
-   * Get HTML of the panel
-   * @return {HTMLElement|false}
+   * Build the panel with buttons
    */
-  getPanel (): HTMLElement | false {
-    if (this.panel) {
-     return this.panel
-    }
-
-    if (!this.buttons) {
-      return false
-    }
-
-    // Build panel
-    // Container for buttons
-    let controls = document.createElement('div')
-        controls.className = 'controls'
-    // Create buttons
+  initPanel () {
+    this.panel = this.helper.createPanel(WMEUI.t(NAME).title)
     for (let key in this.buttons) {
       let button = this.buttons[key]
-
-      let UIButton = new WMEUIHelperControlButton(
-        this.id,
+      let btn = this.panel.addButton(
         key,
         button.title,
         button.description,
-        () => button.callback()
+        () => button.callback(),
+        { className: 'e95-road-' + button.roadType }
       )
-      let buttonElement = UIButton.html()
-      buttonElement.dataset[NAME] = key
-      buttonElement.style.backgroundColor = button.color
-      controls.appendChild(buttonElement)
+      btn.html().dataset[NAME] = key
     }
-    let label = document.createElement('wz-label') as HTMLLabelElement
-    label.htmlFor = ''
-    label.innerText = WMEUI.t(NAME).title
-
-    this.panel = document.createElement('div')
-    this.panel.className = 'form-group ' + this.id
-    this.panel.appendChild(label)
-    this.panel.appendChild(controls)
-
-    return this.panel
   }
 
   /**
@@ -349,36 +364,18 @@ export class E95 extends WMEBase {
    * @return {void}
    */
   onSegment (event: any, element: HTMLElement, model: any) {
-    // Skip for walking trails and blocked roads
     if (this.canEditSegment(model)) {
-      let panel = this.getPanel()
-      if (panel) element.prepend( panel )
+      if (this.panel) element.prepend(this.panel.html())
     } else {
-      // Remove the panel
-      element.querySelector('div.wme-ui-panel.e95')?.remove()
+      this.panel?.remove()
     }
   }
 
-  /**
-   * Handler for `segments.wme` event
-   * Create UI controls every time when updated DOM of sidebar
-   * Uses native JS function for better performance
-   *
-   * @param {jQuery.Event} event
-   * @param {HTMLElement} element
-   * @param {Array<Segment>} models
-   * @return {void}
-   */
   onSegments (event: any, element: HTMLElement, models: any[]) {
-    // Skip for walking trails or locked roads
-    if (models.filter((model) =>
-      this.canEditSegment(model)
-    ).length > 0) {
-      let panel = this.getPanel()
-      if (panel) element.prepend( panel )
+    if (models.filter((model) => this.canEditSegment(model)).length > 0) {
+      if (this.panel) element.prepend(this.panel.html())
     } else {
-      // Remove the panel
-      element.querySelector('div.wme-ui-panel.e95')?.remove()
+      this.panel?.remove()
     }
   }
 
@@ -503,7 +500,7 @@ export class E95 extends WMEBase {
     }
 
     // need more logs
-    this.log('set road type to "' + I18n.t('segment.road_types')[attributes.roadType] + '"')
+    this.log('set road type to ' + attributes.roadType)
 
     // Get the keys from the source object you want to check
     const keysToCompare = Object.keys(attributes);

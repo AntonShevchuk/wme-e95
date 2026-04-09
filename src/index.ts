@@ -1,4 +1,5 @@
-import { NAME, TRANSLATION } from './translations'
+import { NAME } from './name'
+import { TRANSLATION } from './translations'
 import { BUTTONS, CONFIGS } from './buttons'
 import { LAYERS } from './layers'
 import { E95 } from './e95'

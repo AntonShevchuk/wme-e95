@@ -1,35 +1,30 @@
-export const TYPES: Record<string, number> = {
-  street: 1,
-  primary: 2,
-  freeway: 3,
-  ramp: 4,
-  trail: 5,
-  major: 6,
-  minor: 7,
-  offroad: 8,
-  walkway: 9,
-  boardwalk: 10,
-  ferry: 15,
-  stairway: 16,
-  private: 17,
-  railroad: 18,
-  runway: 19,
-  parking: 20,
-  narrow: 22,
-}
+/**
+ * Road types matching SDK.ROAD_TYPE enum values
+ * @see https://www.waze.com/editor/sdk/variables/index.SDK.ROAD_TYPE.html
+ */
+export const TYPES = {
+  STREET: 1,
+  PRIMARY_STREET: 2,
+  FREEWAY: 3,
+  RAMP: 4,
+  WALKING_TRAIL: 5,
+  MAJOR_HIGHWAY: 6,
+  MINOR_HIGHWAY: 7,
+  OFF_ROAD: 8,
+  WALKWAY: 9,
+  PEDESTRIAN_BOARDWALK: 10,
+  FERRY: 15,
+  STAIRWAY: 16,
+  PRIVATE_ROAD: 17,
+  RAILROAD: 18,
+  RUNWAY_TAXIWAY: 19,
+  PARKING_LOT_ROAD: 20,
+  ALLEY: 22,
+} as const
 
-export const COLORS: Record<string, string> = {
-  '1': '#ffffeb',
-  '2': '#f0ea58',
-  '3': '#bd74c9',
-  '4': '#ababab',
-  '5': '#ffffff',
-  '6': '#45b1c8',
-  '7': '#63b27f',
-  '8': '#867342',
-  '17': '#beba6c',
-  '20': '#ababab',
-}
+export const TYPE_NAMES: Record<number, string> = Object.fromEntries(
+  Object.entries(TYPES).map(([name, id]) => [id, name.toLowerCase().replace(/_/g, ' ')])
+)
 
 export interface ButtonAttributes {
   fwdSpeedLimit?: number

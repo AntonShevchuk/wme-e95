@@ -31,7 +31,7 @@ export const BUTTONS: Record<string, ButtonConfig> = {
     attributes: {
       fwdSpeedLimit: 5,
       revSpeedLimit: 5,
-      roadType: TYPES.private,
+      roadType: TYPES.PRIVATE_ROAD,
       lockRank: 0,
     },
   },
@@ -44,7 +44,7 @@ export const BUTTONS: Record<string, ButtonConfig> = {
     attributes: {
       fwdSpeedLimit: 20,
       revSpeedLimit: 20,
-      roadType: TYPES.private,
+      roadType: TYPES.PRIVATE_ROAD,
       lockRank: 0,
     },
   },
@@ -57,7 +57,7 @@ export const BUTTONS: Record<string, ButtonConfig> = {
     attributes: {
       fwdSpeedLimit: 50,
       revSpeedLimit: 50,
-      roadType: TYPES.private,
+      roadType: TYPES.PRIVATE_ROAD,
       lockRank: 0,
     },
   },
@@ -70,7 +70,7 @@ export const BUTTONS: Record<string, ButtonConfig> = {
     attributes: {
       fwdSpeedLimit: 50,
       revSpeedLimit: 50,
-      roadType: TYPES.street,
+      roadType: TYPES.STREET,
       lockRank: 0,
     },
   },
@@ -83,7 +83,7 @@ export const BUTTONS: Record<string, ButtonConfig> = {
     attributes: {
       fwdSpeedLimit: 50,
       revSpeedLimit: 50,
-      roadType: TYPES.primary,
+      roadType: TYPES.PRIMARY_STREET,
       lockRank: 1,
     },
   },
@@ -96,7 +96,7 @@ export const BUTTONS: Record<string, ButtonConfig> = {
     attributes: {
       fwdSpeedLimit: 50,
       revSpeedLimit: 50,
-      roadType: TYPES.minor,
+      roadType: TYPES.MINOR_HIGHWAY,
       lockRank: 2,
     },
   },
@@ -109,7 +109,7 @@ export const BUTTONS: Record<string, ButtonConfig> = {
     attributes: {
       fwdSpeedLimit: 5,
       revSpeedLimit: 5,
-      roadType: TYPES.parking,
+      roadType: TYPES.PARKING_LOT_ROAD,
       lockRank: 0,
     },
   },
@@ -120,7 +120,7 @@ export const BUTTONS: Record<string, ButtonConfig> = {
     attributes: {
       fwdSpeedLimit: 90,
       revSpeedLimit: 90,
-      roadType: TYPES.offroad,
+      roadType: TYPES.OFF_ROAD,
       lockRank: 0,
     },
   },
@@ -131,7 +131,7 @@ export const BUTTONS: Record<string, ButtonConfig> = {
     attributes: {
       fwdSpeedLimit: 90,
       revSpeedLimit: 90,
-      roadType: TYPES.private,
+      roadType: TYPES.PRIVATE_ROAD,
       lockRank: 0,
     },
   },
@@ -142,7 +142,7 @@ export const BUTTONS: Record<string, ButtonConfig> = {
     attributes: {
       fwdSpeedLimit: 90,
       revSpeedLimit: 90,
-      roadType: TYPES.street,
+      roadType: TYPES.STREET,
       lockRank: 0,
     },
   },
@@ -153,7 +153,7 @@ export const BUTTONS: Record<string, ButtonConfig> = {
     attributes: {
       fwdSpeedLimit: 90,
       revSpeedLimit: 90,
-      roadType: TYPES.primary,
+      roadType: TYPES.PRIMARY_STREET,
       lockRank: 1,
     },
   },
@@ -164,7 +164,7 @@ export const BUTTONS: Record<string, ButtonConfig> = {
     attributes: {
       fwdSpeedLimit: 90,
       revSpeedLimit: 90,
-      roadType: TYPES.minor,
+      roadType: TYPES.MINOR_HIGHWAY,
       lockRank: 2,
     },
   },

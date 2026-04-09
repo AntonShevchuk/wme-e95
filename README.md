@@ -1,6 +1,7 @@
-# WME 🇺🇦 E95
-User script for Waze Map Editor.
-Create an additional panel with buttons for set up a set of road properties in one click.
+# WME E95
+
+Userscript for Waze Map Editor — quick road property templates.
+One-click buttons and keyboard shortcuts (Alt+1 through Alt+0) to apply speed limits, road types, lock ranks, and flags to selected road segments.
 
 ![Options for a Segment](screenshot.png)
 
@@ -8,12 +9,11 @@ Ukrainian manual: https://wazeopedia.waze.com/wiki/Ukraine/Scripts/WME_E95
 
 ## Development
 
-### Install & Build
-
 ```bash
 npm install
-npm run build       # one-off build → dist/WME-E95.user.js
+npm run build       # build dist/WME-E95.user.js
 npm run watch       # rebuild on changes
+npm test            # run tests
 ```
 
 ### Project Structure
@@ -22,44 +22,51 @@ Source is written in TypeScript under `src/`, built with Rollup into a single II
 
 ```
 src/
-├── meta.ts              # userscript header (comment block)
-├── style.css            # plain CSS
-├── globals.d.ts         # WME runtime globals
-├── types.ts             # road types, colors, TS interfaces
-├── translations.ts      # i18n (en, uk, ru)
-├── layers.ts            # speed limit / headlights layers
-├── buttons/
-│   ├── index.ts         # default buttons (A-L), country registry
-│   └── countries/       # per-country overrides
-├── e95.ts               # E95 class
-└── index.ts             # bootstrap entry point
+  meta.ts              # userscript header (comment block)
+  style.css            # plain CSS
+  globals.d.ts         # WME runtime globals
+  name.ts              # script name constant
+  types.ts             # TYPES (SDK ROAD_TYPE), COLORS, TS interfaces
+  translations.ts      # i18n (en, uk, ru)
+  layers.ts            # speed limit / headlights layers
+  buttons/
+    index.ts           # default buttons (A-L), country registry
+    countries/         # per-country overrides
+  e95.ts               # E95 class
+  index.ts             # bootstrap entry point
+tests/
+  types.test.ts        # TYPES, COLORS, TYPE_NAMES
+  buttons.test.ts      # default buttons, COUNTRIES, CONFIGS
+  countries.test.ts    # country configs validation
+  layers.test.ts       # layer callbacks
+  translations.test.ts # translations structure
 ```
 
 ### Adding a New Country
 
-1. Find the country's numeric ID in the Waze Map Editor (visible in the WME SDK or URL when editing in that country).
+1. Find the country's numeric ID in the Waze Map Editor.
 
-2. Create a new file `src/buttons/countries/<country>.ts`:
+2. Create `src/buttons/countries/<country>.ts`:
 
 ```ts
 import { CountryConfig, TYPES } from '../../types'
 
 const example: CountryConfig = {
-  id: 123,           // Waze country ID
-  name: 'example',   // lowercase, used as key
+  id: 123,
+  name: 'example',
   buttons: {
-    // Override existing buttons (A-L) — partial overrides are OK,
-    // missing fields are inherited from defaults via deep merge
+    // Override existing buttons — partial overrides are OK,
+    // missing fields inherited from defaults via deep merge
     D: {
       title: 'St60',
       attributes: {
         fwdSpeedLimit: 60,
         revSpeedLimit: 60,
-        roadType: TYPES.street,
+        roadType: TYPES.STREET,
         lockRank: 1,
       },
     },
-    // Set a button to false to disable it
+    // Set to false to disable
     G: false,
     // Add extra buttons beyond A-L
     M: {
@@ -67,7 +74,7 @@ const example: CountryConfig = {
       attributes: {
         fwdSpeedLimit: 120,
         revSpeedLimit: 120,
-        roadType: TYPES.freeway,
+        roadType: TYPES.FREEWAY,
         lockRank: 4,
       },
     },
@@ -77,7 +84,7 @@ const example: CountryConfig = {
 export default example
 ```
 
-3. Import and register it in `src/buttons/index.ts`:
+3. Import and register in `src/buttons/index.ts`:
 
 ```ts
 import example from './countries/example'
@@ -87,138 +94,46 @@ const countries: CountryConfig[] = [
 ]
 ```
 
-4. Build and verify: `npm run build`
+4. Build and verify: `npm run build && npm test`
 
 #### Button Config Reference
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `title` | `string` | Button label (e.g., `'St50'`) |
-| `shortcut` | `string \| null` | Keyboard shortcut (e.g., `'A+1'` for Alt+1) |
+| `title` | `string` | Button label (e.g. `'St50'`) |
+| `shortcut` | `string \| null` | Keyboard shortcut (e.g. `'A+1'` for Alt+1) |
 | `options.detectCity` | `boolean` | Auto-detect city from neighboring segments |
 | `options.clearCity` | `boolean` | Clear city and street |
 | `attributes.fwdSpeedLimit` | `number` | Forward speed limit (km/h) |
 | `attributes.revSpeedLimit` | `number` | Reverse speed limit (km/h) |
-| `attributes.roadType` | `number` | Use `TYPES.*` constants (e.g., `TYPES.street`) |
+| `attributes.roadType` | `number` | Use `TYPES.*` constants |
 | `attributes.lockRank` | `number` | Lock level 0-4 (capped to user's rank at runtime) |
 | `attributes.flagAttributes` | `object` | Flags like `{ headlights: true, unpaved: true }` |
 
-Available road types: `street`, `primary`, `freeway`, `ramp`, `trail`, `major`, `minor`, `offroad`, `walkway`, `boardwalk`, `ferry`, `stairway`, `private`, `railroad`, `runway`, `parking`, `narrow`.
+Road types follow [SDK ROAD_TYPE](https://www.waze.com/editor/sdk/variables/index.SDK.ROAD_TYPE.html): `STREET`, `PRIMARY_STREET`, `FREEWAY`, `RAMP`, `WALKING_TRAIL`, `MAJOR_HIGHWAY`, `MINOR_HIGHWAY`, `OFF_ROAD`, `WALKWAY`, `PEDESTRIAN_BOARDWALK`, `FERRY`, `STAIRWAY`, `PRIVATE_ROAD`, `RAILROAD`, `RUNWAY_TAXIWAY`, `PARKING_LOT_ROAD`, `ALLEY`.
 
-## Default settings
+## Default Buttons
 
-<table style="width:100%">
-<tr>
-  <th>Button</th>
-  <th>Shortcut</th>
-  <th>Type</th>
-  <th>Speed</th>
-  <th>City</th>
-  <th>Lock</th>
-</tr>
-<tr>
-<td align='center'><strong>PR 5</strong></td>
-<td align='center'><code>Alt</code>+<code>1</code></td>
-<td align='center'>private</td>
-<td align='center'>5 km/h</td>
-<td align='center'>auto</td>
-<td align='center'>1</td>
-</tr>
-<tr>
-<td align='center'><strong>PR20</strong></td>
-<td align='center'><code>Alt</code>+<code>2</code></td>
-<td align='center'>private</td>
-<td align='center'>20 km/h</td>
-<td align='center'>auto</td>
-<td align='center'>1</td>
-</tr>
-<tr>
-<td align='center'><strong>PR50</strong></td>
-<td align='center'><code>Alt</code>+<code>3</code></td>
-<td align='center'>private</td>
-<td align='center'>50 km/h</td>
-<td align='center'>auto</td>
-<td align='center'>1</td>
-</tr>
-<tr>
-<td align='center'><strong>St50</strong></td>
-<td align='center'><code>Alt</code>+<code>4</code></td>
-<td align='center'>street</td>
-<td align='center'>50 km/h</td>
-<td align='center'>auto</td>
-<td align='center'>1</td>
-</tr>
-<tr>
-<td align='center'><strong>PS50</strong></td>
-<td align='center'><code>Alt</code>+<code>5</code></td>
-<td align='center'>primary</td>
-<td align='center'>50 km/h</td>
-<td align='center'>auto</td>
-<td align='center'>2</td>
-</tr>
-<tr>
-<td align='center'><strong>mH50</strong></td>
-<td align='center'><code>None</code></td>
-<td align='center'>minor highway</td>
-<td align='center'>50 km/h</td>
-<td align='center'>auto</td>
-<td align='center'>3</td>
-</tr>
-<tr>
-<td align='center'><strong>PLR</strong></td>
-<td align='center'><code>Alt</code>+<code>6</code></td>
-<td align='center'>parking</td>
-<td align='center'>5 km/h</td>
-<td align='center'>auto</td>
-<td align='center'>1</td>
-</tr>
-<tr>
-<td align='center'><strong>OR</strong></td>
-<td align='center'><code>Alt</code>+<code>7</code></td>
-<td align='center'>off-road</td>
-<td align='center'>90 km/h</td>
-<td align='center'>none</td>
-<td align='center'>1</td>
-</tr>
-<tr>
-<td align='center'><strong>PR90</strong></td>
-<td align='center'><code>Alt</code>+<code>8</code></td>
-<td align='center'>private</td>
-<td align='center'>90 km/h</td>
-<td align='center'>none</td>
-<td align='center'>1</td>
-</tr>
-<tr>
-<td align='center'><strong>St90</strong></td>
-<td align='center'><code>Alt</code>+<code>9</code></td>
-<td align='center'>street</td>
-<td align='center'>90 km/h</td>
-<td align='center'>none</td>
-<td align='center'>1</td>
-</tr>
-<tr>
-<td align='center'><strong>PS90</strong></td>
-<td align='center'><code>Alt</code>+<code>0</code></td>
-<td align='center'>primary</td>
-<td align='center'>90 km/h</td>
-<td align='center'>clear</td>
-<td align='center'>2</td>
-</tr>
-<tr>
-<td align='center'><strong>mH90</strong></td>
-<td align='center'><code>None</code></td>
-<td align='center'>minor highway</td>
-<td align='center'>90 km/h</td>
-<td align='center'>clear</td>
-<td align='center'>3</td>
-</tr>
-</table>
+| Button | Shortcut | Type | Speed | City | Lock |
+|--------|----------|------|-------|------|------|
+| **PR 5** | `Alt+1` | private road | 5 km/h | auto | 1 |
+| **PR20** | `Alt+2` | private road | 20 km/h | auto | 1 |
+| **PR50** | `Alt+3` | private road | 50 km/h | auto | 1 |
+| **St50** | `Alt+4` | street | 50 km/h | auto | 1 |
+| **PS50** | `Alt+5` | primary street | 50 km/h | auto | 2 |
+| **mH50** | — | minor highway | 50 km/h | auto | 3 |
+| **PLR** | `Alt+6` | parking lot road | 5 km/h | auto | 1 |
+| **OR** | `Alt+7` | off-road | 90 km/h | — | 1 |
+| **PR90** | `Alt+8` | private road | 90 km/h | — | 1 |
+| **St90** | `Alt+9` | street | 90 km/h | — | 1 |
+| **PS90** | `Alt+0` | primary street | 90 km/h | — | 2 |
+| **mH90** | — | minor highway | 90 km/h | — | 3 |
 
 ## Country Configurations
 
-The script automatically detects the country from the map and applies country-specific button overrides. Countries override the default button layout — unspecified buttons inherit default settings via deep merge.
+The script detects the country from the map and applies country-specific button overrides. Unspecified buttons inherit default settings via deep merge.
 
-### Albania 🇦🇱
+### Albania
 
 Full button layout replacement with local speed limits:
 
@@ -234,7 +149,7 @@ Full button layout replacement with local speed limits:
 | **Type** | freeway | private | street | primary | minor | major |
 | **Speed** | 90 | 80 | 80 | 80 | 80 | 80 |
 
-### Greece 🇬🇷
+### Greece
 
 Overrides D-F and J-L, adds extra buttons M-P:
 
@@ -246,7 +161,7 @@ Overrides D-F and J-L, adds extra buttons M-P:
 
 Extra buttons: **M** (private), **N** (unpaved street), **O** (unpaved street 40), **P** (street)
 
-### Honduras 🇭🇳
+### Honduras
 
 Uses only 6 buttons (G-L disabled), all with auto city detection:
 
@@ -257,16 +172,16 @@ Uses only 6 buttons (G-L disabled), all with auto city detection:
 | **Speed** | 20 | 20 | 40 | 40 | 40 | 40 |
 | **Flags** | | | unpaved | | unpaved | |
 
-### Hungary 🇭🇺
+### Hungary
 
-Minimal overrides — only adjusts speed limits on buttons A, B, G:
+Minimal overrides — adjusts speed limits on buttons A, B, G:
 
 | | A | B | G |
 |---|---|---|---|
 | **Button** | PR20 | PR30 | PLR |
 | **Speed** | 20 | 30 | 20 |
 
-### Portugal 🇵🇹
+### Portugal
 
 Minimal overrides — adjusts speed limits on buttons G, H:
 
@@ -275,9 +190,9 @@ Minimal overrides — adjusts speed limits on buttons G, H:
 | **Button** | PLR | OR |
 | **Speed** | 30 | 30 |
 
-### Ukraine 🇺🇦
+### Ukraine
 
-Overrides buttons H-L to add the **headlights** flag for roads outside cities:
+Adds the **headlights** flag for roads outside cities:
 
 | | H | I | J | K | L |
 |---|---|---|---|---|---|
@@ -285,10 +200,17 @@ Overrides buttons H-L to add the **headlights** flag for roads outside cities:
 | **Headlights** | yes | yes | yes | yes | yes |
 | **Clear city** | yes | — | — | — | — |
 
+## @require Libraries
+
+```javascript
+// @require      https://update.greasyfork.org/scripts/389765/1793258/CommonUtils.js
+// @require      https://update.greasyfork.org/scripts/450160/1792042/WME-Bootstrap.js
+// @require      https://update.greasyfork.org/scripts/450221/1793261/WME-Base.js
+// @require      https://update.greasyfork.org/scripts/450320/1793862/WME-UI.js
+```
+
 ## Links
 
 Author homepage: https://anton.shevchuk.name/  
-Author pet projects: https://hohli.com/  
-Support author: https://donate.hohli.com/  
 Script homepage: https://github.com/AntonShevchuk/wme-e95/  
 GreasyFork: https://greasyfork.org/uk/scripts/382614-wme-e95  
