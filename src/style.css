@@ -5,6 +5,10 @@ polyline.warning {
   stroke-width: 2;
 }
 
+.e95 .wme-ui-fieldset-legend span {
+  float: left;
+}
+
 .e95 .wme-ui-panel-content {
   display: grid;
   grid-template-columns: repeat(6, 44px);
